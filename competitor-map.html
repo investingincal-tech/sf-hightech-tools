@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agentic AI Vendor Competitor Map</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{-webkit-font-smoothing:antialiased}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:#f0ece4}
+    ::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:#00A1E0}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+// ─── SOURCE KEY ─────────────────────────────────────────────────────────────
+// G2  = G2 verified user reviews (2026)
+// GMQ = Gartner Magic Quadrant (AIDP Nov 2025 / Conv. AI Aug 2025)
+// GCC = Gartner Critical Capabilities for AI Agents 2025
+// ISG = ISG AI Agents Buyers Guide 2025
+// FUT = Futurum Research 2025 year-end report
+// CMP = Analyst comparisons (SmartBridge, PlanetaryLabour, Sana)
+// ────────────────────────────────────────────────────────────────────────────
+
+const VENDORS = [
+  {
+    id: "salesforce",
+    name: "Salesforce Agentforce",
+    short: "Agentforce 360",
+    color: "#00A1E0",
+    textColor: "#fff",
+    tagline: "CRM-Native Agentic Enterprise",
+    tier: "leader",
+    g2: { rating: 4.4, reviews: 846, badge: "#1 Agentic AI (G2 2026)" },
+    analystBadges: ["ISG Leader (2 categories)", "Gartner MQ Leader (Conv. AI)", "G2 Best Software 2026"],
+    zones: {
+      gpt:           { score: 3, src: "CMP/FUT", notes: "Atlas Reasoning Engine: hybrid ReAct + deterministic scripts. Supports Claude, GPT-5, Gemini backends — no proprietary frontier model." },
+      llms:          { score: 4, src: "CMP/FUT", notes: "Multi-LLM via Agentforce Builder; Prompt Engineering + grounding via Data Cloud; Intelligent Context pipeline for unstructured data." },
+      aiAgents:      { score: 5, src: "G2/ISG",  notes: "Core differentiator — 4.4★/846 G2 reviews praise CRM-native reasoning, long-term memory, state management, multi-step tool chaining. 83% meet-requirements score (G2 Data)." },
+      agenticSystems:{ score: 5, src: "ISG/FUT", notes: "ISG Leader. Multi-agent RAG via Data Cloud, A2A protocol, MCP support, hierarchical planning, inter-agent comms. 12,000+ deployments." },
+      agenticInfra:  { score: 5, src: "G2/ISG",  notes: "Einstein Trust Layer (ISO 27001, SOC2), MuleSoft Agent Fabric for anti-sprawl, AgentExchange marketplace, Command Center observability." },
+    },
+    strengths: ["G2 #1 Agentic AI platform 2026", "ISG Leader: Customer & Sales automation", "12,000+ enterprise deployments", "Atlas hybrid reasoning (deterministic + LLM)", "MCP + A2A open interop"],
+    weaknesses: ["Deep ecosystem lock-in (G2 reviewers)", "Unpredictable Flex Credit pricing (G2)", "Hallucination risk without custom training (G2)", "Non-SF systems need MuleSoft overhead"],
+    sources: "G2 (846 reviews, 4.4★) · ISG AI Agents Buyers Guide 2025 · Gartner MQ Conversational AI 2025 · Futurum 2025",
+  },
+  {
+    id: "servicenow",
+    name: "ServiceNow",
+    short: "AI Agent Orchestrator",
+    color: "#62D84E",
+    textColor: "#000",
+    tagline: "ITSM-Native Control Tower",
+    tier: "leader",
+    g2: { rating: 4.4, reviews: null, badge: "G2 Enterprise Leader" },
+    analystBadges: ["Gartner CC #1 Building & Managing AI Agents", "ISG Leader (6 categories)", "Gartner MQ Leader (AI Apps in ITSM)"],
+    zones: {
+      gpt:           { score: 2, src: "CMP",     notes: "Now LLM purpose-built for workflow/ITSM context. Privacy-first — data stays on-platform by default. Not a frontier model play." },
+      llms:          { score: 3, src: "CMP",     notes: "Now LLM + third-party model support; AI Agent Studio for low-code configuration; workflow-context embedding." },
+      aiAgents:      { score: 4, src: "GCC/ISG", notes: "Strong ITSM/HR/CSM task planning. AI Agent Orchestrator coordinates specialized agents. Thousands of pre-built ITSM agents." },
+      agenticSystems:{ score: 5, src: "GCC",     notes: "Gartner Critical Capabilities #1 for Building & Managing AI Agents 2025. AI Control Tower governs MS, Salesforce, and own agents cross-platform — strongest cross-vendor governance." },
+      agenticInfra:  { score: 5, src: "ISG/GCC", notes: "ISG Leader (6 categories). AI included free for Pro Plus & Enterprise Plus — no à la carte AI tax. FedRAMP, SSO, audit trails. $9B acquisitions building scale." },
+    },
+    strengths: ["Gartner CC #1 for AI agent building & management", "ISG Leader in 6 categories", "AI Control Tower governs cross-vendor agents", "No extra AI cost for Pro/Enterprise Plus", "Deep ITSM/HR/CSM pre-built workflows"],
+    weaknesses: ["Narrower outside IT/HR/CSM domains", "$9B acquisition spree adds integration risk", "Less CRM/marketing depth vs Salesforce", "Now LLM behind frontier models"],
+    sources: "Gartner Critical Capabilities AI Agents 2025 (#1) · ISG AI Agents Buyers Guide (6 categories) · G2 Enterprise Leader · Futurum 2025",
+  },
+  {
+    id: "microsoft",
+    name: "Microsoft",
+    short: "Copilot Studio / Azure Foundry",
+    color: "#0078D4",
+    textColor: "#fff",
+    tagline: "M365-Native Agentic Fabric",
+    tier: "leader",
+    g2: { rating: 4.4, reviews: 140, badge: "G2 Leader (AI Agent Builders)" },
+    analystBadges: ["Gartner MQ Leader + Furthest Vision (AIDP 2025)", "G2 Best Software 2026 (30+ placements)", "Gartner MQ Leader iPaaS 2026 (8th yr)"],
+    zones: {
+      gpt:           { score: 5, src: "GMQ",     notes: "GPT-5 Auto/Chat/Reasoning natively in agents (Ignite 2025). Azure OpenAI + Azure AI Foundry — most direct model access of any vendor. Gartner: furthest Completeness of Vision (AIDP MQ)." },
+      llms:          { score: 5, src: "GMQ/G2",  notes: "Azure AI Foundry: 1,400+ pre-built connectors, multi-model orchestration, Foundry IQ for enterprise grounding. Copilot Studio: low-code agent builder. Gartner Leader + furthest vision." },
+      aiAgents:      { score: 4, src: "G2/CMP",  notes: "4.4★ G2. Agents treat websites and desktop apps as tools (computer use). Agent 365 control plane, multi-agent orchestration in Copilot Studio. 45 sec/ticket savings (Zendesk analysis)." },
+      agenticSystems:{ score: 4, src: "FUT/CMP", notes: "Strong within M365 (Teams, SharePoint, Outlook via Graph). Multi-agent orchestration GA. Work IQ organizational intelligence layer. Weaker cross-system vs ServiceNow Control Tower." },
+      agenticInfra:  { score: 5, src: "GMQ",     notes: "Azure hyperscale, Entra Agent ID for governance, Foundry Control Plane audit trails. Gartner MQ Leader iPaaS 8 consecutive years. Microsoft 365 Copilot + Copilot Studio bundled pricing." },
+    },
+    strengths: ["Gartner AIDP MQ Leader — furthest Completeness of Vision", "GPT-5 native access for agents", "M365 ubiquity (Teams, Outlook, SharePoint)", "Azure Foundry 1,400+ connectors", "G2 Best Software 2026 (30+ awards)"],
+    weaknesses: ["4.4★ G2 but only 140 reviews vs Agentforce 846", "Weakest outside Microsoft ecosystem", "Non-MS systems need custom connectors", "Less opinionated for CRM workflows"],
+    sources: "Gartner MQ AI App Dev Platforms Nov 2025 (Leader, furthest vision) · G2 (140 reviews, 4.4★) · G2 Best Software 2026 · Futurum 2025",
+  },
+  {
+    id: "google",
+    name: "Google",
+    short: "Vertex AI / Gemini Enterprise",
+    color: "#EA4335",
+    textColor: "#fff",
+    tagline: "Highest Ability to Execute (Gartner)",
+    tier: "leader",
+    g2: { rating: 4.3, reviews: 633, badge: "G2 Leader (Vertex AI)" },
+    analystBadges: ["Gartner MQ — Highest Ability to Execute (AIDP 2025)", "Gartner MQ Leader + Furthest Vision (Conv. AI 2025)", "A2A Protocol creator (Linux Foundation)"],
+    zones: {
+      gpt:           { score: 5, src: "GMQ",     notes: "Gartner AIDP: Highest Ability to Execute of all vendors evaluated. Gemini Ultra + DeepMind R&D pipeline. Emotional awareness, real-time video, 'human-like' voices cited by Gartner (Conv. AI MQ)." },
+      llms:          { score: 5, src: "GMQ/G2",  notes: "Vertex AI Agent Builder — 4.3★/633 G2 reviews. ADK downloaded 8M+ times. Model Garden: widest multi-model selection. Gartner Conv. AI: 'geographic presence' and 'market responsiveness' cited." },
+      aiAgents:      { score: 4, src: "G2/CMP",  notes: "Gemini Enterprise Skills (reusable workflows). Agent Gallery with validated SF/ServiceNow/Adobe/Workday partners. Gartner: 'one of two vendors owning first-party CCaaS solution'." },
+      agenticSystems:{ score: 4, src: "GMQ/FUT", notes: "Created and donated A2A protocol to Linux Foundation (open standard). Agent Payments Protocol (AP2). Model Armor for prompt injection protection. MCP-first ecosystem." },
+      agenticInfra:  { score: 5, src: "GMQ",     notes: "GCP hyperscale. Native agent identities via IAM. OpenTelemetry observability. Google-validated security for all partner agents in Agent Gallery. Model Armor proactive threat inspection." },
+    },
+    strengths: ["Gartner AIDP: Highest Ability to Execute (all vendors)", "Gartner Conv. AI: furthest Completeness of Vision", "ADK: 8M+ downloads — largest dev community", "Created A2A open protocol (Linux Foundation)", "Best underlying model quality (Gemini)"],
+    weaknesses: ["4.3★ G2 — lower than SF/MS on user satisfaction", "Less enterprise workflow depth than SF/ServiceNow", "GCP infrastructure dependency raises costs", "Newer enterprise sales motion vs incumbents"],
+    sources: "Gartner MQ AI App Dev Platforms Nov 2025 (highest Ability to Execute) · Gartner MQ Conversational AI Aug 2025 (furthest vision) · G2 (633 reviews, 4.3★)",
+  },
+  {
+    id: "ibm",
+    name: "IBM watsonx",
+    short: "watsonx Orchestrate",
+    color: "#1F70C1",
+    textColor: "#fff",
+    tagline: "Governance-First, Hybrid Cloud",
+    tier: "challenger",
+    g2: { rating: 4.3, reviews: null, badge: "G2 Leader (AI Agent Builders)" },
+    analystBadges: ["Gartner MQ Leader (AIDP Nov 2025)", "ISG Leader (1 category)", "Fortune 500 top pick for regulated industries"],
+    zones: {
+      gpt:           { score: 3, src: "GMQ",     notes: "IBM Granite 4.0 + multi-model (OpenAI, Anthropic, Gemini, Mistral, Ollama). No LLM lock-in. Gartner MQ Leader (AIDP 2025). Hybrid/on-prem deployment for regulated industries." },
+      llms:          { score: 4, src: "GMQ/G2",  notes: "watsonx Studio: no-code → pro-code (Langflow/ADK). OpenTelemetry observability baked in. Prompt management + agent state tracking. Gartner Leader (AIDP). Steep learning curve noted (G2)." },
+      aiAgents:      { score: 4, src: "ISG/CMP", notes: "100+ pre-built domain agents (HR, procurement, sales). Builds agents in <5 min (no-code). 80+ enterprise app integrations (SF, SAP, ServiceNow, Workday, Oracle). ISG Leader." },
+      agenticSystems:{ score: 4, src: "ISG/GMQ", notes: "Multi-agent orchestration across custom, A2A, Langflow, MCP agents. Oracle Fusion AI Agent Marketplace partnership. Cross-vendor by design vs ecosystem-locked competitors." },
+      agenticInfra:  { score: 4, src: "CMP",     notes: "Strongest governance/auditability of any vendor per Fortune 500 buyer guides. On-prem + hybrid cloud. IBM's procurement cycles are slow. Enterprise-negotiated pricing (no public list)." },
+    },
+    strengths: ["Gartner MQ Leader (AIDP 2025)", "Best governance & auditability for regulated industries", "Multi-model routing (no lock-in)", "80+ enterprise app integrations", "On-prem / hybrid deployment options"],
+    weaknesses: ["Slower deployment cycles than SaaS-native rivals", "No transparent public pricing", "Needs better 'consumable' packaging (Futurum)", "Marketing story weaker than capabilities suggest"],
+    sources: "Gartner MQ AI App Dev Platforms Nov 2025 (Leader) · ISG AI Agents Buyers Guide · Fortune 500 Buyer Guides (Sana/DataBusinessCentral) · Futurum 2025",
+  },
+  {
+    id: "uipath",
+    name: "UiPath",
+    short: "Agentic Automation",
+    color: "#FA4616",
+    textColor: "#fff",
+    tagline: "RPA + Agents — Highest G2 Score",
+    tier: "challenger",
+    g2: { rating: 4.6, reviews: 5816, badge: "Top-rated AI Agent Builder (G2)" },
+    analystBadges: ["ISG Leader (1 category)", "G2 Top-rated: 4.6★ / 5,816 reviews", "Fortune 500 Buyer Guide top pick (ops automation)"],
+    zones: {
+      gpt:           { score: 1, src: "CMP",     notes: "Model-agnostic. No proprietary LLM. Plugs into any model via API. Strength is orchestration, not model quality." },
+      llms:          { score: 2, src: "CMP",     notes: "Document Understanding for unstructured data extraction. Orchestrates any LLM. Not a model platform — relies on partners." },
+      aiAgents:      { score: 4, src: "G2",      notes: "4.6★ / 5,816 G2 reviews — highest-rated agent builder by volume. Agents layered on RPA bots: computer vision, multi-step tool chaining, human-in-loop. Best for ops teams." },
+      agenticSystems:{ score: 4, src: "G2/CMP",  notes: "Robot Orchestrator coordinates RPA + AI agents. Process mining auto-discovers automation targets. Strong inter-agent + human escalation workflows." },
+      agenticInfra:  { score: 3, src: "CMP",     notes: "Automation Cloud. Ecosystem-agnostic integrations (SF, SAP, ServiceNow). Starting at $25/month — most accessible pricing. RPA legacy perception hurts 'agentic' positioning." },
+    },
+    strengths: ["Highest G2 rating: 4.6★ with 5,816 reviews — most validated by users", "Best for RPA → Agents migration path", "Process mining finds automation targets automatically", "Ecosystem-agnostic: not locked to any vendor"],
+    weaknesses: ["No proprietary LLM advantage", "RPA legacy perception vs pure-play agent platforms", "Weaker at customer-facing/CRM scenarios", "Narrower than full-stack platform plays"],
+    sources: "G2 (5,816 reviews, 4.6★ — highest of all vendors) · ISG AI Agents Buyers Guide · DataBusinessCentral Top 11 Agentic Platforms 2026",
+  },
+  {
+    id: "oracle",
+    name: "Oracle",
+    short: "Fusion AI Agent Studio",
+    color: "#C74634",
+    textColor: "#fff",
+    tagline: "ISG Top-Ranked: ERP-Native AI",
+    tier: "specialist",
+    g2: { rating: null, reviews: null, badge: "ISG #1 overall AI Agents 2025" },
+    analystBadges: ["ISG #1 overall AI Agents Software Provider 2025", "ISG Leader (7 categories — most of any vendor)", "Oracle Fusion AI Agent Marketplace"],
+    zones: {
+      gpt:           { score: 2, src: "ISG",     notes: "OCI Generative AI + Cohere. IBM Granite 4.0 available via OCI. 'AI included' across Fusion apps — embedded, not bolt-on. ISG top overall ranking." },
+      llms:          { score: 3, src: "ISG",     notes: "OCI Generative AI Service. Cohere fine-tuned for ERP context. IBM Granite 4.0 via OCI AI Quick Actions. Oracle AI Agent Studio for Fusion-native agent building." },
+      aiAgents:      { score: 3, src: "ISG",     notes: "Fusion Cloud Sales agents: record-keeping, email drafting, insight delivery at no additional cost ('AI included'). Oracle AI Agent Marketplace with IBM, partner agents." },
+      agenticSystems:{ score: 3, src: "ISG",     notes: "Oracle AI Agent Marketplace for cross-vendor agents. IBM watsonx Orchestrate partnership for multi-agent cross-platform work. Weaker standalone orchestration vs ServiceNow." },
+      agenticInfra:  { score: 3, src: "ISG",     notes: "OCI cloud scale. Enterprise compliance. 'AI included' no-extra-cost positioning is competitive differentiator. ISG Leader in 7 categories — most of any single vendor." },
+    },
+    strengths: ["ISG #1 overall AI Agents Software Provider 2025", "ISG Leader in 7 categories — most of any vendor", "'AI included' no extra cost across Fusion apps", "Oracle AI Agent Marketplace for partner agents", "Deep ERP/Finance/Procurement data moat"],
+    weaknesses: ["Weaker standalone agent orchestration", "Less flexible outside Oracle ecosystem", "Longer innovation cycles vs SaaS-native vendors", "Limited G2 user review data"],
+    sources: "ISG AI Agents Buyers Guide 2025 (#1 overall, 7 categories) · Oracle/IBM joint announcement Oct 2025 · Futurum 2025",
+  },
+  {
+    id: "sap",
+    name: "SAP",
+    short: "Joule AI Copilot",
+    color: "#0070F2",
+    textColor: "#fff",
+    tagline: "ERP-Embedded, 150+ Pre-Built Skills",
+    tier: "specialist",
+    g2: { rating: null, reviews: null, badge: "Futurum Enterprise Leader" },
+    analystBadges: ["Futurum 2025 leader (ERP AI)", "150+ pre-built SAP workflow skills", "Available in Google Agent Gallery"],
+    zones: {
+      gpt:           { score: 2, src: "FUT",     notes: "Joule LLM fine-tuned on SAP ERP business semantics. SAP AI Core on BTP for custom model deployment. Deep ERP context baked in — not a general-purpose model." },
+      llms:          { score: 3, src: "FUT",     notes: "SAP Business Technology Platform (BTP). Custom model deployment. 150+ pre-built SAP workflow skills. Validated in Google Gemini Enterprise Agent Gallery." },
+      aiAgents:      { score: 4, src: "FUT/CMP", notes: "Joule agents for procurement, AP, HR — pre-configured for SAP workflows. Strong in-process automation. Futurum notes steady GA milestones and incremental improvements throughout 2025." },
+      agenticSystems:{ score: 2, src: "FUT",     notes: "SAP BTP orchestration. Connectors to SF, ServiceNow, MS. Weaker A2A/cross-platform vs pure-play vendors. Futurum: 'convergence on agentic theme' but slower than cloud-native peers." },
+      agenticInfra:  { score: 3, src: "FUT",     notes: "Enterprise compliance for regulated industries. SAP-native governance. Slower deployment cycles historically. BTP provides cloud scalability." },
+    },
+    strengths: ["Deepest ERP/Finance/Procurement domain pre-config", "150+ pre-built skills — fastest time-to-value for SAP shops", "Validated in Google Gemini Enterprise Agent Gallery", "Trusted in regulated industries"],
+    weaknesses: ["Historically slow release cycles (Futurum)", "Not a standalone agent platform", "Weaker orchestration outside SAP ecosystem", "Limited independent analyst review data"],
+    sources: "Futurum Research Q1–Q4 2025 · Google Gemini Enterprise Agent Gallery · Analyst comparisons (SmartBridge, DataBusinessCentral)",
+  },
+  {
+    id: "workday",
+    name: "Workday",
+    short: "Illuminate / Sana",
+    color: "#F5821F",
+    textColor: "#fff",
+    tagline: "HR & Finance Domain Specialist",
+    tier: "specialist",
+    g2: { rating: null, reviews: null, badge: "Sana: Fortune 500 top HR AI pick" },
+    analystBadges: ["Fortune 500 Buyer Guide: top HR AI pick (Sana)", "Gartner MQ (iPaaS) adjacent recognition", "Validated in Google Agent Gallery"],
+    zones: {
+      gpt:           { score: 2, src: "CMP",     notes: "Illuminate LLM trained on Workday HCM/Finance data. Sana (acquired) for enterprise knowledge management. Not a general-purpose model platform." },
+      llms:          { score: 2, src: "CMP",     notes: "Workday AI + partner models via platform. Sana integrated for enterprise knowledge RAG. Validated in Google Gemini Enterprise Agent Gallery." },
+      aiAgents:      { score: 3, src: "CMP",     notes: "HR self-service agents (leave, benefits, IT tickets). Finance agents for reporting and approvals. Strong for HRIS-native use cases." },
+      agenticSystems:{ score: 2, src: "CMP/FUT", notes: "Limited multi-agent orchestration. Focus on human-in-loop for sensitive HR decisions. Futurum: 1,750 layoffs (8.5% workforce) while pivoting to AI — organizational disruption." },
+      agenticInfra:  { score: 3, src: "CMP",     notes: "Enterprise-grade HRIS compliance. GDPR/HIPAA for HR data. Post-layoff AI investment focus. Narrowest scope of all vendors evaluated." },
+    },
+    strengths: ["Deepest HRIS + Finance dataset for training", "Most trusted for sensitive employee data (GDPR/HIPAA)", "Sana: Fortune 500 top HR AI pick", "Validated in Google Gemini Enterprise Agent Gallery"],
+    weaknesses: ["Narrowest scope (HR/Finance only)", "Laid off 8.5% workforce while pivoting to AI (Futurum)", "Weakest agent orchestration platform of all vendors", "Limited G2 data for agentic products specifically"],
+    sources: "Futurum Research 2025 · Fortune 500 Buyer Guides (Sana/Workday) · Google Gemini Enterprise Agent Gallery · Analyst comparisons",
+  },
+];
+
+const ZONE_META = [
+  { id: "gpt",            label: "GPT / Base Models",   short: "Base Models",    desc: "Proprietary model quality, fine-tuning, inference capabilities" },
+  { id: "llms",           label: "LLMs & Tooling",       short: "LLMs",           desc: "Model platforms, prompt engineering, RAG, developer tooling" },
+  { id: "aiAgents",       label: "AI Agents",            short: "AI Agents",      desc: "Reasoning, memory, tool chaining, task planning, state mgmt" },
+  { id: "agenticSystems", label: "Agentic Systems",      short: "Systems",        desc: "Multi-agent orchestration, inter-agent comms, hierarchical planning" },
+  { id: "agenticInfra",   label: "Agentic Infra",        short: "Infra",          desc: "Observability, governance, compliance, scaling, security" },
+];
+
+const TIER_META = {
+  leader:     { label: "Market Leader",     color: "#1a1a1a" },
+  challenger: { label: "Challenger",        color: "#444" },
+  specialist: { label: "Domain Specialist", color: "#777" },
+};
+
+const SRC_COLORS = {
+  G2: "#FF492C", GMQ: "#00457C", GCC: "#005B99",
+  ISG: "#6B21A8", FUT: "#0F766E", CMP: "#78350F",
+};
+
+function App() {
+  const [selected, setSelected] = useState(null);
+  const [hovered, setHovered] = useState(null);
+  const [activeZone, setActiveZone] = useState(null);
+  const [tab, setTab] = useState("heatmap"); // heatmap | detail
+
+  const focusId = selected || hovered;
+  const focusVendor = focusId ? VENDORS.find(v => v.id === focusId) : null;
+
+  const scoreColor = (score, vendorColor) => {
+    const alpha = [0, 0.2, 0.4, 0.6, 0.8, 1][score];
+    return score === 0 ? "#1e1e1e" : `${vendorColor}${Math.round(alpha * 255).toString(16).padStart(2, "0")}`;
+  };
+
+  return (
+    <div style={{ minHeight: "100vh", background: "#F4F1EB", fontFamily: "'Georgia', 'Times New Roman', serif", color: "#1a1a1a", padding: "20px 16px" }}>
+
+      {/* Header */}
+      <div style={{ textAlign: "center", marginBottom: "24px" }}>
+        <div style={{ fontSize: "10px", letterSpacing: "4px", textTransform: "uppercase", color: "#999", marginBottom: "6px" }}>
+          Scored from G2 · Gartner · ISG · Futurum Research · April 2026
+        </div>
+        <h1 style={{ fontSize: "clamp(20px, 4.5vw, 34px)", fontWeight: "900", margin: 0, letterSpacing: "-1px" }}>
+          Agentic AI Vendor Map
+        </h1>
+        <p style={{ fontSize: "12px", color: "#777", margin: "6px auto 0", maxWidth: "520px", lineHeight: "1.5" }}>
+          Layer scores derived from G2 verified reviews, Gartner Magic Quadrant &amp; Critical Capabilities, ISG Buyers Guide, and Futurum Research — not vendor self-reporting.
+        </p>
+        {/* Source legend */}
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", justifyContent: "center", marginTop: "12px" }}>
+          {Object.entries(SRC_COLORS).map(([k, c]) => (
+            <span key={k} style={{ fontSize: "10px", padding: "2px 8px", borderRadius: "20px", background: c + "20", color: c, fontWeight: "700", letterSpacing: "1px" }}>{k}</span>
+          ))}
+          <span style={{ fontSize: "10px", color: "#aaa" }}>= scoring source</span>
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "980px", margin: "0 auto", display: "flex", flexDirection: "column", gap: "16px" }}>
+
+        {/* Tab nav */}
+        <div style={{ display: "flex", gap: "8px" }}>
+          {["heatmap", "g2", "badges"].map(t => (
+            <button key={t} onClick={() => setTab(t)} style={{
+              padding: "6px 16px", borderRadius: "20px", border: "none", cursor: "pointer", fontSize: "11px", fontWeight: "700",
+              letterSpacing: "1px", textTransform: "uppercase", fontFamily: "inherit",
+              background: tab === t ? "#1a1a1a" : "#fff",
+              color: tab === t ? "#F4F1EB" : "#888",
+              boxShadow: tab === t ? "0 2px 8px rgba(0,0,0,0.15)" : "none",
+            }}>
+              {t === "heatmap" ? "Layer Heatmap" : t === "g2" ? "G2 Ratings" : "Analyst Badges"}
+            </button>
+          ))}
+        </div>
+
+        {/* HEATMAP TAB */}
+        {tab === "heatmap" && (
+          <div style={{ background: "#1a1a1a", borderRadius: "14px", padding: "20px", overflowX: "auto" }}>
+            <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: "4px" }}>
+              Coverage Scores by Layer — Click column to filter · Click row to explore
+            </div>
+            <div style={{ fontSize: "10px", color: "#444", marginBottom: "14px" }}>
+              Score sources shown in brackets. Hover/click vendors for detail panel below.
+            </div>
+            <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "640px" }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: "left", padding: "8px 12px", fontSize: "11px", color: "#555", fontWeight: "400", borderBottom: "1px solid #2a2a2a", minWidth: "180px" }}>
+                    Vendor
+                  </th>
+                  {ZONE_META.map(z => (
+                    <th key={z.id} onClick={() => setActiveZone(activeZone === z.id ? null : z.id)}
+                      style={{
+                        padding: "8px 6px", fontSize: "10px", letterSpacing: "0.5px",
+                        color: activeZone === z.id ? "#F4F1EB" : "#555",
+                        fontWeight: activeZone === z.id ? "700" : "400",
+                        borderBottom: "1px solid #2a2a2a", cursor: "pointer", textAlign: "center",
+                        background: activeZone === z.id ? "#2a2a2a" : "transparent",
+                        transition: "all 0.15s",
+                      }}>
+                      {z.short}
+                    </th>
+                  ))}
+                  <th style={{ padding: "8px 6px", fontSize: "10px", color: "#555", fontWeight: "400", borderBottom: "1px solid #2a2a2a", textAlign: "center" }}>
+                    Total
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {VENDORS.sort((a, b) => {
+                  const sa = Object.values(a.zones).reduce((s, z) => s + z.score, 0);
+                  const sb = Object.values(b.zones).reduce((s, z) => s + z.score, 0);
+                  return sb - sa;
+                }).map(v => {
+                  const total = Object.values(v.zones).reduce((s, z) => s + z.score, 0);
+                  const isFocus = focusId === v.id;
+                  return (
+                    <tr key={v.id} onClick={() => setSelected(selected === v.id ? null : v.id)}
+                      onMouseEnter={() => !selected && setHovered(v.id)}
+                      onMouseLeave={() => setHovered(null)}
+                      style={{ cursor: "pointer", opacity: focusId && !isFocus ? 0.25 : 1, transition: "opacity 0.15s" }}>
+                      <td style={{ padding: "8px 12px", borderBottom: "1px solid #222" }}>
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <div style={{ width: "11px", height: "11px", borderRadius: "50%", background: v.color, flexShrink: 0 }} />
+                          <div>
+                            <div style={{ fontSize: "12px", color: "#ddd", fontWeight: "700", lineHeight: "1.2" }}>{v.name}</div>
+                            <div style={{ fontSize: "9px", color: "#555", marginTop: "1px" }}>{TIER_META[v.tier].label}</div>
+                          </div>
+                        </div>
+                      </td>
+                      {ZONE_META.map(z => {
+                        const zd = v.zones[z.id];
+                        const highlight = activeZone === z.id;
+                        return (
+                          <td key={z.id} style={{ padding: "8px 6px", textAlign: "center", borderBottom: "1px solid #222", background: highlight ? "#222" : "transparent" }}>
+                            <div style={{
+                              width: "36px", height: "36px", borderRadius: "6px", margin: "0 auto",
+                              background: scoreColor(zd.score, v.color),
+                              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+                              border: highlight ? `1px solid ${v.color}50` : "1px solid transparent",
+                            }}>
+                              <div style={{ fontSize: "14px", fontWeight: "900", color: zd.score >= 3 ? "#fff" : "#666", lineHeight: 1 }}>{zd.score}</div>
+                              <div style={{ fontSize: "7px", color: SRC_COLORS[zd.src.split("/")[0]] || "#888", letterSpacing: "0.5px", marginTop: "1px" }}>
+                                {zd.src.split("/")[0]}
+                              </div>
+                            </div>
+                          </td>
+                        );
+                      })}
+                      <td style={{ padding: "8px 6px", textAlign: "center", borderBottom: "1px solid #222" }}>
+                        <div style={{
+                          fontSize: "16px", fontWeight: "900",
+                          color: total >= 22 ? "#4ade80" : total >= 18 ? "#facc15" : "#f97316",
+                        }}>{total}</div>
+                        <div style={{ fontSize: "8px", color: "#444" }}>/25</div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            <div style={{ display: "flex", gap: "16px", marginTop: "12px", flexWrap: "wrap" }}>
+              <div style={{ fontSize: "10px", color: "#444" }}>
+                <span style={{ color: "#4ade80", fontWeight: "700" }}>22–25</span> = Full-stack leader &nbsp;
+                <span style={{ color: "#facc15", fontWeight: "700" }}>18–21</span> = Challenger &nbsp;
+                <span style={{ color: "#f97316", fontWeight: "700" }}>&lt;18</span> = Specialist
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* G2 TAB */}
+        {tab === "g2" && (
+          <div style={{ background: "#fff", borderRadius: "14px", padding: "20px" }}>
+            <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#aaa", marginBottom: "16px" }}>
+              G2 Verified User Ratings — 2026 Data
+            </div>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "12px" }}>
+              {[
+                { name: "UiPath Agentic Automation", rating: 4.6, reviews: 5816, color: "#FA4616", note: "Highest-rated by volume. Most validated user base." },
+                { name: "Salesforce Agentforce", rating: 4.4, reviews: 846, color: "#00A1E0", note: "G2 #1 Agentic AI platform 2026. 83% meet-requirements." },
+                { name: "Microsoft Copilot Studio", rating: 4.4, reviews: 140, color: "#0078D4", note: "Leader in AI Agent Builders. Fewer reviews vs SF." },
+                { name: "ServiceNow AI Agents", rating: 4.4, reviews: null, color: "#62D84E", note: "Enterprise Leader. Review count not publicly disclosed." },
+                { name: "Google Vertex AI", rating: 4.3, reviews: 633, color: "#EA4335", note: "Strong on model capability. ADK: 8M+ downloads." },
+                { name: "IBM watsonx Orchestrate", rating: 4.3, reviews: null, color: "#1F70C1", note: "Praised for governance. Steep learning curve noted." },
+              ].map((item, i) => (
+                <div key={i} style={{ background: "#f9f7f3", borderRadius: "10px", padding: "14px", borderLeft: `4px solid ${item.color}` }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "6px" }}>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: item.color }} />
+                    <span style={{ fontSize: "12px", fontWeight: "700", color: "#111" }}>{item.name}</span>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: "6px", marginBottom: "4px" }}>
+                    <span style={{ fontSize: "28px", fontWeight: "900", color: item.color, lineHeight: 1 }}>{item.rating}</span>
+                    <span style={{ fontSize: "11px", color: "#999" }}>/ 5.0</span>
+                    {item.reviews && <span style={{ fontSize: "11px", color: "#bbb", marginLeft: "4px" }}>({item.reviews.toLocaleString()} reviews)</span>}
+                  </div>
+                  <div style={{ display: "flex", gap: "2px", marginBottom: "6px" }}>
+                    {[1,2,3,4,5].map(i => (
+                      <div key={i} style={{ width: "20px", height: "4px", borderRadius: "2px", background: i <= Math.round(item.rating) ? item.color : "#e5e5e5" }} />
+                    ))}
+                  </div>
+                  <div style={{ fontSize: "11px", color: "#666", lineHeight: "1.4" }}>{item.note}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "16px", padding: "12px", background: "#f9f7f3", borderRadius: "10px" }}>
+              <div style={{ fontSize: "10px", color: "#aaa", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "6px" }}>Note on G2 data</div>
+              <div style={{ fontSize: "11px", color: "#888", lineHeight: "1.5" }}>
+                SAP Joule, Oracle Fusion AI, and Workday Illuminate do not have sufficient standalone G2 reviews in the AI Agent Builders category as of April 2026. Their ISG and Gartner analyst coverage is used instead.
+                Source: G2.com verified reviews, February–April 2026.
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* BADGES TAB */}
+        {tab === "badges" && (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "12px" }}>
+            {VENDORS.map(v => (
+              <div key={v.id} style={{ background: "#fff", borderRadius: "12px", padding: "16px", borderTop: `4px solid ${v.color}` }}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "10px" }}>
+                  <div style={{ width: "12px", height: "12px", borderRadius: "50%", background: v.color }} />
+                  <div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: "#111" }}>{v.name}</div>
+                    <div style={{ fontSize: "10px", color: "#aaa" }}>{v.tagline}</div>
+                  </div>
+                </div>
+                {v.analystBadges.map((b, i) => (
+                  <div key={i} style={{
+                    fontSize: "11px", padding: "4px 8px", borderRadius: "6px",
+                    background: "#f4f1eb", color: "#333", marginBottom: "4px",
+                    borderLeft: `3px solid ${v.color}`,
+                  }}>
+                    {b}
+                  </div>
+                ))}
+                <div style={{ marginTop: "8px", fontSize: "10px", color: "#bbb", lineHeight: "1.4" }}>{v.sources}</div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Detail Panel */}
+        {focusVendor && tab === "heatmap" && (
+          <div style={{ background: "#fff", borderRadius: "14px", padding: "22px", borderLeft: `5px solid ${focusVendor.color}` }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "16px" }}>
+              <div>
+                <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#bbb", marginBottom: "4px" }}>
+                  {TIER_META[focusVendor.tier].label}
+                </div>
+                <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "900" }}>{focusVendor.name}</h2>
+                <div style={{ fontSize: "12px", color: "#999", marginTop: "3px" }}>{focusVendor.tagline}</div>
+                {focusVendor.g2.rating && (
+                  <div style={{ marginTop: "6px", display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span style={{ fontSize: "13px", fontWeight: "900", color: "#FF492C" }}>G2 {focusVendor.g2.rating}★</span>
+                    {focusVendor.g2.reviews && <span style={{ fontSize: "11px", color: "#bbb" }}>({focusVendor.g2.reviews.toLocaleString()} reviews)</span>}
+                    <span style={{ fontSize: "10px", color: "#bbb" }}>· {focusVendor.g2.badge}</span>
+                  </div>
+                )}
+              </div>
+              <button onClick={() => setSelected(null)} style={{
+                background: "#f4f1eb", border: "none", borderRadius: "6px",
+                padding: "6px 14px", cursor: "pointer", fontSize: "12px", color: "#888", fontFamily: "inherit",
+              }}>✕</button>
+            </div>
+
+            <div style={{ display: "grid", gridTemplateColumns: "3fr 2fr", gap: "20px" }}>
+              <div>
+                <div style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: "#bbb", marginBottom: "10px" }}>Layer-by-Layer (with source)</div>
+                {ZONE_META.map(z => {
+                  const zd = focusVendor.zones[z.id];
+                  const srcKey = zd.src.split("/")[0];
+                  return (
+                    <div key={z.id} style={{ marginBottom: "12px" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "3px" }}>
+                        <span style={{ fontSize: "11px", fontWeight: "700" }}>{z.label}</span>
+                        <div style={{ display: "flex", gap: "4px", alignItems: "center" }}>
+                          <span style={{ fontSize: "9px", padding: "1px 5px", borderRadius: "10px", background: (SRC_COLORS[srcKey] || "#888") + "20", color: SRC_COLORS[srcKey] || "#888", fontWeight: "700" }}>{zd.src}</span>
+                          <span style={{ fontSize: "12px", fontWeight: "900", color: focusVendor.color }}>{zd.score}/5</span>
+                        </div>
+                      </div>
+                      <div style={{ height: "3px", background: "#f0ece4", borderRadius: "2px", marginBottom: "4px" }}>
+                        <div style={{ height: "3px", borderRadius: "2px", width: `${zd.score * 20}%`, background: focusVendor.color, transition: "width 0.4s ease" }} />
+                      </div>
+                      <div style={{ fontSize: "11px", color: "#666", lineHeight: "1.4" }}>{zd.notes}</div>
+                    </div>
+                  );
+                })}
+              </div>
+              <div>
+                <div style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: "#bbb", marginBottom: "8px" }}>Strengths</div>
+                {focusVendor.strengths.map((s, i) => (
+                  <div key={i} style={{ fontSize: "11px", color: "#333", marginBottom: "5px", display: "flex", gap: "6px" }}>
+                    <span style={{ color: focusVendor.color, fontWeight: "900", flexShrink: 0 }}>+</span>{s}
+                  </div>
+                ))}
+                <div style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: "#bbb", marginBottom: "8px", marginTop: "14px" }}>Weaknesses</div>
+                {focusVendor.weaknesses.map((w, i) => (
+                  <div key={i} style={{ fontSize: "11px", color: "#333", marginBottom: "5px", display: "flex", gap: "6px" }}>
+                    <span style={{ color: "#c0392b", fontWeight: "900", flexShrink: 0 }}>−</span>{w}
+                  </div>
+                ))}
+                <div style={{ marginTop: "14px", padding: "10px", background: "#f4f1eb", borderRadius: "8px" }}>
+                  <div style={{ fontSize: "9px", color: "#bbb", letterSpacing: "2px", textTransform: "uppercase", marginBottom: "4px" }}>Analyst Sources</div>
+                  <div style={{ fontSize: "10px", color: "#888", lineHeight: "1.5" }}>{focusVendor.sources}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Analyst snapshot bar */}
+        <div style={{ background: "#1a1a1a", borderRadius: "12px", padding: "18px" }}>
+          <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#555", marginBottom: "12px" }}>
+            Key Analyst Findings — April 2026
+          </div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: "14px" }}>
+            {[
+              { src: "ISG", color: SRC_COLORS.ISG, finding: "Oracle ranks #1 overall in ISG AI Agents Buyers Guide 2025 — most of any vendor (7 categories). ServiceNow #2 (6 categories)." },
+              { src: "GCC", color: SRC_COLORS.GCC, finding: "Gartner Critical Capabilities 2025: ServiceNow ranked #1 for Building and Managing AI Agents." },
+              { src: "GMQ", color: SRC_COLORS.GMQ, finding: "Gartner AIDP MQ Nov 2025: Microsoft furthest in Completeness of Vision. Google highest in Ability to Execute." },
+              { src: "G2",  color: SRC_COLORS.G2,  finding: "G2 2026: UiPath is highest-rated by volume (4.6★/5,816 reviews). Salesforce is G2 #1 Agentic AI platform." },
+              { src: "FUT", color: SRC_COLORS.FUT,  finding: "Futurum 2025: Every major vendor claims 'agentic OS' positioning. At most one wins per enterprise." },
+              { src: "CMP", color: SRC_COLORS.CMP, finding: "Analyst comparisons: Agentforce + ServiceNow dominate enterprise deployments. IBM leads for regulated industries requiring auditability." },
+            ].map((item, i) => (
+              <div key={i}>
+                <span style={{ fontSize: "9px", padding: "2px 6px", borderRadius: "10px", background: item.color + "25", color: item.color, fontWeight: "700", letterSpacing: "1px" }}>{item.src}</span>
+                <div style={{ fontSize: "11px", color: "#777", lineHeight: "1.5", marginTop: "5px" }}>{item.finding}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{ fontSize: "10px", color: "#bbb", textAlign: "center", paddingBottom: "4px" }}>
+          Sources: G2.com (2026) · Gartner Magic Quadrant for AI Application Development Platforms (Nov 2025) · Gartner Magic Quadrant for Conversational AI (Aug 2025) · Gartner Critical Capabilities for AI Agents (2025) · ISG AI Agents Software Provider Buyers Guide (2025) · Futurum Research (Q1–Q4 2025) · Analyst comparisons (SmartBridge, DataBusinessCentral, PlanetaryLabour) · April 2026
+        </div>
+      </div>
+    </div>
+  );
+}
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Salesforce High-Tech GTM Strategy</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#0A0E1A;-webkit-font-smoothing:antialiased}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:#111827}
+    ::-webkit-scrollbar-thumb{background:#1E2D45;border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:#00A1E0}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+// ── DESIGN SYSTEM ─────────────────────────────────────────────────────────────
+// Aesthetic: Dark tech-executive. Dense, data-rich, command-centre feel.
+// Ink-on-dark with electric blue accents and amber signals. No pastels.
+
+const C = {
+  bg:      "#0A0E1A",
+  surface: "#111827",
+  card:    "#161D2E",
+  border:  "#1E2D45",
+  sf:      "#00A1E0",
+  sfDim:   "#005580",
+  green:   "#10B981",
+  amber:   "#F59E0B",
+  red:     "#EF4444",
+  purple:  "#8B5CF6",
+  paper:   "#E8E4DC",
+  muted:   "#6B7280",
+  faint:   "#374151",
+  text:    "#E5E7EB",
+  bright:  "#F9FAFB",
+};
+
+// ── DATA FROM SLIDES + RESEARCH ───────────────────────────────────────────────
+
+const NAV_ITEMS = [
+  { id: "why",        label: "Why Now" },
+  { id: "sells",      label: "Sell First" },
+  { id: "themes",     label: "Win Themes" },
+  { id: "compete",    label: "Competition" },
+  { id: "acv",        label: "ACV Range" },
+  { id: "plan",       label: "30-60-90" },
+  { id: "talktrack",  label: "Talk Track" },
+];
+
+const WHY_NOW = [
+  {
+    stat: "$590M",
+    label: "Tech TAM (UK)",
+    detail: "Total addressable market across Integration ($188M), Sales ($190M) and Service ($285M) clouds within the enterprise tech segment alone.",
+    signal: "Tailwind",
+    src: "Salesforce Internal",
+  },
+  {
+    stat: "12.5%",
+    label: "UK Tech CAGR",
+    detail: "UK tech ecosystem is Europe's largest at $1.4T value, growing faster than France and Germany combined. 2,300+ VC-backed AI companies in market.",
+    signal: "Tailwind",
+    src: "Tech Nation 2025",
+  },
+  {
+    stat: "46%",
+    label: "Support deflection with Agentforce",
+    detail: "Reddit deflected 46% of support cases and cut resolution times by 84% using Agentforce. For high-tech firms with high Tier 1 support volume, this is the proof point that opens doors.",
+    signal: "Opportunity",
+    src: "Salesforce / Reddit case study 2025",
+  },
+  {
+    stat: "8%",
+    label: "Agentforce adoption",
+    detail: "Only 8% of Salesforce's global customer base has adopted Agentforce. For Tech, this is a land-and-expand engine — not a saturated market.",
+    signal: "Opportunity",
+    src: "Salesforce Ben / Q3 FY26",
+  },
+  {
+    stat: "$41B",
+    label: "Salesforce UK Economy by 2028",
+    detail: "IDC projects Salesforce-powered economic activity of $41B in UK by 2028. Salesforce committed $6B investment through 2030 — UK is the #1 international market.",
+    signal: "Tailwind",
+    src: "IDC / Salesforce UK Sept 2025",
+  },
+  {
+    stat: "78%",
+    label: "C-suite using AI agents",
+    detail: "Four in five UK C-suite executives are already using AI agents. Tech buyers are ready — the question is who becomes the platform of record.",
+    signal: "Tailwind",
+    src: "Salesforce UK 2025",
+  },
+];
+
+const SELL_FIRST = [
+  {
+    rank: 1,
+    product: "Data Cloud",
+    why: "Data first, agents second. Without unified data, Agentforce cannot function. Entering on Data Cloud sets the foundation, surfaces data debt early, and positions Salesforce as the strategic layer — not just another CRM vendor.",
+    tam: "$188M (Integration Cloud TAM)",
+    acv: "£150K–£800K",
+    trigger: "Customer has fragmented data across product, sales and service systems",
+    objection: "We already have a data warehouse",
+    counter: "A warehouse stores data. Data Cloud activates it — making it available to AI agents in real time across every customer touchpoint.",
+    badge: "FOUNDATION",
+    color: C.green,
+  },
+  {
+    rank: 2,
+    product: "Agentforce (Service + Sales agents)",
+    why: "Tech firms' biggest cost is headcount — especially Tier 1 support at scale. Agentforce deflects support volume, qualifies leads from sandbox interactions, and automates renewal workflows. The April 2025 NI increase makes the ROI story structurally compelling: agents don't carry employer NI.",
+    tam: "$190M Sales + $285M Service Cloud TAMs",
+    acv: "£250K–£2M+",
+    trigger: "High Tier 1 support volume, subscription churn, or SDR capacity constraints",
+    objection: "We're not ready for AI agents yet",
+    counter: "You're already paying for the problem. Every Tier 1 ticket your engineers are handling costs you £15–40 per interaction. Agentforce costs a fraction of that and doesn't require a visa.",
+    badge: "PRIMARY MOTION",
+    color: C.sf,
+  },
+  {
+    rank: 3,
+    product: "Revenue Cloud / CPQ",
+    why: "High-tech firms with SaaS pricing tiers, usage-based models, or channel partner complexity need intelligent quote-to-cash. Revenue Cloud gives Agentforce the commercial context to renew, upsell, and expand — and replaces the spreadsheet-and-email revenue process that characterises most scale-ups.",
+    tam: "Part of $190M Sales Cloud TAM",
+    acv: "£200K–£1.2M",
+    trigger: "Subscription business with manual renewal process, partner channel complexity, or pricing model transition",
+    objection: "We use Salesforce for CRM but run billing separately",
+    counter: "That gap is where your revenue leaks. Revenue Cloud closes the loop from opportunity to invoice to renewal — and lets agents own the renewal conversation autonomously.",
+    badge: "LAND & EXPAND",
+    color: C.amber,
+  },
+  {
+    rank: 4,
+    product: "Tableau (competitive replacement)",
+    why: "$160M Tableau replacement TAM identified internally. Many tech firms are running Power BI or Looker as a default Microsoft or Google estate extension. Tableau's semantic layer + Salesforce data is a differentiated story — especially where Data Cloud is already in.",
+    tam: "$160M competitive TAM (Slide 4)",
+    acv: "£120K–£600K",
+    trigger: "Customer running Power BI or Looker with poor Salesforce data integration",
+    objection: "We're a Microsoft / Google shop for analytics",
+    counter: "Tableau is the only analytics platform with a native semantic layer into Salesforce Data Cloud. If your CRM and your analytics are speaking different languages, your AI will hallucinate your business.",
+    badge: "COMPETITIVE SWAP",
+    color: C.purple,
+  },
+  {
+    rank: 5,
+    product: "Slack (competitive replacement)",
+    why: "$127M Slack replacement TAM. Slack is the front door for Agentforce — agents surface in Slack channels natively. For tech firms on Teams, the Slack pitch is: your AI works where your engineers already work.",
+    tam: "$127M competitive TAM (Slide 4)",
+    acv: "£80K–£500K",
+    trigger: "Customer on Microsoft Teams with Agentforce ambitions",
+    objection: "Teams is good enough and it's already in our M365 contract",
+    counter: "Teams is a communication tool. Slack is an agentic operating layer — your Agentforce agents live there, your workflows trigger there, and your engineers don't need to context-switch.",
+    badge: "COMPETITIVE SWAP",
+    color: C.purple,
+  },
+];
+
+const WIN_THEMES = [
+  {
+    theme: "Revenue Growth",
+    icon: "↗",
+    color: C.sf,
+    headline: "Scale GTM without scaling headcount",
+    salesforceAngle: "Agentforce SDR agents qualify leads 24/7 from sandbox interactions, trial sign-ups and documentation engagement — signals that human SDRs miss. Sales Cloud gives AEs a single view of the full customer journey.",
+    proofPoints: ["Salesforce's own SDR agent handles 50,000 customers/week", "213% ROI reported by Wiley on Agentforce + Service Cloud", "Route-to-revenue acceleration through Sales Excellence plays"],
+    competitiveMoat: "Microsoft Copilot is productivity-focused. It helps sellers draft emails. Agentforce executes the sales motion autonomously — a fundamentally different proposition.",
+    cSuiteMessage: "CRO/CIO: 'You can double your pipeline coverage without doubling your sales team cost — and without the April NI increase applying to a single agent.'",
+  },
+  {
+    theme: "Margin Protection",
+    icon: "◈",
+    color: C.amber,
+    headline: "Consolidate the tech stack and eliminate the cost of complexity",
+    salesforceAngle: "Tech stack consolidation is a direct outcome of 'one golden cloud per customer' — Data Cloud as the single data layer, Agentforce as the AI layer, Salesforce as the engagement layer. Replaces point solutions, reduces licence sprawl.",
+    proofPoints: ["Integration Cloud TAM: $188M in consolidation opportunity", "Optimised managed service replaces fragmented SaaS point tools", "Tech stack consolidation + Optimised managed service is the primary Tech margin play"],
+    competitiveMoat: "Unlike Oracle (ERP-native) or ServiceNow (ITSM-native), Salesforce consolidates across the full customer lifecycle — sales, service, marketing, data and AI in one trusted platform.",
+    cSuiteMessage: "CFO/CTO: 'Every point solution you retire reduces your vendor management overhead. We are not adding to your stack — we are becoming your stack.'",
+  },
+  {
+    theme: "Capitalising Investments",
+    icon: "⬡",
+    color: C.purple,
+    headline: "Make M&A, partnerships and managed services work harder",
+    salesforceAngle: "Tech firms going through M&A, building partner ecosystems (VARs, OSPs, ISVs) or transitioning to managed service models need a platform that can unify disparate customer data and extend to third-party partners. Salesforce's partner relationship management, Experience Cloud and MuleSoft integration layer are the answer.",
+    proofPoints: ["M&A & Divestiture integration is a core Tech priority", "Hyperscaler co-sell motions amplify existing cloud investments", "AgentExchange marketplace: 30+ partner integrations already live"],
+    competitiveMoat: "No competitor has the partner ecosystem breadth of Salesforce — $6.19 earned by partners per $1 Salesforce earns. For a tech firm building a partner-led growth model, Salesforce is the platform partners already know.",
+    cSuiteMessage: "CEO/COO: 'Your M&A creates integration risk. We eliminate it — every acquired company's customer data lands in Data Cloud and your agents pick up from day one.'",
+  },
+  {
+    theme: "Win with Innovation",
+    icon: "⚡",
+    color: C.green,
+    headline: "Agentic service and delivery as the competitive differentiator",
+    salesforceAngle: "For tech companies selling to enterprise, 'agentic delivery' is now a USP — the ability to demonstrate that your own operations are AI-native. Salesforce is the only platform where you can be both a customer and a reference. Agentforce service agents handle L1/L2 support; agentic delivery agents orchestrate complex multi-step technical workflows.",
+    proofPoints: ["Agentic service + Agentic delivery is the core Innovation play for high-tech", "46% support deflection (Reddit), 70% autonomous resolution (OpenTable)", "Salesforce is Customer Zero — you can reference how Salesforce runs itself on Agentforce"],
+    competitiveMoat: "Google has better models. Microsoft has ubiquity. Salesforce has the only platform where enterprise AI is already in production at scale with verifiable customer outcomes.",
+    cSuiteMessage: "CTO/CDO: 'Your customers are asking whether you are AI-native. The answer should not just be in your product — it should be in how you sell, service and deliver. We make that true.'",
+  },
+];
+
+const COMPETE = [
+  {
+    competitor: "Microsoft Copilot Studio",
+    threat: "HIGH",
+    threatColor: C.red,
+    why: "M365 is dominant in UK tech firms. Copilot bundles frictionlessly into existing Teams/Outlook/SharePoint licences. IT procurement defaults to Microsoft because 'nobody gets fired for it'.",
+    ourAngle: "Copilot makes individuals more productive. Agentforce makes your business more autonomous. These are different value propositions — and Agentforce wins on customer-facing outcomes, CRM depth, and revenue impact.",
+    targetPersona: "CRO, CIO, Head of Customer Experience",
+    displacement: "Lead with: 'Microsoft Copilot has no CRM. It has no customer data. It helps your employees draft emails — Agentforce closes your customers' problems without a human in the loop.'",
+    swapOpp: "Tableau vs Power BI ($160M TAM) · Slack vs Teams ($127M TAM)",
+    winCondition: "Customer has Salesforce CRM + Microsoft productivity tools. Agentforce is the missing bridge — not a replacement of M365.",
+  },
+  {
+    competitor: "ServiceNow",
+    threat: "MEDIUM",
+    threatColor: C.amber,
+    why: "ServiceNow's AI Control Tower is compelling for IT-heavy buyers. #1 Gartner Critical Capabilities ranking for building/managing AI agents. Strong in ITSM and HR workflows.",
+    ourAngle: "ServiceNow owns the back office. Salesforce owns the front office. The expansion play is from ITSM into GTM — and no customer has a budget for two agentic platforms. Position early or ServiceNow will land and expand into GTM themselves.",
+    targetPersona: "CIO, CTO, VP Engineering",
+    displacement: "Lead with: 'ServiceNow will tell you they can do CRM. They cannot. They don't have 25 years of customer data models, Einstein AI, or 12,000 enterprise agent deployments in production.'",
+    swapOpp: "Expand into Sales + Service where ServiceNow has no native capability",
+    winCondition: "Customer has ServiceNow for ITSM. Salesforce lands in Sales/Service, then unifies under Data Cloud. Co-existence → consolidation over time.",
+  },
+  {
+    competitor: "Google Vertex AI / Gemini Enterprise",
+    threat: "MEDIUM",
+    threatColor: C.amber,
+    why: "Highest Ability to Execute in Gartner AIDP MQ 2025. ADK downloaded 8M+ times. Developer-native narrative resonates with high-tech engineering leaders.",
+    ourAngle: "Google has the best models. Salesforce has the best platform. The question for a tech company is not 'which AI is smartest' — it's 'which AI has access to all my customer data, my sales history, my service records, and can take autonomous action on it'. That is Salesforce.",
+    targetPersona: "CTO, Head of AI/ML, CDO",
+    displacement: "Lead with: 'You can use Gemini as your Agentforce backend. Salesforce is LLM-agnostic — you get Google's model quality inside Salesforce's data and trust layer.'",
+    swapOpp: "Agentforce can run Gemini natively — turn Google's model strength into Salesforce's platform win",
+    winCondition: "Frame as complementary not competitive. Google Cloud + Salesforce = hyperscaler infrastructure + enterprise CRM AI layer.",
+  },
+  {
+    competitor: "IBM watsonx Orchestrate",
+    threat: "LOW-MEDIUM",
+    threatColor: C.green,
+    why: "Gartner MQ Leader. Strongest governance/auditability story. Wins in regulated industries (banking, insurance, government). 80+ enterprise app integrations.",
+    ourAngle: "IBM's strength is governance. Salesforce matches it — ISO 27001, SOC2 Type II, FCA-aligned Trust Layer — and adds faster time-to-value, a larger partner ecosystem, and the world's most deployed CRM as the data foundation.",
+    targetPersona: "CIO, CISO, Head of Compliance",
+    displacement: "Lead with: 'IBM will take 12 months to deploy. Agentforce has pre-built agents for high-tech use cases. You don't need to build from scratch — you need to deploy what's proven.'",
+    swapOpp: "Regulated fintech/cybersecurity firms where IBM is shortlisted but not yet deployed",
+    winCondition: "Speed of deployment + CRM-native data advantage. IBM requires custom integration. Salesforce is native.",
+  },
+  {
+    competitor: "Oracle Fusion AI / SAP Joule",
+    threat: "LOW",
+    threatColor: C.green,
+    why: "ISG ranks Oracle #1 overall for AI agents (7 categories). Strong in ERP-native workflows. SAP has 150+ pre-built skills. Both are deep moat plays for back-office buyers.",
+    ourAngle: "Oracle and SAP own the ERP. Salesforce owns the customer. Revenue Cloud bridges Oracle data into Salesforce's GTM layer — the two can co-exist, and Salesforce expands from the outside in.",
+    targetPersona: "CFO, CRO, VP Sales Operations",
+    displacement: "Lead with: 'We don't need to rip out your ERP. We sit on top of it — bringing your Oracle/SAP data into the layer where your customers actually live.'",
+    swapOpp: "Revenue Cloud integration with Oracle ERP — Salesforce as the GTM layer over ERP back-office",
+    winCondition: "Customer runs Oracle/SAP for finance. Salesforce lands in Sales/Service. MuleSoft integrates. Data Cloud unifies.",
+  },
+];
+
+const ACV_BANDS = [
+  {
+    tier: "Seed & Grow",
+    profile: "UK tech scale-up, Series B/C funded, first Salesforce footprint",
+    targetCount: "1+ accounts — prioritised from account tiering exercise",
+    products: ["Sales Cloud Starter → Enterprise", "Data Cloud (entry)", "Agentforce Service Agent"],
+    acvRange: "£150K – £500K",
+    aoVTarget: "+£1M AOV by FY30",
+    expandPath: "Land on Sales Cloud → add Data Cloud → unlock Agentforce → expand to Marketing Cloud",
+    winProb: "High if no incumbent",
+    color: C.green,
+  },
+  {
+    tier: "Enterprise Platform Win",
+    profile: "UK tech enterprise, multi-cloud buyer, AI-ready C-suite",
+    targetCount: "1+ new logos — driven by account tiering and exec access",
+    products: ["Sales Cloud Enterprise", "Service Cloud Enterprise", "Data Cloud", "Agentforce", "Revenue Cloud"],
+    acvRange: "£750K – £2.5M",
+    aoVTarget: "Full platform exposure across Integration, Sales and Service Cloud TAMs",
+    expandPath: "Enterprise C360 PoV → Integration Cloud → Agentforce Orchestration → Partner Ecosystem",
+    winProb: "Medium — requires exec access and PoV investment",
+    color: C.sf,
+  },
+  {
+    tier: "Competitive Replacement / C360 Target Win",
+    profile: "Existing Salesforce customer running Tableau/Slack on competitor platform, or partial Salesforce footprint",
+    targetCount: "Priority accounts identified through competitive landscape audit",
+    products: ["Tableau (vs Power BI/Looker)", "Slack (vs Teams)", "Data Cloud expansion", "Agentforce add-on"],
+    acvRange: "£300K – £1.2M incremental",
+    aoVTarget: "Tableau $160M TAM · Slack $127M TAM · Service Cloud $285M TAM",
+    expandPath: "Replace analytics or comms → unify on Data Cloud → expand Agentforce across replaced platform",
+    winProb: "High where Salesforce already has a relationship",
+    color: C.purple,
+  },
+  {
+    tier: "Mega / Transformational Deal",
+    profile: "Large UK tech/SaaS enterprise, multi-year transformation, C-suite sponsored",
+    targetCount: "2–3 per year (UK aspirational)",
+    products: ["Full C360 Platform", "Data Cloud Enterprise", "Agentforce 360", "MuleSoft", "Tableau", "Slack", "Industry Cloud"],
+    acvRange: "£2M – £8M+",
+    aoVTarget: "Maximum platform exposure — Integration, Sales, Service, Analytics and AI combined",
+    expandPath: "Transformational PoV → Board-level sponsorship → Multi-year programme → Partner-delivered at scale",
+    winProb: "Low probability, highest value — requires CTO/CEO relationship and full partner alignment",
+    color: C.amber,
+  },
+];
+
+const PLAN_DAYS = [
+  {
+    period: "Days 1–30",
+    label: "Prioritise & Qualify",
+    color: C.sf,
+    actions: [
+      { action: "Tier account list", detail: "Score all UK high-tech accounts across: current SF footprint, AI readiness, C-suite access, competitive landscape, and renewal risk. Tier 1 = New Logo + Seed & Grow. Tier 2 = C360 expansion. Tier 3 = at-risk retention." },
+      { action: "Audit incumbent partner landscape", detail: "For every Tier 1 and Tier 2 account: who is already in? Which SI has the relationship? Are they Salesforce-aligned or competing-platform-aligned? Identify allies and potential blockers before first call." },
+      { action: "Map C-suite relationships", detail: "Assess executive access per account. Identify gaps — particularly CTO, CRO, CIO. No deal above £750K closes without board-level sponsorship. Gaps = risk to pipeline." },
+      { action: "Define success criteria per tier", detail: "What does 'winning' look like at 30/60/90? Revenue outcome, product landed, executive relationship established, partner aligned. Align internally before customer-facing." },
+      { action: "Build Data Cloud-first entry narrative", detail: "For every Tier 1 account, prepare a data maturity conversation — not a product pitch. Show how fragmented data = broken AI. Position Data Cloud as the strategic prerequisite before Agentforce." },
+    ],
+  },
+  {
+    period: "Days 31–60",
+    label: "Engage & Differentiate",
+    color: C.amber,
+    actions: [
+      { action: "Run Executive Discovery sessions", detail: "C-suite-targeted sessions (CTO/CRO/CIO) focused on their innovation and margin agenda — not Salesforce features. Use the four win themes (Revenue Growth, Margin Protection, Capitalising Investments, Win with Innovation) as the conversation framework." },
+      { action: "Deploy Industry C360 PoVs", detail: "For Tier 1 accounts, develop an audacious, industry-specific Point of View backed by technical architecture. Demonstrate what the full Salesforce platform unlocks across integration, sales, service and AI — the goal is to reframe Salesforce as a strategic transformation partner, not a product vendor." },
+      { action: "Activate partner co-sell motions", detail: "For accounts where a partner is already trusted, bring them into the deal early. Agree positioning — Salesforce provides the vision and platform, partner provides delivery confidence and industry credibility." },
+      { action: "Competitive battlecard activation", detail: "For every account where Microsoft, ServiceNow or Google is incumbent or shortlisted, deploy the relevant competitor displacement narrative. No generic pitch — tailor to which competitor is in the room." },
+      { action: "Identify quick win / proof-of-value opportunity", detail: "In at least 2–3 accounts, identify a contained Agentforce use case (e.g. Tier 1 support deflection, renewal automation) that can demonstrate measurable ROI within 60 days. Build the ROI case now." },
+    ],
+  },
+  {
+    period: "Days 61–90",
+    label: "Commit & Advance",
+    color: C.green,
+    actions: [
+      { action: "Advance pipeline to Stage 3+", detail: "Target: at least 3× pipeline coverage on FY target. Every Tier 1 account should have an active opportunity in the system with a qualified executive sponsor. The execution standard is Pipe ×3 + Health + AEP — no exceptions." },
+      { action: "Lock partner delivery plans", detail: "For deals above £500K, confirm which SI will deliver. Agree scope, resourcing and co-sell incentives. Post-Brexit talent gap means delivery risk is real — mitigate it now not at contract signature." },
+      { action: "Establish Innovation Council cadence", detail: "Leverage the AI Center to widen customer use case exploration and upskilling. Target 6 new AI customer stories in FY27. Seed this by establishing AI/innovation workshops with 2–3 target accounts this quarter." },
+      { action: "C360 Big Bet Cadence review", detail: "Run the first internal C360 Big Bet Cadence. Review all Tier 1 accounts: do we have exec access, PoV delivered, partner aligned, competitive position clear? Escalate gaps immediately." },
+      { action: "Build customer reference pipeline", detail: "Identify which of your existing customers can become references for new logo acquisition. Tech buyer trust references above analyst reports. One credible peer reference is worth three pitch decks." },
+    ],
+  },
+];
+
+const TALK_TRACKS = [
+  {
+    persona: "CRO / VP Sales",
+    opener: "How are you thinking about scaling your pipeline without scaling headcount cost?",
+    challenge: "Most tech companies are hitting a ceiling — their best sellers are spending 40% of their time on admin, qualification, and follow-up that doesn't require human judgment. Meanwhile, every new SDR hire is now £5,000 more expensive than it was a year ago thanks to the NI increase.",
+    pivot: "What if your top sellers only touched opportunities that were already qualified, already contextualised, and already warmed — because an agent had done that work overnight?",
+    sfAnswer: "Agentforce SDR agents analyse sandbox usage, documentation engagement and trial patterns to score and qualify leads before a human gets involved. Your AEs close. Agents prospect.",
+    proofPoint: "Salesforce's own SDR agent now handles 50,000 customer conversations a week. Previously, those leads went uncontacted.",
+    closingQ: "If I could show you a model where your sales capacity doubles without your headcount cost increasing, what would need to be true for you to explore that this quarter?",
+    color: C.sf,
+  },
+  {
+    persona: "CTO / Head of AI",
+    opener: "What's the biggest risk you see in your AI roadmap right now — model selection, data quality, or governance?",
+    challenge: "Most tech CTOs tell us the same thing: they've invested in a model — Gemini, GPT-4, or an open-source alternative — but the agents they're building don't know enough about their own customers to be genuinely useful. The model is smart. The context is thin.",
+    pivot: "The question isn't which AI is the smartest. It's which AI has access to 25 years of your customer interactions, your sales history, your service records — and can take autonomous action on it without a human approving every step.",
+    sfAnswer: "Agentforce is LLM-agnostic — it can run Gemini or GPT-5 as the backend. But it layers that on top of Data Cloud, which unifies every customer signal you have. The result is an agent that's not just intelligent — it's contextually accurate.",
+    proofPoint: "RBC Wealth Management: data completion rates soared, notes became richer, adoption happened organically — no incentives required. Because the data was right.",
+    closingQ: "What would it mean for your AI roadmap if you could have your preferred model running on top of a unified, trusted customer data layer from day one?",
+    color: C.purple,
+  },
+  {
+    persona: "CIO / Head of Technology",
+    opener: "How many platforms are you running today that touch the customer journey — from lead to renewal?",
+    challenge: "The average tech firm runs 8–12 point solutions across sales, service, marketing, analytics and data. Each one has its own API, its own data model, its own renewal cycle. The cost of that complexity — integration, maintenance, licence sprawl — is a hidden P&L line item most CIOs can't fully quantify.",
+    pivot: "Tech stack consolidation isn't just a cost story. It's a capability story. Every tool you retire is a data silo you eliminate — and every data silo you eliminate makes your AI more accurate.",
+    sfAnswer: "Data Cloud is the unification layer. Agentforce is the AI action layer. Sales, Service, Marketing, Analytics — one platform. 'One golden cloud per customer' isn't a tagline — it's an architectural principle that makes AI viable.",
+    proofPoint: "Integration Cloud TAM alone is $188M in UK tech — that is the size of the consolidation opportunity we see in your market. Your peers are already making this move.",
+    closingQ: "If we could map your current stack against what a consolidated Salesforce architecture would look like — and show you the cost delta — would that be a useful starting point?",
+    color: C.amber,
+  },
+  {
+    persona: "CFO / Finance Director",
+    opener: "Are you under pressure to grow revenue without growing your cost base proportionally this year?",
+    challenge: "April's NI increase from 13.8% to 15% added real cost to every employee you have. Your tech team is expensive. Your sales team is expensive. Your support team is expensive. And the IPO window has narrowed, so every pound of EBITDA matters more than it did 18 months ago.",
+    pivot: "Autonomous agents don't pay National Insurance. They don't require a pension contribution. They work at 3am. The ROI calculation for Agentforce in the current UK macro context is unlike anything we've been able to say before.",
+    sfAnswer: "At £0.10 per action (Flex Credits model), an Agentforce agent handling 10,000 Tier 1 support interactions costs £1,000. The same interactions handled by a human team at £25 per resolution costs £250,000. That is a CFO story, not a CTO story.",
+    proofPoint: "Engine reduced average case handle time by 15%, saving over £1.6M annually. 1-800Accountant autonomously resolved 70% of admin chat engagements during peak tax season.",
+    closingQ: "Can I get 30 minutes with you and your CTO to walk through what the business case looks like for your specific headcount and support volume profile?",
+    color: C.green,
+  },
+];
+
+// ── COMPONENT ──────────────────────────────────────────────────────────────────
+function App() {
+  const [active, setActive] = useState("why");
+  const [expandedSell, setExpandedSell] = useState(null);
+  const [expandedCompete, setExpandedCompete] = useState(null);
+  const [expandedTrack, setExpandedTrack] = useState(null);
+
+  return (
+    <div style={{ background: C.bg, minHeight: "100vh", fontFamily: "Georgia, 'Times New Roman', serif", color: C.text }}>
+
+      {/* MASTHEAD */}
+      <div style={{ background: `linear-gradient(135deg, #0D1B2E 0%, #0A0E1A 60%, #0D1120 100%)`, borderBottom: `1px solid ${C.border}`, padding: "28px 28px 20px" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto" }}>
+          <div style={{ fontSize: "9px", letterSpacing: "5px", textTransform: "uppercase", color: C.muted, marginBottom: "8px" }}>
+            Salesforce UK · High-Tech Segment · GTM Strategy Brief · April 2026
+          </div>
+          <h1 style={{ margin: 0, fontSize: "clamp(20px, 3.5vw, 32px)", fontWeight: "400", letterSpacing: "-0.5px", color: C.bright }}>
+            UK High-Tech Go-to-Market
+          </h1>
+          <div style={{ fontSize: "clamp(13px, 2vw, 17px)", color: C.sf, fontStyle: "italic", marginTop: "4px" }}>
+            What to sell, who to target, how to win — and the numbers behind it
+          </div>
+          <div style={{ display: "flex", gap: "20px", marginTop: "14px", flexWrap: "wrap" }}>
+            {[["$590M", "Tech TAM (UK)"], ["12.5%", "UK Tech CAGR"], ["8%", "Agentforce adoption — the expand opportunity"], ["78%", "UK C-suite already using AI agents"]].map(([val, lbl]) => (
+              <div key={lbl} style={{ fontSize: "11px" }}>
+                <span style={{ fontSize: "18px", fontWeight: "700", color: C.sf }}>{val}</span>
+                <span style={{ color: C.muted, marginLeft: "6px" }}>{lbl}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* NAV */}
+      <div style={{ background: C.surface, borderBottom: `1px solid ${C.border}`, overflowX: "auto" }}>
+        <div style={{ maxWidth: "1000px", margin: "0 auto", display: "flex", padding: "0 20px" }}>
+          {NAV_ITEMS.map(n => (
+            <button key={n.id} onClick={() => setActive(n.id)} style={{
+              padding: "12px 16px", background: "none", border: "none", cursor: "pointer",
+              fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", fontFamily: "Georgia, serif",
+              color: active === n.id ? C.sf : C.muted,
+              borderBottom: active === n.id ? `2px solid ${C.sf}` : "2px solid transparent",
+              whiteSpace: "nowrap", fontWeight: active === n.id ? "700" : "400",
+            }}>{n.label}</button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "1000px", margin: "0 auto", padding: "28px 20px 60px" }}>
+
+        {/* WHY NOW */}
+        {active === "why" && (
+          <div>
+            <SH title="Why High-Tech, Why Now" sub="The strategic and commercial case — grounded in Salesforce internal data and external market intelligence" />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "14px" }}>
+              {WHY_NOW.map((w, i) => {
+                const sc = w.signal === "Tailwind" ? C.green : w.signal === "Risk" ? C.red : C.amber;
+                return (
+                  <div key={i} style={{ padding: "18px", background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px", borderTop: `3px solid ${sc}` }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: "8px" }}>
+                      <div style={{ fontSize: "28px", fontWeight: "700", color: sc, lineHeight: 1 }}>{w.stat}</div>
+                      <span style={{ fontSize: "9px", padding: "2px 7px", borderRadius: "20px", background: sc + "20", color: sc, fontWeight: "700", letterSpacing: "1px" }}>{w.signal.toUpperCase()}</span>
+                    </div>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: C.bright, marginBottom: "6px" }}>{w.label}</div>
+                    <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.6", marginBottom: "8px" }}>{w.detail}</div>
+                    <div style={{ fontSize: "9px", color: C.faint, borderTop: `1px solid ${C.border}`, paddingTop: "8px" }}>{w.src}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: "20px", padding: "18px 22px", background: C.card, border: `1px solid ${C.sfDim}`, borderRadius: "8px", borderLeft: `4px solid ${C.sf}` }}>
+              <div style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", color: C.muted, marginBottom: "8px" }}>Consultant's Position</div>
+              <div style={{ fontSize: "14px", color: C.text, lineHeight: "1.8", fontStyle: "italic" }}>
+                "Only 8% of Salesforce's global customer base has adopted Agentforce — which means 92% of the installed base is an expansion opportunity. The GTM motion for UK high-tech is therefore as much a retention and expansion play as it is a new logo play. The accounts that haven't yet seen Agentforce value are the ones most at risk of competitive displacement — and the most receptive to the right conversation."
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* SELL FIRST */}
+        {active === "sells" && (
+          <div>
+            <SH title="What to Sell First — and Why" sub="Ranked by strategic sequencing, not deal size. Data Cloud first, always." />
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {SELL_FIRST.map((s, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${expandedSell === i ? s.color : C.border}`, borderRadius: "8px", overflow: "hidden", transition: "border-color 0.2s" }}>
+                  <div onClick={() => setExpandedSell(expandedSell === i ? null : i)}
+                    style={{ padding: "16px 20px", cursor: "pointer", display: "flex", gap: "14px", alignItems: "center" }}>
+                    <div style={{ width: "32px", height: "32px", borderRadius: "50%", background: s.color + "25", border: `2px solid ${s.color}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", fontWeight: "900", color: s.color, flexShrink: 0 }}>{s.rank}</div>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "15px", fontWeight: "700", color: C.bright }}>{s.product}</span>
+                        <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "20px", background: s.color, color: "#fff", fontWeight: "700", letterSpacing: "1px" }}>{s.badge}</span>
+                        <span style={{ fontSize: "11px", color: s.color, fontWeight: "700" }}>{s.acv}</span>
+                      </div>
+                      <div style={{ fontSize: "11px", color: C.muted, marginTop: "3px" }}>{s.trigger}</div>
+                    </div>
+                    <span style={{ color: C.muted, fontSize: "14px" }}>{expandedSell === i ? "▲" : "▼"}</span>
+                  </div>
+                  {expandedSell === i && (
+                    <div style={{ padding: "0 20px 20px", borderTop: `1px solid ${C.border}` }}>
+                      <div style={{ paddingTop: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                        <div>
+                          <Label>Why lead with this</Label>
+                          <p style={{ fontSize: "12px", color: C.muted, lineHeight: "1.7", margin: "6px 0 0" }}>{s.why}</p>
+                          <Label mt>TAM Exposure</Label>
+                          <div style={{ fontSize: "12px", color: s.color, fontWeight: "600", marginTop: "4px" }}>{s.tam}</div>
+                        </div>
+                        <div>
+                          <Label>Common objection</Label>
+                          <div style={{ fontSize: "12px", color: C.muted, fontStyle: "italic", marginTop: "6px", padding: "10px", background: C.faint + "30", borderRadius: "6px" }}>"{s.objection}"</div>
+                          <Label mt>Counter</Label>
+                          <div style={{ fontSize: "12px", color: C.text, lineHeight: "1.6", marginTop: "6px" }}>{s.counter}</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* WIN THEMES */}
+        {active === "themes" && (
+          <div>
+            <SH title="Crucial Win Themes" sub="Four themes drawn directly from Salesforce Tech & Telco strategy (Slide 1). Each has a C-suite message and competitive moat." />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(420px, 1fr))", gap: "16px" }}>
+              {WIN_THEMES.map((t, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px", overflow: "hidden" }}>
+                  <div style={{ padding: "16px 20px", background: t.color + "18", borderBottom: `1px solid ${t.color}40` }}>
+                    <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
+                      <span style={{ fontSize: "22px", color: t.color }}>{t.icon}</span>
+                      <div>
+                        <div style={{ fontSize: "11px", letterSpacing: "2px", textTransform: "uppercase", color: t.color, fontWeight: "700" }}>{t.theme}</div>
+                        <div style={{ fontSize: "14px", fontWeight: "700", color: C.bright, marginTop: "2px" }}>{t.headline}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{ padding: "16px 20px" }}>
+                    <Label>Salesforce angle</Label>
+                    <p style={{ fontSize: "12px", color: C.muted, lineHeight: "1.7", margin: "6px 0 12px" }}>{t.salesforceAngle}</p>
+                    <Label>Proof points</Label>
+                    <div style={{ margin: "6px 0 12px" }}>
+                      {t.proofPoints.map((p, j) => (
+                        <div key={j} style={{ fontSize: "11px", color: C.text, marginBottom: "4px", display: "flex", gap: "6px" }}>
+                          <span style={{ color: t.color }}>→</span>{p}
+                        </div>
+                      ))}
+                    </div>
+                    <Label>Why competitors can't match this</Label>
+                    <p style={{ fontSize: "11px", color: C.muted, lineHeight: "1.6", margin: "6px 0 12px", fontStyle: "italic" }}>{t.competitiveMoat}</p>
+                    <div style={{ padding: "10px 14px", background: t.color + "15", borderRadius: "6px", borderLeft: `3px solid ${t.color}` }}>
+                      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: t.color, marginBottom: "4px" }}>C-Suite Message</div>
+                      <div style={{ fontSize: "11px", color: C.text, lineHeight: "1.6", fontStyle: "italic" }}>{t.cSuiteMessage}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* COMPETITION */}
+        {active === "compete" && (
+          <div>
+            <SH title="Who to Target — Competitive Strategy" sub="Threat level, displacement angle, and win condition per competitor. Match to account-level intelligence." />
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {COMPETE.map((c, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${expandedCompete === i ? c.threatColor : C.border}`, borderRadius: "8px", overflow: "hidden" }}>
+                  <div onClick={() => setExpandedCompete(expandedCompete === i ? null : i)}
+                    style={{ padding: "16px 20px", cursor: "pointer", display: "flex", gap: "14px", alignItems: "center", flexWrap: "wrap" }}>
+                    <div style={{ flex: 1 }}>
+                      <div style={{ display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                        <span style={{ fontSize: "15px", fontWeight: "700", color: C.bright }}>{c.competitor}</span>
+                        <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "20px", background: c.threatColor + "25", color: c.threatColor, fontWeight: "700", letterSpacing: "1px" }}>THREAT: {c.threat}</span>
+                      </div>
+                      <div style={{ fontSize: "11px", color: C.muted, marginTop: "3px" }}>Target persona: {c.targetPersona}</div>
+                    </div>
+                    <span style={{ color: C.muted, fontSize: "14px" }}>{expandedCompete === i ? "▲" : "▼"}</span>
+                  </div>
+                  {expandedCompete === i && (
+                    <div style={{ padding: "0 20px 20px", borderTop: `1px solid ${C.border}` }}>
+                      <div style={{ paddingTop: "16px", display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }}>
+                        <div>
+                          <Label>Why they're a threat</Label>
+                          <p style={{ fontSize: "12px", color: C.muted, lineHeight: "1.7", margin: "6px 0 12px" }}>{c.why}</p>
+                          <Label>Swap opportunity</Label>
+                          <div style={{ fontSize: "12px", color: c.threatColor, fontWeight: "600", marginTop: "6px" }}>{c.swapOpp}</div>
+                        </div>
+                        <div>
+                          <Label>Our angle</Label>
+                          <p style={{ fontSize: "12px", color: C.text, lineHeight: "1.7", margin: "6px 0 12px" }}>{c.ourAngle}</p>
+                          <Label>Displacement line</Label>
+                          <div style={{ fontSize: "12px", color: C.muted, fontStyle: "italic", marginTop: "6px", padding: "10px", background: C.faint + "30", borderRadius: "6px", lineHeight: "1.6" }}>{c.displacement}</div>
+                          <Label mt>Win condition</Label>
+                          <div style={{ fontSize: "12px", color: C.text, lineHeight: "1.6", marginTop: "6px" }}>{c.winCondition}</div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ACV */}
+        {active === "acv" && (
+          <div>
+            <SH title="ACV Range by Deal Type" sub="Potential annual contract value by deal tier, aligned to Salesforce FY targets and TAM exposure from Slide 4" />
+            <div style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {ACV_BANDS.map((a, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px", overflow: "hidden", borderLeft: `5px solid ${a.color}` }}>
+                  <div style={{ padding: "18px 22px" }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "10px", marginBottom: "12px" }}>
+                      <div>
+                        <div style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", color: a.color, fontWeight: "700", marginBottom: "4px" }}>{a.tier}</div>
+                        <div style={{ fontSize: "11px", color: C.muted }}>{a.profile}</div>
+                      </div>
+                      <div style={{ textAlign: "right" }}>
+                        <div style={{ fontSize: "24px", fontWeight: "700", color: a.color, lineHeight: 1 }}>{a.acvRange}</div>
+                        <div style={{ fontSize: "10px", color: C.muted, marginTop: "2px" }}>ACV range</div>
+                      </div>
+                    </div>
+                    <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "12px" }}>
+                      <div>
+                        <Label>FY target</Label>
+                        <div style={{ fontSize: "12px", color: C.text, marginTop: "4px" }}>{a.targetCount}</div>
+                      </div>
+                      <div>
+                        <Label>Win probability</Label>
+                        <div style={{ fontSize: "12px", color: C.text, marginTop: "4px" }}>{a.winProb}</div>
+                      </div>
+                      <div>
+                        <Label>AOV / TAM target</Label>
+                        <div style={{ fontSize: "11px", color: a.color, fontWeight: "600", marginTop: "4px" }}>{a.aoVTarget}</div>
+                      </div>
+                    </div>
+                    <div style={{ marginTop: "12px", display: "flex", gap: "8px", flexWrap: "wrap" }}>
+                      {a.products.map((p, j) => (
+                        <span key={j} style={{ fontSize: "10px", padding: "3px 10px", borderRadius: "20px", background: a.color + "20", color: a.color, fontWeight: "600" }}>{p}</span>
+                      ))}
+                    </div>
+                    <div style={{ marginTop: "12px", padding: "10px", background: C.faint + "20", borderRadius: "6px" }}>
+                      <Label>Expansion path</Label>
+                      <div style={{ fontSize: "11px", color: C.muted, marginTop: "4px", lineHeight: "1.5" }}>{a.expandPath}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "16px", padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", color: C.muted, marginBottom: "8px" }}>Combined FY Pipeline Target Logic</div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: "10px" }}>
+                {[["Seed & Grow", "@ avg £300K", "= £300K+"], ["New Logo(s)", "@ avg £1.5M", "= £1.5M+"], ["C360 Replacements", "@ avg £600K x 4", "= £2.4M"], ["1 Mega Deal", "@ avg £4M", "= £4M"]].map(([a, b, c], i) => (
+                  <div key={i} style={{ padding: "10px", background: C.faint + "20", borderRadius: "6px" }}>
+                    <div style={{ fontSize: "11px", fontWeight: "700", color: C.bright }}>{a}</div>
+                    <div style={{ fontSize: "10px", color: C.muted }}>{b}</div>
+                    <div style={{ fontSize: "14px", fontWeight: "700", color: C.sf, marginTop: "2px" }}>{c}</div>
+                  </div>
+                ))}
+              </div>
+              <div style={{ marginTop: "12px", fontSize: "13px", color: C.text }}>Indicative range builds from a single new logo + Seed & Grow win to <span style={{ fontWeight: "700", color: C.sf }}>£8M+ ACV</span> at full programme scale, requiring <span style={{ color: C.amber }}>×3 pipeline coverage across all tiers</span></div>
+            </div>
+          </div>
+        )}
+
+        {/* 30-60-90 */}
+        {active === "plan" && (
+          <div>
+            <SH title="30 · 60 · 90 Day Plan" sub="Pipe ×3 + Health + AEP — the execution standard across all tiers" />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: "16px" }}>
+              {PLAN_DAYS.map((phase, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px", overflow: "hidden", borderTop: `3px solid ${phase.color}` }}>
+                  <div style={{ padding: "14px 18px", background: phase.color + "15", borderBottom: `1px solid ${C.border}` }}>
+                    <div style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", color: phase.color, fontWeight: "700" }}>{phase.period}</div>
+                    <div style={{ fontSize: "16px", fontWeight: "700", color: C.bright, marginTop: "2px" }}>{phase.label}</div>
+                  </div>
+                  <div style={{ padding: "16px 18px" }}>
+                    {phase.actions.map((a, j) => (
+                      <div key={j} style={{ marginBottom: "14px", paddingBottom: "14px", borderBottom: j < phase.actions.length - 1 ? `1px solid ${C.border}` : "none" }}>
+                        <div style={{ fontSize: "12px", fontWeight: "700", color: phase.color, marginBottom: "4px", display: "flex", gap: "8px" }}>
+                          <span style={{ color: C.faint }}>{j + 1}.</span>{a.action}
+                        </div>
+                        <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.6", paddingLeft: "14px" }}>{a.detail}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TALK TRACK */}
+        {active === "talktrack" && (
+          <div>
+            <SH title="C-Suite Talk Tracks" sub="Persona-specific conversation guides. Open with a challenge, not a pitch. Click to expand each track." />
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+              {TALK_TRACKS.map((t, i) => (
+                <div key={i} style={{ background: C.card, border: `1px solid ${expandedTrack === i ? t.color : C.border}`, borderRadius: "8px", overflow: "hidden" }}>
+                  <div onClick={() => setExpandedTrack(expandedTrack === i ? null : i)}
+                    style={{ padding: "16px 20px", cursor: "pointer", display: "flex", gap: "14px", alignItems: "center" }}>
+                    <div style={{ width: "10px", height: "10px", borderRadius: "50%", background: t.color, flexShrink: 0 }} />
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontSize: "14px", fontWeight: "700", color: C.bright }}>{t.persona}</div>
+                      <div style={{ fontSize: "11px", color: C.muted, fontStyle: "italic", marginTop: "2px" }}>"{t.opener}"</div>
+                    </div>
+                    <span style={{ color: C.muted, fontSize: "14px" }}>{expandedTrack === i ? "▲" : "▼"}</span>
+                  </div>
+                  {expandedTrack === i && (
+                    <div style={{ padding: "0 20px 22px", borderTop: `1px solid ${C.border}` }}>
+                      <div style={{ paddingTop: "16px", display: "flex", flexDirection: "column", gap: "14px" }}>
+                        {[
+                          { label: "Open with (challenge)", content: t.challenge, style: "normal" },
+                          { label: "Pivot", content: t.pivot, style: "italic" },
+                          { label: "Salesforce answer", content: t.sfAnswer, style: "normal" },
+                          { label: "Proof point", content: t.proofPoint, style: "normal" },
+                          { label: "Closing question", content: t.closingQ, style: "italic" },
+                        ].map((step, j) => (
+                          <div key={j} style={{ display: "flex", gap: "14px" }}>
+                            <div style={{ width: "3px", background: j === 0 ? C.red : j === 1 ? C.amber : j === 3 ? C.green : j === 4 ? t.color : C.muted, borderRadius: "2px", flexShrink: 0, minHeight: "40px" }} />
+                            <div>
+                              <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.muted, marginBottom: "4px" }}>{step.label}</div>
+                              <div style={{ fontSize: "12px", color: step.style === "italic" ? C.text : C.muted, lineHeight: "1.7", fontStyle: step.style }}>"{step.content}"</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "20px", padding: "16px 20px", background: C.card, border: `1px solid ${C.border}`, borderRadius: "8px" }}>
+              <div style={{ fontSize: "9px", letterSpacing: "3px", textTransform: "uppercase", color: C.muted, marginBottom: "8px" }}>Universal Rules for Every Executive Conversation</div>
+              {["Never open with a product. Open with their problem.", "Every talk track ends with a question that moves the deal forward — not a feature summary.", "Reference a peer in their space, not a case study from a different industry.", "Governance and trust are door-openers in UK tech — especially post-FCA and DORA.", "The NI cost argument is unique to Q2 2025 onwards. Use it now while it is still fresh."].map((r, i) => (
+                <div key={i} style={{ fontSize: "12px", color: C.muted, marginBottom: "6px", display: "flex", gap: "8px" }}>
+                  <span style={{ color: C.sf, fontWeight: "700", flexShrink: 0 }}>—</span>{r}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+function SH({ title, sub }) {
+  return (
+    <div style={{ marginBottom: "22px", paddingBottom: "14px", borderBottom: `1px solid ${C.border}` }}>
+      <h2 style={{ margin: 0, fontSize: "20px", fontWeight: "700", color: C.bright, letterSpacing: "-0.3px" }}>{title}</h2>
+      {sub && <div style={{ fontSize: "11px", color: C.muted, marginTop: "4px", fontStyle: "italic" }}>{sub}</div>}
+    </div>
+  );
+}
+
+function Label({ children, mt }) {
+  return <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.muted, fontWeight: "700", marginTop: mt ? "12px" : 0 }}>{children}</div>;
+}
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>

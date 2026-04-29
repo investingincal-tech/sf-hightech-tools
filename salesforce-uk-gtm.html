@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Salesforce UK High-Tech GTM Opportunity Brief</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:#F7F4EE;-webkit-font-smoothing:antialiased}
+    ::-webkit-scrollbar{width:6px;height:6px}
+    ::-webkit-scrollbar-track{background:#EDE9DF}
+    ::-webkit-scrollbar-thumb{background:#D4CFC4;border-radius:3px}
+    ::-webkit-scrollbar-thumb:hover{background:#00A1E0}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState } = React;
+
+// ── PALETTE & TYPOGRAPHY ─────────────────────────────────────────────────────
+// Aesthetic: Executive consulting brief — dark ink on off-white, sparse red accents,
+// tight editorial grid. Feels like a McKinsey/Bain deck printed on quality stock.
+// Typeface: Playfair Display (display) + system serif stack for body.
+
+const C = {
+  ink: "#0D0D0D",
+  paper: "#F7F4EE",
+  cream: "#EDE9DF",
+  rule: "#D4CFC4",
+  sf: "#00A1E0",         // Salesforce blue
+  red: "#C0392B",        // blockers / risks
+  green: "#1A7A4A",      // wins / opportunities
+  amber: "#B8730A",      // cautions
+  muted: "#6B6560",
+  faint: "#9B958E",
+};
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+
+const TAM_DATA = [
+  { label: "UK ICT Market (total)", value: "$248B", by: "2028", cagr: "9.1%", src: "GlobalData 2025" },
+  { label: "UK IT Services Market", value: "$121B", by: "2026", cagr: "6.8%", src: "Mordor Intelligence / Statista" },
+  { label: "UK Tech Ecosystem Value", value: "$1.4T", by: "2025", cagr: "12.5%", src: "Tech Nation / IMARC 2025" },
+  { label: "Salesforce UK Economy (IDC)", value: "$41B", by: "2028", cagr: "—", src: "IDC / Salesforce UK" },
+  { label: "UK AI-Enabled Productivity Gains (SME)", value: "$78B", by: "2030", cagr: "—", src: "Mordor Intelligence 2026" },
+  { label: "Enterprise AI Agents Market (global)", value: "$52.6B", by: "2030", cagr: "46.3%", src: "MarketsandMarkets 2025" },
+];
+
+const SEGMENTS = [
+  {
+    name: "SaaS & Enterprise Software",
+    icon: "◈",
+    spend: "~$18B UK",
+    priority: "★★★★★",
+    rationale: "Highest Salesforce penetration. Recurring revenue models align with Agentforce subscription renewal agents. 78% of C-suite already using AI agents (Salesforce UK data).",
+    products: ["Agentforce (Service + Sales)", "Data Cloud", "Revenue Cloud", "Slack"],
+    color: C.sf,
+  },
+  {
+    name: "Fintech & Financial Services Tech",
+    icon: "◉",
+    spend: "~$22B UK",
+    priority: "★★★★★",
+    rationale: "UK Fintech = 24% of all startup funding (Tech Nation 2025). Financial services led UK IT market with 20.35% share. DORA + FCA critical third-party regime creates compliance urgency Salesforce Trust Layer directly addresses.",
+    products: ["Financial Services Cloud", "Data Cloud", "Agentforce (Compliance + Service)", "Shield"],
+    color: C.green,
+  },
+  {
+    name: "AI / Deep Tech Scale-ups",
+    icon: "◎",
+    spend: "~$8B UK",
+    priority: "★★★★☆",
+    rationale: "2,300+ VC-backed AI companies in UK (Tech Nation 2025). London AI startups raised £1.8B in H1 2025. Growing need for CRM, partner management, and customer success infrastructure as they scale.",
+    products: ["Starter Suite → Sales Cloud", "Partner Relationship Mgmt", "Data Cloud", "Agentforce"],
+    color: C.amber,
+  },
+  {
+    name: "Semiconductor / Hardware Tech",
+    icon: "◌",
+    spend: "~$5B UK",
+    priority: "★★★☆☆",
+    rationale: "Complex B2B channel management, long sales cycles, global partner ecosystems. Salesforce CPQ + Revenue Cloud well suited. Less urgency but high deal value.",
+    products: ["Revenue Cloud / CPQ", "Partner Relationship Mgmt", "Manufacturing Cloud"],
+    color: C.muted,
+  },
+  {
+    name: "Cybersecurity Sector",
+    icon: "◆",
+    spend: "~$13.2B UK",
+    priority: "★★★★☆",
+    rationale: "UK cybersecurity revenue £13.234B (2024, DCMS). £210M Cyber Action Plan Jan 2026. High growth, compliance-led buying. Salesforce Shield + Agentforce Trust Layer are differentiators.",
+    products: ["Agentforce (Threat Response)", "Shield / Security Center", "Service Cloud", "Slack"],
+    color: C.red,
+  },
+];
+
+const WIN_FACTORS = [
+  {
+    title: "$6B UK Investment Commitment",
+    detail: "Salesforce committed $6B to UK through 2030 (Sept 2025), extending prior $4B commitment. London AI Center supports hundreds of UK customers including Capita, Formula 1, Simplyhealth. UK Tech Minister endorsed explicitly.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "UK's Largest Market Outside US",
+    detail: "Salesforce UK is its #1 international market. Deep C-suite relationships, 25 years in market, dedicated UK&I leadership (CEO Zahra Bahrololoumi). Home field advantage in enterprise sales.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "Data Cloud + Agentforce = Compound Moat",
+    detail: "Agentforce + Data Cloud hit $1.4B ARR combined (Q3 2025). 80% of enterprise data is unstructured — Data Cloud's RAG pipeline turns this into AI fuel competitors can't replicate without the CRM data layer.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "UK Regulatory Tailwind",
+    detail: "UK AI Strategy, FCA critical third-party regime, and DORA (EU) all create compliance-led buying urgency. Salesforce Einstein Trust Layer (ISO 27001, SOC2 Type II) + Shield are pre-built answers to procurement questions competitors can't match natively.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "Partner Ecosystem Flywheel",
+    detail: "Salesforce partner economy = 6× the size of Salesforce itself by 2026 ($6.19 earned per $1 SF revenue). Accenture (27,500+ certified), Deloitte (16,000+), PwC, IBM, Capgemini, TCS all active in UK. 3,400+ AppExchange partners globally.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "UK AI Ambition = Political Capital",
+    detail: "UK targets being a 'world-leading AI hub'. Technology sector could add £520B to economy by 2030. Salesforce's Agentforce narrative of 'creating 500,000 UK jobs by 2028' (IDC) directly maps to government priorities — rare alignment of vendor and national strategy.",
+    type: "win",
+    icon: "↑",
+  },
+  {
+    title: "High-Tech Vertical Pre-Built Agents",
+    detail: "Agentforce has pre-configured high-tech use cases: technical troubleshooting agents, subscription renewal automation, lead qualification from sandbox interactions, SaaS churn prevention. Competitors require custom builds for these scenarios.",
+    type: "win",
+    icon: "↑",
+  },
+];
+
+const BLOCKER_FACTORS = [
+  {
+    title: "Agentforce Adoption is a Marathon, Not a Sprint",
+    detail: "Only 8% of Salesforce's 150,000 customers have adopted Agentforce (12,000 deals as of Q4 2025). Consumption pricing complexity + implementation overhead = slow enterprise penetration. Microsoft Copilot bundles frictionlessly into M365.",
+    type: "block",
+    icon: "↓",
+  },
+  {
+    title: "Flex Credit Pricing Creates CFO Friction",
+    detail: "G2 reviewers (846 reviews) consistently cite unpredictable pricing as the #1 blocker to client adoption. 'Clients prefer knowing how much it will cost' — Agentforce consumption model makes budgeting difficult vs Microsoft's bundled licensing.",
+    type: "block",
+    icon: "↓",
+  },
+  {
+    title: "Ecosystem Lock-In Perception",
+    detail: "Non-Salesforce system integrations require MuleSoft overhead, adding cost and complexity. High-tech companies typically run multi-cloud, multi-vendor stacks (AWS + GCP + Azure). ServiceNow's cross-vendor Control Tower is a credible alternative narrative.",
+    type: "block",
+    icon: "↓",
+  },
+  {
+    title: "Microsoft M365 Ubiquity as Default Motion",
+    detail: "78% of UK enterprises run Microsoft 365. Copilot Studio is an add-on to existing seats. For IT teams evaluating agents, Microsoft is the path of least resistance. Salesforce must displace a working incumbent or expand into new departments.",
+    type: "block",
+    icon: "↓",
+  },
+  {
+    title: "Post-Brexit Talent Shortage Slows Delivery",
+    detail: "600,000 UK tech vacancies costing economy $63B annually (Mordor 2026). 300,000 EU professionals left post-Brexit. Skilled Salesforce implementation talent is scarce, elongating time-to-value and creating delivery risk for large deals.",
+    type: "block",
+    icon: "↓",
+  },
+  {
+    title: "Economic Headwinds Compress Deals",
+    detail: "April 2025 National Insurance hike (13.8% → 15%) raised employer costs. IPO market dried up (£160M H1 2025 — lowest in 30 years). Scale-ups under funding pressure may delay or descope transformation programs. Mordor notes 'elongated sales cycles'.",
+    type: "block",
+    icon: "↓",
+  },
+];
+
+const PRODUCTS = [
+  {
+    name: "Agentforce 360",
+    headline: "The Core Proposition",
+    pitch: "Autonomous AI agents that work alongside your teams 24/7 — handling technical support, renewals, lead qualification and more. For high-tech firms, it's the difference between scaling headcount and scaling outcomes.",
+    bestFor: ["SaaS companies with high Tier-1 support volume", "Subscription businesses at risk of churn", "Sales orgs needing intelligent lead prioritisation"],
+    evidence: "213% ROI (Wiley). 46% support case deflection (Reddit). 70% autonomous resolution (OpenTable).",
+    tag: "PRIMARY",
+    tagColor: C.sf,
+  },
+  {
+    name: "Data Cloud",
+    headline: "The AI Fuel Layer",
+    pitch: "Unified, real-time customer data that makes every agent smarter. 80% of enterprise data is unstructured — Data Cloud turns it into context. Without it, Agentforce has no memory. With it, every agent action is grounded in truth.",
+    bestFor: ["Companies with fragmented data across product, sales, service", "High-tech firms running multiple clouds and data silos", "AI initiatives stalling due to 'garbage in, garbage out'"],
+    evidence: "$1.4B ARR combined with Agentforce (Q3 2025). RBC: 'Data completion rates soared'.",
+    tag: "FOUNDATION",
+    tagColor: C.green,
+  },
+  {
+    name: "Revenue Cloud / CPQ",
+    headline: "Complex Revenue Made Simple",
+    pitch: "For high-tech firms with layered SaaS pricing, channel partners and usage-based models — Revenue Cloud automates the quote-to-cash lifecycle and gives Agentforce the commercial context to renew, upsell, and expand intelligently.",
+    bestFor: ["SaaS companies with complex pricing tiers or usage-based models", "Hardware/semiconductor firms with partner channel complexity", "Companies expanding from one-time to recurring revenue"],
+    evidence: "Native to Agentforce 360 platform. Salesforce Spring '26 adds agentic order routing for financial services.",
+    tag: "LAND & EXPAND",
+    tagColor: C.amber,
+  },
+  {
+    name: "Financial Services Cloud + Shield",
+    headline: "Regulated Industry Answer",
+    pitch: "Pre-built compliance, audit trails and governance for FCA-regulated fintech and financial services tech firms. Shield provides field encryption, Event Monitoring and real-time threat detection. Directly addresses FCA critical third-party regime and DORA requirements.",
+    bestFor: ["UK fintech scale-ups approaching FCA scrutiny", "Embedded finance / BaaS companies", "Insurtech and wealthtech firms handling client assets"],
+    evidence: "ISO 27001, SOC2 Type II certified. FCA acknowledged Salesforce's trust infrastructure in critical third-party framework context.",
+    tag: "REGULATED PLAY",
+    tagColor: C.red,
+  },
+];
+
+const PARTNERS = [
+  { name: "Accenture", strength: "27,500+ certified — largest SF partner globally. Deep high-tech vertical expertise. Leads enterprise AI agent implementations.", role: "Primary SI", tier: "★★★★★" },
+  { name: "Deloitte Digital", strength: "16,000+ certified. Strong data science + AI practice. Best for Agentforce + Data Cloud combined programs in financial services tech.", role: "Primary SI", tier: "★★★★★" },
+  { name: "PwC", strength: "Big Four credibility in regulated sectors (FS, cyber). Strong trust narrative alignment with Salesforce Einstein Trust Layer.", role: "SI + Advisory", tier: "★★★★☆" },
+  { name: "IBM Consulting", strength: "watsonx + Salesforce joint offering. Bridges legacy tech stacks to Agentforce. Strong in hybrid cloud high-tech environments.", role: "SI + Technology", tier: "★★★★☆" },
+  { name: "Capgemini / Cognizant", strength: "Cost-competitive delivery with offshore scale. Effective for Salesforce rollouts in cost-sensitive scale-up segment.", role: "Delivery SI", tier: "★★★☆☆" },
+  { name: "AWS", strength: "Salesforce + AWS joint GTM (recognised in AWS Partner of Year). Enables multi-cloud high-tech firms to adopt Agentforce without leaving AWS infrastructure.", role: "Cloud Partner", tier: "★★★★☆" },
+  { name: "Anthropic / OpenAI", strength: "Claude + GPT-5 are native Agentforce backend LLMs. Co-sell narrative: 'best models, trusted platform'. Unique to Salesforce among pure CRM vendors.", role: "AI Model", tier: "★★★★★" },
+  { name: "MuleSoft (owned)", strength: "Integration layer for non-SF systems. Critical for high-tech firms with complex API/data landscapes. Revenue driver for expansion.", role: "Integration", tier: "★★★★☆" },
+];
+
+const ECONOMIC = [
+  { factor: "UK AI National Strategy", impact: "Tailwind", detail: "£500M Sovereign AI Unit (Nov 2025). Government actively directs enterprises toward AI adoption. Salesforce = natural beneficiary as the enterprise AI platform of record." },
+  { factor: "NI Hike (Apr 2025)", impact: "Headwind", detail: "Employer NI rose from 13.8% to 15%. Increases labour costs, making autonomous agent ROI story MORE compelling — but also compresses discretionary tech spend in near term." },
+  { factor: "UK Tech VC Funding ($14B in 2025)", impact: "Tailwind", detail: "Highest in Europe. Funded scale-ups need CRM and GTM infrastructure fast. Salesforce Starter → Sales Cloud → Agentforce is the natural progression path." },
+  { factor: "Post-Brexit Talent Gap (600K vacancies)", impact: "Both", detail: "Creates urgency for automation (Agentforce ROI story). But also limits Salesforce implementation partner bench depth, slowing delivery of large programs." },
+  { factor: "Elongated IPO Market", impact: "Headwind", detail: "UK IPO fundraising lowest since records began (H1 2025 = £160M). Scale-ups may defer large transformation spend, prioritising ROI-proven use cases only." },
+  { factor: "DORA + FCA Critical Third Party Regime", impact: "Tailwind", detail: "Regulatory compliance requirements create non-discretionary buying. Salesforce Trust Layer + Shield + audit trails are directly cited capabilities. Competitors lack native equivalents." },
+  { factor: "£520B Tech Contribution to UK by 2030", impact: "Tailwind", detail: "Government and industry alignment on tech-led growth. Salesforce's 'Digital Labour' narrative fits the political story of productivity without additional headcount." },
+];
+
+const SECTIONS = ["overview", "tam", "products", "segments", "win-block", "partners", "economics", "nextStep"];
+const SECTION_LABELS = {
+  overview: "Overview",
+  tam: "TAM",
+  products: "Products",
+  segments: "Segments",
+  "win-block": "Win / Block",
+  partners: "Partners",
+  economics: "Economics",
+  nextStep: "Next Step",
+};
+
+// ── COMPONENT ─────────────────────────────────────────────────────────────────
+function App() {
+  const [activeSection, setActiveSection] = useState("overview");
+
+  const sectionStyle = (id) => ({
+    cursor: "pointer",
+    padding: "6px 14px",
+    fontSize: "10px",
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+    fontWeight: activeSection === id ? "700" : "400",
+    color: activeSection === id ? C.ink : C.faint,
+    borderBottom: activeSection === id ? `2px solid ${C.ink}` : "2px solid transparent",
+    fontFamily: "Georgia, serif",
+    background: "none",
+    border: "none",
+    borderBottom: activeSection === id ? `2px solid ${C.sf}` : "2px solid transparent",
+    color: activeSection === id ? C.sf : C.faint,
+  });
+
+  return (
+    <div style={{ background: C.paper, minHeight: "100vh", fontFamily: "Georgia, 'Times New Roman', serif", color: C.ink }}>
+
+      {/* ── MASTHEAD ── */}
+      <div style={{ background: C.ink, color: C.paper, padding: "32px 32px 24px" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto" }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "12px" }}>
+            <div>
+              <div style={{ fontSize: "9px", letterSpacing: "5px", textTransform: "uppercase", color: "#888", marginBottom: "8px" }}>
+                Management Consulting Brief · April 2026 · Confidential
+              </div>
+              <h1 style={{ fontSize: "clamp(22px, 4vw, 36px)", fontWeight: "400", margin: 0, letterSpacing: "-0.5px", lineHeight: 1.1 }}>
+                Salesforce UK High-Tech
+              </h1>
+              <div style={{ fontSize: "clamp(14px, 2.5vw, 20px)", color: C.sf, marginTop: "4px", fontStyle: "italic" }}>
+                Go-to-Market Opportunity Brief
+              </div>
+            </div>
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "10px", color: "#666", lineHeight: "1.8" }}>
+                <div>UK IT Services Market: <span style={{ color: C.paper }}>$121B (2026)</span></div>
+                <div>Salesforce UK Economy: <span style={{ color: C.paper }}>$41B by 2028</span></div>
+                <div>UK Tech CAGR: <span style={{ color: C.sf }}>12.5%</span></div>
+                <div>SF UK Investment: <span style={{ color: C.sf }}>$6B through 2030</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── NAV ── */}
+      <div style={{ background: "#fff", borderBottom: `1px solid ${C.rule}`, overflowX: "auto" }}>
+        <div style={{ maxWidth: "960px", margin: "0 auto", display: "flex", padding: "0 24px" }}>
+          {SECTIONS.map(s => (
+            <button key={s} style={sectionStyle(s)} onClick={() => setActiveSection(s)}>
+              {SECTION_LABELS[s]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ maxWidth: "960px", margin: "0 auto", padding: "28px 24px 48px" }}>
+
+        {/* ── OVERVIEW ── */}
+        {activeSection === "overview" && (
+          <div>
+            <SectionHeader title="Executive Summary" subtitle="The strategic case for Salesforce in UK High-Tech" />
+            <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr", gap: "24px" }}>
+              <div>
+                <p style={{ fontSize: "14px", lineHeight: "1.8", color: C.muted, margin: "0 0 16px" }}>
+                  The United Kingdom is Europe's largest tech ecosystem — valued at <strong style={{ color: C.ink }}>$1.4 trillion</strong> in 2025, growing at <strong style={{ color: C.ink }}>12.5% CAGR</strong>, and home to more VC-backed AI companies than France and Germany combined. Salesforce's <strong style={{ color: C.ink }}>largest international market</strong> is the UK, with a $6B investment commitment through 2030 and an AI Center in London already serving hundreds of high-tech customers.
+                </p>
+                <p style={{ fontSize: "14px", lineHeight: "1.8", color: C.muted, margin: "0 0 16px" }}>
+                  The high-tech sector's shift to agentic AI — where autonomous agents replace headcount as the scaling mechanism — is Salesforce's defining <strong style={{ color: C.ink }}>once-in-a-generation moment</strong>. The lead product is <strong style={{ color: C.sf }}>Agentforce 360</strong> backed by <strong style={{ color: C.sf }}>Data Cloud</strong>: together they form the "digital labour" platform that high-tech firms need to scale revenue without scaling headcount.
+                </p>
+                <p style={{ fontSize: "14px", lineHeight: "1.8", color: C.muted, margin: "0" }}>
+                  This brief identifies <strong style={{ color: C.ink }}>five priority segments</strong>, the core product proposition, key win factors, blockers requiring active mitigation, partner leverage strategy, and economic context for a consultant-grade go-to-market plan targeting UK high-tech in 2026.
+                </p>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                {[
+                  { label: "Priority No. 1 Product", value: "Agentforce 360", color: C.sf },
+                  { label: "Foundation Requirement", value: "Data Cloud", color: C.green },
+                  { label: "UK Market Position", value: "#1 outside USA", color: C.ink },
+                  { label: "Top Target Segments", value: "SaaS · Fintech · Cyber", color: C.amber },
+                  { label: "Key Economic Risk", value: "NI hike + IPO drought", color: C.red },
+                  { label: "Primary Competitor Threat", value: "Microsoft Copilot Studio", color: C.muted },
+                ].map((item, i) => (
+                  <div key={i} style={{ padding: "10px 14px", background: C.cream, borderLeft: `3px solid ${item.color}`, borderRadius: "4px" }}>
+                    <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.faint }}>{item.label}</div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: item.color, marginTop: "2px" }}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginTop: "28px", padding: "18px", background: C.ink, color: C.paper, borderRadius: "6px" }}>
+              <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#888", marginBottom: "10px" }}>Consultant's One-Line View</div>
+              <div style={{ fontSize: "16px", lineHeight: "1.6", fontStyle: "italic" }}>
+                "The UK high-tech sector is structurally ready for Salesforce's agentic enterprise play — but winning requires a data-first entry motion, a compliant-by-design narrative for regulated segments, and a partner-led delivery model that offsets the post-Brexit talent gap."
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── TAM ── */}
+        {activeSection === "tam" && (
+          <div>
+            <SectionHeader title="Total Addressable Market" subtitle="UK high-tech — credible third-party sizing" />
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px", marginBottom: "28px" }}>
+              {TAM_DATA.map((d, i) => (
+                <div key={i} style={{ padding: "18px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px" }}>
+                  <div style={{ fontSize: "10px", letterSpacing: "2px", textTransform: "uppercase", color: C.faint, marginBottom: "6px" }}>{d.label}</div>
+                  <div style={{ fontSize: "30px", fontWeight: "700", color: C.ink, lineHeight: 1 }}>{d.value}</div>
+                  <div style={{ fontSize: "11px", color: C.muted, marginTop: "4px" }}>by {d.by} {d.cagr !== "—" && <span style={{ color: C.green, fontWeight: "700" }}>· {d.cagr} CAGR</span>}</div>
+                  <div style={{ fontSize: "9px", color: C.faint, marginTop: "8px", borderTop: `1px solid ${C.rule}`, paddingTop: "8px" }}>{d.src}</div>
+                </div>
+              ))}
+            </div>
+
+            <SectionHeader title="Addressable Sub-Segments for Salesforce" subtitle="Where high-tech spend converts to Salesforce revenue" />
+            <div style={{ overflowX: "auto" }}>
+              <table style={{ width: "100%", borderCollapse: "collapse", minWidth: "560px" }}>
+                <thead>
+                  <tr style={{ borderBottom: `2px solid ${C.ink}` }}>
+                    {["Segment", "Est. UK Spend", "Salesforce Priority", "Primary Products"].map(h => (
+                      <th key={h} style={{ textAlign: "left", padding: "8px 12px", fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.faint, fontWeight: "400" }}>{h}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {SEGMENTS.map((s, i) => (
+                    <tr key={i} style={{ borderBottom: `1px solid ${C.rule}` }}>
+                      <td style={{ padding: "12px", fontSize: "13px", fontWeight: "700", color: s.color }}>{s.icon} {s.name}</td>
+                      <td style={{ padding: "12px", fontSize: "13px" }}>{s.spend}</td>
+                      <td style={{ padding: "12px", fontSize: "13px", color: C.amber }}>{s.priority}</td>
+                      <td style={{ padding: "12px", fontSize: "11px", color: C.muted }}>{s.products.join(" · ")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ marginTop: "12px", fontSize: "10px", color: C.faint }}>
+              Sources: GlobalData UK ICT 2025 · Mordor Intelligence IT Services 2026 · Tech Nation Report 2025 · IDC Salesforce Economy UK · DCMS Cyber Security Sectoral Analysis 2025
+            </div>
+          </div>
+        )}
+
+        {/* ── PRODUCTS ── */}
+        {activeSection === "products" && (
+          <div>
+            <SectionHeader title="Salesforce Product Proposition" subtitle="What to lead with and why — for the UK high-tech sector" />
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {PRODUCTS.map((p, i) => (
+                <div key={i} style={{ padding: "20px 24px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px", borderLeft: `5px solid ${p.tagColor}` }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "8px", marginBottom: "10px" }}>
+                    <div>
+                      <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "20px", background: p.tagColor, color: "#fff", letterSpacing: "2px", fontWeight: "700", marginRight: "10px" }}>{p.tag}</span>
+                      <span style={{ fontSize: "18px", fontWeight: "700", color: C.ink }}>{p.name}</span>
+                      <span style={{ fontSize: "13px", color: C.faint, marginLeft: "8px", fontStyle: "italic" }}>{p.headline}</span>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "13px", lineHeight: "1.7", color: C.muted, margin: "0 0 12px" }}>{p.pitch}</p>
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
+                    <div>
+                      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.faint, marginBottom: "6px" }}>Best For</div>
+                      {p.bestFor.map((b, j) => (
+                        <div key={j} style={{ fontSize: "11px", color: C.ink, marginBottom: "3px", display: "flex", gap: "6px" }}>
+                          <span style={{ color: p.tagColor }}>→</span>{b}
+                        </div>
+                      ))}
+                    </div>
+                    <div style={{ padding: "10px", background: C.cream, borderRadius: "4px" }}>
+                      <div style={{ fontSize: "9px", letterSpacing: "2px", textTransform: "uppercase", color: C.faint, marginBottom: "6px" }}>Evidence</div>
+                      <div style={{ fontSize: "11px", color: C.ink, lineHeight: "1.5" }}>{p.evidence}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── SEGMENTS ── */}
+        {activeSection === "segments" && (
+          <div>
+            <SectionHeader title="Target Segment Deep-Dives" subtitle="Priority targeting rationale by sub-segment" />
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              {SEGMENTS.map((s, i) => (
+                <div key={i} style={{ padding: "20px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px" }}>
+                  <div style={{ display: "flex", gap: "12px", alignItems: "center", marginBottom: "10px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "22px", color: s.color }}>{s.icon}</span>
+                    <div>
+                      <div style={{ fontSize: "16px", fontWeight: "700", color: s.color }}>{s.name}</div>
+                      <div style={{ fontSize: "11px", color: C.faint }}>{s.spend} addressable spend · Priority: {s.priority}</div>
+                    </div>
+                  </div>
+                  <p style={{ fontSize: "13px", lineHeight: "1.7", color: C.muted, margin: "0 0 10px" }}>{s.rationale}</p>
+                  <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+                    {s.products.map((prod, j) => (
+                      <span key={j} style={{ fontSize: "10px", padding: "3px 10px", borderRadius: "20px", background: s.color + "18", color: s.color, fontWeight: "600" }}>{prod}</span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── WIN / BLOCK ── */}
+        {activeSection === "win-block" && (
+          <div>
+            <SectionHeader title="Win Factors & Blockers" subtitle="What will determine Salesforce's success in UK high-tech" />
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}>
+              <div>
+                <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: C.green, fontWeight: "700", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span>↑</span> Win Factors
+                </div>
+                {WIN_FACTORS.map((w, i) => (
+                  <div key={i} style={{ padding: "14px", background: "#fff", borderLeft: `3px solid ${C.green}`, marginBottom: "10px", borderRadius: "0 4px 4px 0" }}>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: C.ink, marginBottom: "4px" }}>{w.title}</div>
+                    <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.5" }}>{w.detail}</div>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: C.red, fontWeight: "700", marginBottom: "12px", display: "flex", alignItems: "center", gap: "6px" }}>
+                  <span>↓</span> Blockers to Mitigate
+                </div>
+                {BLOCKER_FACTORS.map((b, i) => (
+                  <div key={i} style={{ padding: "14px", background: "#fff", borderLeft: `3px solid ${C.red}`, marginBottom: "10px", borderRadius: "0 4px 4px 0" }}>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: C.ink, marginBottom: "4px" }}>{b.title}</div>
+                    <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.5" }}>{b.detail}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── PARTNERS ── */}
+        {activeSection === "partners" && (
+          <div>
+            <SectionHeader title="Partner Synergies" subtitle="Ecosystem leverage for UK high-tech GTM" />
+            <div style={{ marginBottom: "16px", padding: "14px 18px", background: C.cream, borderRadius: "6px", fontSize: "13px", color: C.muted, lineHeight: "1.7" }}>
+              <strong style={{ color: C.ink }}>The Multiplier Effect:</strong> The Salesforce partner ecosystem will be <strong>6× the size of Salesforce itself</strong> by 2026 — earning $6.19 for every $1 Salesforce earns. In UK high-tech, the partner-led motion is not optional; it is the only model that scales given the post-Brexit talent gap.
+            </div>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {PARTNERS.map((p, i) => (
+                <div key={i} style={{ padding: "14px 18px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px", display: "grid", gridTemplateColumns: "160px auto 80px", gap: "16px", alignItems: "center" }}>
+                  <div>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: C.ink }}>{p.name}</div>
+                    <div style={{ fontSize: "10px", color: C.faint, marginTop: "2px" }}>{p.role}</div>
+                  </div>
+                  <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.5" }}>{p.strength}</div>
+                  <div style={{ fontSize: "12px", color: C.amber, textAlign: "right" }}>{p.tier}</div>
+                </div>
+              ))}
+            </div>
+            <div style={{ marginTop: "20px", padding: "16px 20px", background: C.ink, color: C.paper, borderRadius: "6px" }}>
+              <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#888", marginBottom: "8px" }}>Partner Strategy Principles</div>
+              <div style={{ fontSize: "13px", lineHeight: "1.8" }}>
+                <div style={{ marginBottom: "10px" }}>
+                  <strong style={{ color: C.sf }}>Review before assuming.</strong> The market reference list above reflects the broader ecosystem. The correct partner for any given account is determined by who already has relationships there — not by tier alone. An incumbent mid-market SI with board-level access may outperform a global firm with no footprint in that account.
+                </div>
+                <div style={{ marginBottom: "10px" }}>
+                  <strong style={{ color: C.sf }}>Watch for competitive conflicts.</strong> Several major SIs maintain active practices across Salesforce, Microsoft, and ServiceNow simultaneously. Understand each partner's incentive structure and whether they are actively positioning a competing platform in your target accounts.
+                </div>
+                <div>
+                  <strong style={{ color: C.sf }}>Cloud and AI model partnerships are differentiators.</strong> Co-sell motions with cloud hyperscalers unlock access into cloud-native high-tech firms. The ability to offer choice of AI model (including open alternatives) natively within Agentforce is a competitive differentiator that partners can amplify in their own client narratives.
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── ECONOMICS ── */}
+        {activeSection === "economics" && (
+          <div>
+            <SectionHeader title="Economic & Macro Factors" subtitle="Conditions shaping the UK high-tech buying environment" />
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {ECONOMIC.map((e, i) => {
+                const impactColor = e.impact === "Tailwind" ? C.green : e.impact === "Headwind" ? C.red : C.amber;
+                return (
+                  <div key={i} style={{ padding: "16px 20px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px", display: "grid", gridTemplateColumns: "200px 80px auto", gap: "16px", alignItems: "start" }}>
+                    <div style={{ fontSize: "13px", fontWeight: "700", color: C.ink }}>{e.factor}</div>
+                    <div>
+                      <span style={{ fontSize: "9px", padding: "2px 8px", borderRadius: "20px", background: impactColor + "20", color: impactColor, fontWeight: "700", letterSpacing: "1px" }}>{e.impact.toUpperCase()}</span>
+                    </div>
+                    <div style={{ fontSize: "12px", color: C.muted, lineHeight: "1.6" }}>{e.detail}</div>
+                  </div>
+                );
+              })}
+            </div>
+            <div style={{ marginTop: "20px", padding: "16px", background: C.cream, borderRadius: "6px" }}>
+              <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: C.faint, marginBottom: "8px" }}>Net Economic Assessment</div>
+              <div style={{ fontSize: "13px", color: C.muted, lineHeight: "1.7" }}>
+                The structural tailwinds — <strong style={{ color: C.ink }}>government AI commitment, VC funding leadership, regulatory compliance urgency</strong> — significantly outweigh the cyclical headwinds. The NI hike paradoxically <em>strengthens</em> the Agentforce ROI narrative: autonomous agents don't cost employer NI. Frame every deal as "scale without adding headcount cost."
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── NEXT STEP ── */}
+        {activeSection === "nextStep" && (
+          <div>
+            <SectionHeader title="Next Steps & Competitor POVs" subtitle="Actions to complete before GTM motions can be executed" />
+
+            {/* Phase 1 */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "24px" }}>
+              <div style={{ padding: "20px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px" }}>
+                <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: C.sf, marginBottom: "14px" }}>Phase 1 — Immediate</div>
+                {[
+                  {
+                    label: "Prioritise target account list",
+                    detail: "Review the full UK high-tech universe across SaaS, Fintech, and Cyber. Tier accounts by revenue potential, AI readiness, and current Salesforce footprint. Identify whitespace vs. expansion opportunities.",
+                  },
+                  {
+                    label: "Audit existing partner landscape",
+                    detail: "Map which SIs, consultancies, and technology partners are already active in target accounts. Identify incumbent relationships — these may be allies or blockers — and determine where co-sell motions are viable.",
+                  },
+                  {
+                    label: "Define success criteria per account tier",
+                    detail: "Establish what 'winning' looks like at each tier: initial land, expand motion, full-platform adoption. Success metrics should link to business outcomes (cost per agent vs. cost per hire) not just product adoption.",
+                  },
+                  {
+                    label: "Build a Data Cloud-first entry narrative",
+                    detail: "Position data unification as the foundation before leading with Agentforce. Accounts with poor data hygiene will not realise AI value — surfacing this early de-risks the deal and positions Salesforce as a strategic partner.",
+                  },
+                  {
+                    label: "Develop ROI framing for the UK cost environment",
+                    detail: "Factor in the April 2025 NI increase and talent scarcity when building business cases. Autonomous agents do not carry employer NI — this is a structurally compelling argument unique to the current UK macro context.",
+                  },
+                ].map((s, i) => (
+                  <div key={i} style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: i < 4 ? `1px solid ${C.rule}` : "none" }}>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: C.ink, marginBottom: "3px", display: "flex", gap: "8px" }}>
+                      <span style={{ color: C.sf, flexShrink: 0 }}>{i + 1}.</span>{s.label}
+                    </div>
+                    <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.6", paddingLeft: "16px" }}>{s.detail}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Phase 2 */}
+              <div style={{ padding: "20px", background: "#fff", border: `1px solid ${C.rule}`, borderRadius: "6px" }}>
+                <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: C.amber, marginBottom: "14px" }}>Phase 2 — 90 Days</div>
+                {[
+                  {
+                    label: "Review and prioritise partner relationships",
+                    detail: "Assess which partners bring the strongest access to target accounts — not just delivery capability. Evaluate existing engagement depth, C-suite relationships, and competitive conflicts. Some incumbents may already be committed to competing platforms.",
+                  },
+                  {
+                    label: "Map C-suite relationships per account",
+                    detail: "Identify whether existing Salesforce relationships sit at an operational or strategic level. Deals of this nature require CIO, CTO, or CEO sponsorship. Gaps in executive access should be treated as risks to be closed before pitching.",
+                  },
+                  {
+                    label: "Deploy competitor POV battlecards",
+                    detail: "For each priority account, establish which competitor is incumbent or shortlisted. The displacement or co-existence strategy differs materially by competitor — generic messaging will not win. See the Agentic AI Competitor Map.",
+                  },
+                  {
+                    label: "Build C-suite messaging by competitive scenario",
+                    detail: "Develop exec-level POVs tailored to each displacement context: AI platform consolidation, ITSM expansion into GTM, compliance-led transformation. Each requires a different lead narrative and different executive sponsor.",
+                  },
+                  {
+                    label: "Prepare regulated segment compliance narrative",
+                    detail: "Fintech, cyber, and financial services tech accounts face FCA and DORA obligations that are non-negotiable. The compliance narrative must be built before the AI narrative — trust is the door, Agentforce is the room.",
+                  },
+                ].map((s, i) => (
+                  <div key={i} style={{ marginBottom: "12px", paddingBottom: "12px", borderBottom: i < 4 ? `1px solid ${C.rule}` : "none" }}>
+                    <div style={{ fontSize: "12px", fontWeight: "700", color: C.ink, marginBottom: "3px", display: "flex", gap: "8px" }}>
+                      <span style={{ color: C.amber, flexShrink: 0 }}>{i + 1}.</span>{s.label}
+                    </div>
+                    <div style={{ fontSize: "11px", color: C.muted, lineHeight: "1.6", paddingLeft: "16px" }}>{s.detail}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Competitor POV tiles */}
+            <div style={{ padding: "22px", background: C.ink, color: C.paper, borderRadius: "6px", marginBottom: "20px" }}>
+              <div style={{ fontSize: "10px", letterSpacing: "3px", textTransform: "uppercase", color: "#888", marginBottom: "12px" }}>Competitor POV Programme — Coming Next</div>
+              <div style={{ fontSize: "12px", color: "#777", marginBottom: "14px", lineHeight: "1.6" }}>
+                Each account will have a different competitive context. The battlecard programme below defines the displacement or co-existence angle for each scenario — to be selected based on the incumbent identified in account reviews above.
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: "12px" }}>
+                {[
+                  { competitor: "vs Microsoft", angle: "Where M365 is the dominant estate — frame Agentforce as the customer-facing AI layer Microsoft cannot natively provide." },
+                  { competitor: "vs ServiceNow", angle: "Where ServiceNow owns ITSM — position Agentforce as the GTM and revenue layer, not a replacement." },
+                  { competitor: "vs Google Vertex", angle: "Where model quality is the buying narrative — shift the conversation from model to platform and data trust." },
+                  { competitor: "vs IBM watsonx", angle: "Where governance is the primary concern — demonstrate comparable compliance posture with faster time-to-value." },
+                  { competitor: "vs Oracle", angle: "Where ERP is the system of record — show how Revenue Cloud bridges Oracle data into the agentic GTM layer." },
+                ].map((item, i) => (
+                  <div key={i} style={{ padding: "12px", background: "#252525", borderRadius: "4px", borderTop: `2px solid ${C.sf}` }}>
+                    <div style={{ fontSize: "11px", fontWeight: "700", color: C.sf, marginBottom: "4px" }}>{item.competitor}</div>
+                    <div style={{ fontSize: "10px", color: "#888", lineHeight: "1.5", fontStyle: "italic" }}>{item.angle}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ padding: "14px 18px", background: C.cream, borderRadius: "6px", fontSize: "11px", color: C.faint, lineHeight: "1.6" }}>
+              <strong style={{ color: C.ink }}>Sources:</strong> Tech Nation Report 2025 · IDC / Salesforce UK Investment Announcement Sept 2025 · Mordor Intelligence UK IT Services 2026 · GlobalData UK ICT 2025 · IMARC UK Tech Market 2025 · MarketsandMarkets AI Agents 2025 · DCMS Cyber Security Sectoral Analysis 2025 · Salesforce Q3 FY2026 Earnings · G2 Agentforce Reviews (846) · Futurum Research 2025 · PwC / Computacenter UK tech market commentary 2025 · UK Government Spending Review 2025 · Tech Nation / Luminarybrands UK Tech Growth 2026 · nickfrates.com Salesforce Ecosystem Analysis
+            </div>
+          </div>
+        )}
+
+      </div>
+    </div>
+  );
+}
+
+function SectionHeader({ title, subtitle }) {
+  return (
+    <div style={{ marginBottom: "22px", paddingBottom: "12px", borderBottom: `1px solid ${C.rule}` }}>
+      <h2 style={{ margin: 0, fontSize: "22px", fontWeight: "700", color: C.ink, letterSpacing: "-0.5px" }}>{title}</h2>
+      {subtitle && <div style={{ fontSize: "12px", color: C.faint, marginTop: "4px", fontStyle: "italic" }}>{subtitle}</div>}
+    </div>
+  );
+}
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+</html>
