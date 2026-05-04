@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Salesforce UK High-Tech GTM Strategy</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{background:#F7F4EE;font-family:Georgia,'Times New Roman',serif;color:#111;-webkit-font-smoothing:antialiased;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#EDE9DF}
+::-webkit-scrollbar-thumb{background:#C5BFB4;border-radius:3px}
+
+/* ── MASTHEAD ── */
+.masthead{background:#0D0D0D;color:#F7F4EE;padding:24px 24px 20px}
+.masthead-eye{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:#555;margin-bottom:8px}
+.masthead h1{font-size:clamp(18px,4vw,28px);font-weight:400;letter-spacing:-0.5px;margin-bottom:4px}
+.masthead-sub{font-size:clamp(12px,2vw,15px);color:#00A1E0;font-style:italic;margin-bottom:14px}
+.masthead-stats{display:flex;flex-wrap:wrap;gap:18px}
+.stat-val{font-size:18px;font-weight:700;color:#00A1E0;margin-right:5px}
+.stat-lbl{font-size:11px;color:#777}
+
+/* ── NAV ── */
+.nav{background:#fff;border-bottom:1px solid #D9D3C8;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;padding:0 20px;min-width:max-content}
+.nav-btn{padding:12px 14px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:Georgia,serif;color:#9B958E;white-space:nowrap}
+.nav-btn.active{color:#00A1E0;border-bottom-color:#00A1E0;font-weight:700}
+
+/* ── MAIN ── */
+.main{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+
+/* ── SECTION HEADER ── */
+.sec-head{margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #D9D3C8}
+.sec-title{font-size:20px;font-weight:700;color:#0D0D0D;letter-spacing:-0.3px}
+.sec-sub{font-size:11px;color:#9B958E;margin-top:3px;font-style:italic}
+
+/* ── CARDS GRID ── */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px}
+
+/* ── WHY NOW CARD ── */
+.why-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;padding:16px;border-top:3px solid var(--sc)}
+.why-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.why-stat{font-size:26px;font-weight:700;color:var(--sc);line-height:1}
+.why-signal{font-size:9px;padding:2px 7px;border-radius:20px;background:var(--sc-bg);color:var(--sc);font-weight:700;letter-spacing:1px}
+.why-label{font-size:12px;font-weight:700;color:#0D0D0D;margin-bottom:5px}
+.why-detail{font-size:11px;color:#6B6560;line-height:1.6;margin-bottom:8px}
+.why-src{font-size:9px;color:#C5BFB4;border-top:1px solid #EDE9DF;padding-top:7px}
+
+/* ── CONSULTANT QUOTE ── */
+.quote-box{background:#0D0D0D;color:#E5E7EB;border-radius:8px;padding:18px 22px;margin-top:18px;border-left:4px solid #00A1E0}
+.quote-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:8px}
+.quote-text{font-size:13px;line-height:1.8;font-style:italic}
+
+/* ── SELL FIRST ACCORDION ── */
+.accordion{display:flex;flex-direction:column;gap:10px}
+.acc-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.acc-item.open{border-color:var(--ac)}
+.acc-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.acc-rank{width:30px;height:30px;border-radius:50%;background:var(--ac-bg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--ac);flex-shrink:0}
+.acc-meta{flex:1}
+.acc-name{font-size:14px;font-weight:700;color:#0D0D0D;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acc-badge{font-size:9px;padding:2px 8px;border-radius:20px;color:#fff;font-weight:700;letter-spacing:1px}
+.acc-acv{font-size:11px;color:var(--ac);font-weight:700}
+.acc-trigger{font-size:11px;color:#6B6560;margin-top:2px}
+.acc-chevron{color:#C5BFB4;font-size:12px;flex-shrink:0}
+.acc-body{display:none;padding:0 18px 18px;border-top:1px solid #EDE9DF}
+.acc-body.open{display:block}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px}
+.field-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;font-weight:700;margin-bottom:4px}
+.field-val{font-size:11px;color:#6B6560;line-height:1.6}
+.field-val.highlight{color:var(--ac);font-weight:600}
+.objection-box{background:#EDE9DF;border-radius:6px;padding:10px;font-size:11px;color:#6B6560;font-style:italic;line-height:1.5}
+
+/* ── WIN THEME CARD ── */
+.theme-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden}
+.theme-header{padding:14px 18px;border-bottom:1px solid #EDE9DF}
+.theme-icon{font-size:20px;color:var(--tc)}
+.theme-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tc);font-weight:700;margin-top:2px}
+.theme-headline{font-size:14px;font-weight:700;color:#0D0D0D;margin-top:3px}
+.theme-body{padding:14px 18px}
+.proof-item{font-size:11px;color:#0D0D0D;margin-bottom:4px;display:flex;gap:6px}
+.proof-arrow{color:var(--tc);flex-shrink:0}
+.moat-text{font-size:11px;color:#6B6560;line-height:1.6;font-style:italic;margin-bottom:10px}
+.csuite-box{padding:10px 13px;border-radius:6px;border-left:3px solid var(--tc)}
+.csuite-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tc);margin-bottom:3px}
+.csuite-text{font-size:11px;color:#0D0D0D;line-height:1.5;font-style:italic}
+
+/* ── COMPETE ── */
+.compete-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.compete-item.open{border-color:var(--threat)}
+.compete-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.compete-name{font-size:14px;font-weight:700;color:#0D0D0D}
+.threat-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:1px}
+.compete-persona{font-size:11px;color:#6B6560;margin-top:2px}
+.compete-body{display:none;padding:0 18px 18px;border-top:1px solid #EDE9DF}
+.compete-body.open{display:block}
+.compete-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px}
+.displacement-box{background:#EDE9DF;border-radius:6px;padding:10px;font-size:11px;color:#6B6560;font-style:italic;line-height:1.5;margin-top:6px}
+.swap-val{font-size:11px;font-weight:600;margin-top:4px}
+
+/* ── ACV ── */
+.acv-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;border-left:5px solid var(--ac)}
+.acv-inner{padding:18px}
+.acv-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.acv-tier{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ac);font-weight:700;margin-bottom:3px}
+.acv-profile{font-size:11px;color:#6B6560}
+.acv-range{font-size:22px;font-weight:700;color:var(--ac);line-height:1}
+.acv-range-lbl{font-size:10px;color:#9B958E;margin-top:2px;text-align:right}
+.acv-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.product-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.product-tag{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600}
+.expand-box{background:#EDE9DF;border-radius:6px;padding:10px}
+.pipeline-box{background:#0D0D0D;border-radius:8px;padding:16px 18px;margin-top:14px}
+.pipeline-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#555;margin-bottom:10px}
+.pipeline-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.pipeline-cell{background:#1a1a1a;border-radius:6px;padding:9px 11px}
+.pipeline-cell-name{font-size:11px;font-weight:700;color:#E5E7EB}
+.pipeline-cell-avg{font-size:10px;color:#555}
+.pipeline-cell-val{font-size:14px;font-weight:700;color:#00A1E0;margin-top:2px}
+.pipeline-total{font-size:12px;color:#E5E7EB;margin-top:10px}
+
+/* ── 30-60-90 ── */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.plan-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;border-top:3px solid var(--pc)}
+.plan-head{padding:13px 16px;border-bottom:1px solid #EDE9DF}
+.plan-period{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pc);font-weight:700}
+.plan-label{font-size:15px;font-weight:700;color:#0D0D0D;margin-top:2px}
+.plan-body{padding:14px 16px}
+.plan-action{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EDE9DF}
+.plan-action:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.plan-action-num{color:#C5BFB4;margin-right:6px}
+.plan-action-title{font-size:12px;font-weight:700;color:var(--pc);margin-bottom:3px}
+.plan-action-detail{font-size:11px;color:#6B6560;line-height:1.5;padding-left:14px}
+
+/* ── TALK TRACKS ── */
+.track-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.track-item.open{border-color:var(--tc)}
+.track-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.track-dot{width:10px;height:10px;border-radius:50%;background:var(--tc);flex-shrink:0}
+.track-persona{font-size:14px;font-weight:700;color:#0D0D0D}
+.track-opener{font-size:11px;color:#9B958E;font-style:italic;margin-top:2px}
+.track-body{display:none;border-top:1px solid #EDE9DF;padding:0 18px 20px}
+.track-body.open{display:block}
+.track-steps{display:flex;flex-direction:column;gap:12px;padding-top:14px}
+.track-step{display:flex;gap:12px}
+.track-bar{width:3px;border-radius:2px;flex-shrink:0;min-height:40px}
+.step-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;margin-bottom:3px}
+.step-text{font-size:11px;color:#6B6560;line-height:1.6}
+.step-text.italic{color:#0D0D0D;font-style:italic}
+.rules-box{background:#EDE9DF;border-radius:8px;padding:14px 18px;margin-top:16px}
+.rules-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9B958E;margin-bottom:8px}
+.rule-item{font-size:11px;color:#6B6560;margin-bottom:5px;display:flex;gap:8px}
+.rule-dash{color:#00A1E0;font-weight:700;flex-shrink:0}
+
+/* ── HIDDEN ── */
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-eye">Salesforce UK · High-Tech Segment · GTM Strategy Brief · April 2026</div>
+  <h1>UK High-Tech Go-to-Market</h1>
+  <div class="masthead-sub">What to sell, who to target, how to win — and the numbers behind it</div>
+  <div class="masthead-stats">
+    <div><span class="stat-val">$590M</span><span class="stat-lbl">Tech TAM (UK)</span></div>
+    <div><span class="stat-val">12.5%</span><span class="stat-lbl">UK Tech CAGR</span></div>
+    <div><span class="stat-val">8%</span><span class="stat-lbl">Agentforce adoption — the expand opportunity</span></div>
+    <div><span class="stat-val">78%</span><span class="stat-lbl">UK C-suite already using AI agents</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner" id="nav-inner">
+    <button class="nav-btn active" onclick="setTab('why',this)">Why Now</button>
+    <button class="nav-btn" onclick="setTab('sells',this)">Sell First</button>
+    <button class="nav-btn" onclick="setTab('themes',this)">Win Themes</button>
+    <button class="nav-btn" onclick="setTab('compete',this)">Competition</button>
+    <button class="nav-btn" onclick="setTab('acv',this)">ACV Range</button>
+    <button class="nav-btn" onclick="setTab('plan',this)">30-60-90</button>
+    <button class="nav-btn" onclick="setTab('talktrack',this)">Talk Track</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── WHY NOW ── -->
+  <div id="tab-why">
+    <div class="sec-head">
+      <div class="sec-title">Why High-Tech, Why Now</div>
+      <div class="sec-sub">The strategic and commercial case — grounded in Salesforce data and external market intelligence</div>
+    </div>
+    <div class="grid-3" id="why-cards"></div>
+    <div class="quote-box">
+      <div class="quote-eye">Consultant's Position</div>
+      <div class="quote-text">"Only 8% of Salesforce's global customer base has adopted Agentforce — which means 92% of the installed base is an expansion opportunity. The GTM motion for UK high-tech is therefore as much a retention and expansion play as it is a new logo play. The accounts that haven't yet seen Agentforce value are the ones most at risk of competitive displacement — and the most receptive to the right conversation."</div>
+    </div>
+  </div>
+
+  <!-- ── SELL FIRST ── -->
+  <div id="tab-sells" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">What to Sell First — and Why</div>
+      <div class="sec-sub">Ranked by strategic sequencing, not deal size. Data Cloud first, always.</div>
+    </div>
+    <div class="accordion" id="sell-accordion"></div>
+  </div>
+
+  <!-- ── WIN THEMES ── -->
+  <div id="tab-themes" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Crucial Win Themes</div>
+      <div class="sec-sub">Four themes from Salesforce Tech strategy — each with a C-suite message and competitive moat.</div>
+    </div>
+    <div class="grid-2" id="theme-cards"></div>
+  </div>
+
+  <!-- ── COMPETITION ── -->
+  <div id="tab-compete" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Who to Target — Competitive Strategy</div>
+      <div class="sec-sub">Threat level, displacement angle, and win condition per competitor. Match to account-level intelligence.</div>
+    </div>
+    <div class="accordion" id="compete-accordion"></div>
+  </div>
+
+  <!-- ── ACV ── -->
+  <div id="tab-acv" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">ACV Range by Deal Type</div>
+      <div class="sec-sub">Potential annual contract value by deal tier, aligned to TAM exposure</div>
+    </div>
+    <div class="accordion" id="acv-list"></div>
+    <div class="pipeline-box" id="pipeline-box"></div>
+  </div>
+
+  <!-- ── 30-60-90 ── -->
+  <div id="tab-plan" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">30 · 60 · 90 Day Plan</div>
+      <div class="sec-sub">Pipe ×3 + Health + AEP — the execution standard across all tiers</div>
+    </div>
+    <div class="plan-grid" id="plan-grid"></div>
+  </div>
+
+  <!-- ── TALK TRACK ── -->
+  <div id="tab-talktrack" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">C-Suite Talk Tracks</div>
+      <div class="sec-sub">Persona-specific conversation guides. Open with a challenge, not a pitch. Click to expand.</div>
+    </div>
+    <div class="accordion" id="track-accordion"></div>
+    <div class="rules-box" id="rules-box"></div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── PALETTE ───────────────────────────────────────────────────────────────────
+const SF   = '#00A1E0';
+const GRN  = '#1A7A4A';
+const AMB  = '#B8730A';
+const RED  = '#C0392B';
+const PUR  = '#6D3A8A';
+const INK  = '#0D0D0D';
+const MUT  = '#6B6560';
+const FAINT= '#9B958E';
+const RULE = '#D9D3C8';
+const CREAM= '#EDE9DF';
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const WHY_NOW = [
+  {stat:'$590M',  label:'Tech TAM (UK)',                    signal:'TAILWIND',    sc:GRN, detail:'Total addressable market across Integration ($188M), Sales ($190M) and Service ($285M) clouds within the enterprise tech segment alone.',                                                                       src:'Salesforce Internal'},
+  {stat:'12.5%',  label:'UK Tech CAGR',                     signal:'TAILWIND',    sc:GRN, detail:'UK tech ecosystem is Europe\'s largest at $1.4T value, growing faster than France and Germany combined. 2,300+ VC-backed AI companies in market.',                                                               src:'Tech Nation 2025'},
+  {stat:'46%',    label:'Support deflection with Agentforce',signal:'OPPORTUNITY', sc:AMB, detail:'Reddit deflected 46% of support cases and cut resolution times by 84% using Agentforce. For high-tech firms with high Tier 1 support volume, this is the proof point that opens doors.',                         src:'Salesforce / Reddit case study 2025'},
+  {stat:'8%',     label:'Agentforce adoption',               signal:'OPPORTUNITY', sc:AMB, detail:'Only 8% of Salesforce\'s global customer base has adopted Agentforce. For Tech, this is a land-and-expand engine — not a saturated market.',                                                                       src:'Salesforce Ben / Q3 FY26'},
+  {stat:'$41B',   label:'Salesforce UK Economy by 2028',     signal:'TAILWIND',    sc:GRN, detail:'IDC projects Salesforce-powered economic activity of $41B in UK by 2028. Salesforce committed $6B investment through 2030 — UK is the #1 international market.',                                                 src:'IDC / Salesforce UK Sept 2025'},
+  {stat:'78%',    label:'C-suite using AI agents',            signal:'TAILWIND',    sc:GRN, detail:'Four in five UK C-suite executives are already using AI agents. Tech buyers are ready — the question is who becomes the platform of record.',                                                                       src:'Salesforce UK 2025'},
+];
+
+const SELL_FIRST = [
+  {rank:1,product:'Data Cloud',             badge:'FOUNDATION',      bc:GRN, acv:'£150K–£800K',tam:'$188M (Integration Cloud TAM)',         trigger:'Customer has fragmented data across product, sales and service systems',                                    objection:'We already have a data warehouse',                          counter:'A warehouse stores data. Data Cloud activates it — making it available to AI agents in real time across every customer touchpoint.',                                                                                                                          why:'Data first, agents second. Without unified data, Agentforce cannot function. Entering on Data Cloud sets the foundation, surfaces data debt early, and positions Salesforce as the strategic layer — not just another CRM vendor.'},
+  {rank:2,product:'Agentforce (Service + Sales)',badge:'PRIMARY MOTION', bc:SF,  acv:'£250K–£2M+', tam:'$190M Sales + $285M Service Cloud TAMs', trigger:'High Tier 1 support volume, subscription churn, or SDR capacity constraints',                              objection:'We\'re not ready for AI agents yet',                        counter:'You\'re already paying for the problem. Every Tier 1 ticket your engineers are handling costs you £15–40 per interaction. Agentforce costs a fraction of that and doesn\'t require a visa.',                                                               why:'Tech firms\' biggest cost is headcount — especially Tier 1 support at scale. Agentforce deflects support volume, qualifies leads from sandbox interactions, and automates renewal workflows. The April 2025 NI increase makes the ROI story structurally compelling: agents don\'t carry employer NI.'},
+  {rank:3,product:'Revenue Cloud / CPQ',     badge:'LAND & EXPAND',   bc:AMB, acv:'£200K–£1.2M',tam:'Part of $190M Sales Cloud TAM',          trigger:'Subscription business with manual renewal process, partner channel complexity, or pricing model transition', objection:'We use Salesforce for CRM but run billing separately',       counter:'That gap is where your revenue leaks. Revenue Cloud closes the loop from opportunity to invoice to renewal — and lets agents own the renewal conversation autonomously.',                                                                                  why:'High-tech firms with SaaS pricing tiers, usage-based models, or channel partner complexity need intelligent quote-to-cash. Revenue Cloud gives Agentforce the commercial context to renew, upsell, and expand.'},
+  {rank:4,product:'Tableau (competitive swap)',badge:'COMPETITIVE SWAP',bc:PUR, acv:'£120K–£600K',tam:'$160M competitive TAM',                  trigger:'Customer running Power BI or Looker with poor Salesforce data integration',                                 objection:'We\'re a Microsoft / Google shop for analytics',            counter:'Tableau is the only analytics platform with a native semantic layer into Salesforce Data Cloud. If your CRM and your analytics are speaking different languages, your AI will hallucinate your business.',                                                    why:'$160M Tableau replacement TAM. Many tech firms run Power BI or Looker as a Microsoft or Google estate default. Tableau\'s semantic layer + Salesforce data is a differentiated story — especially where Data Cloud is already in.'},
+  {rank:5,product:'Slack (competitive swap)', badge:'COMPETITIVE SWAP',bc:PUR, acv:'£80K–£500K', tam:'$127M competitive TAM',                  trigger:'Customer on Microsoft Teams with Agentforce ambitions',                                                   objection:'Teams is good enough and it\'s in our M365 contract',       counter:'Teams is a communication tool. Slack is an agentic operating layer — your Agentforce agents live there, your workflows trigger there, and your engineers don\'t need to context-switch.',                                                                  why:'$127M Slack replacement TAM. Slack is the front door for Agentforce — agents surface in Slack channels natively. For tech firms on Teams: your AI works where your engineers already work.'},
+];
+
+const WIN_THEMES = [
+  {theme:'Revenue Growth',       icon:'↗', tc:SF,  headline:'Scale GTM without scaling headcount',                                  angle:'Agentforce SDR agents qualify leads 24/7 from sandbox interactions, trial sign-ups and documentation engagement. Sales Cloud gives AEs a single view of the full customer journey.',                                                                                       proofs:['Salesforce\'s own SDR agent handles 50,000 customers/week','213% ROI reported by Wiley on Agentforce + Service Cloud','Route-to-revenue acceleration through Sales Excellence plays'],                                                 moat:'Microsoft Copilot helps sellers draft emails. Agentforce executes the sales motion autonomously — a fundamentally different proposition.',                                                                                                          csuite:'CRO/CIO: \'You can double your pipeline coverage without doubling your sales team cost — and without the April NI increase applying to a single agent.\''},
+  {theme:'Margin Protection',    icon:'◈', tc:AMB, headline:'Consolidate the tech stack and eliminate the cost of complexity',       angle:'Tech stack consolidation is a direct outcome of \'one golden cloud per customer\' — Data Cloud as the single data layer, Agentforce as the AI layer, Salesforce as the engagement layer. Replaces point solutions, reduces licence sprawl.',                        proofs:['Integration Cloud TAM: $188M in consolidation opportunity','Optimised managed service replaces fragmented SaaS point tools','Tech stack consolidation + Optimised managed service is the primary Tech margin play'],                          moat:'Unlike Oracle (ERP-native) or ServiceNow (ITSM-native), Salesforce consolidates across the full customer lifecycle — sales, service, marketing, data and AI in one trusted platform.',                                                             csuite:'CFO/CTO: \'Every point solution you retire reduces your vendor management overhead. We are not adding to your stack — we are becoming your stack.\''},
+  {theme:'Capitalising Investments',icon:'⬡',tc:PUR,headline:'Make M&A, partnerships and managed services work harder',              angle:'Tech firms going through M&A, building partner ecosystems (VARs, OSPs, ISVs) or transitioning to managed service models need a platform that unifies disparate customer data and extends to third-party partners. Salesforce\'s PRM, Experience Cloud and MuleSoft are the answer.', proofs:['M&A & Divestiture integration is a core Tech priority','Hyperscaler co-sell motions amplify existing cloud investments','AgentExchange marketplace: 30+ partner integrations already live'],                                              moat:'$6.19 earned by partners per $1 Salesforce earns. For a tech firm building a partner-led growth model, Salesforce is the platform partners already know.',                                                                                         csuite:'CEO/COO: \'Your M&A creates integration risk. We eliminate it — every acquired company\'s customer data lands in Data Cloud and your agents pick up from day one.\''},
+  {theme:'Win with Innovation',   icon:'⚡',tc:GRN, headline:'Agentic service and delivery as the competitive differentiator',        angle:'For tech companies selling to enterprise, \'agentic delivery\' is now a USP. Agentforce service agents handle L1/L2 support; agentic delivery agents orchestrate complex multi-step technical workflows.',                                                                      proofs:['Agentic service + Agentic delivery is the core Innovation play for high-tech','46% support deflection (Reddit), 70% autonomous resolution (OpenTable)','Salesforce is Customer Zero — you can reference how Salesforce runs itself on Agentforce'],moat:'Google has better models. Microsoft has ubiquity. Salesforce has the only platform where enterprise AI is already in production at scale with verifiable customer outcomes.',                                                                    csuite:'CTO/CDO: \'Your customers are asking whether you are AI-native. The answer should not just be in your product — it should be in how you sell, service and deliver. We make that true.\''},
+];
+
+const COMPETE = [
+  {name:'Microsoft Copilot Studio',    threat:'HIGH',       tc:RED, persona:'CRO, CIO, Head of Customer Experience',swap:'Tableau vs Power BI ($160M TAM) · Slack vs Teams ($127M TAM)',                              why:'M365 is dominant in UK tech firms. Copilot bundles frictionlessly into existing Teams/Outlook/SharePoint licences. IT procurement defaults to Microsoft because \'nobody gets fired for it\'.',                          angle:'Copilot makes individuals more productive. Agentforce makes your business more autonomous. Agentforce wins on customer-facing outcomes, CRM depth, and revenue impact.',                                  line:'\'Microsoft Copilot has no CRM. It helps your employees draft emails — Agentforce closes your customers\' problems without a human in the loop.\'', win:'Customer has Salesforce CRM + Microsoft productivity tools. Agentforce is the missing bridge — not a replacement of M365.'},
+  {name:'ServiceNow',                  threat:'MEDIUM',     tc:AMB, persona:'CIO, CTO, VP Engineering',              swap:'Expand into Sales + Service where ServiceNow has no native capability',                           why:'ServiceNow\'s AI Control Tower is compelling for IT-heavy buyers. #1 Gartner Critical Capabilities ranking for building/managing AI agents. Strong in ITSM and HR workflows.',                                          angle:'ServiceNow owns the back office. Salesforce owns the front office. No customer has budget for two agentic platforms. Position early or ServiceNow will expand into GTM themselves.',                       line:'\'ServiceNow will tell you they can do CRM. They don\'t have 25 years of customer data models, Einstein AI, or 12,000 enterprise agent deployments in production.\'',  win:'Customer has ServiceNow for ITSM. Salesforce lands in Sales/Service, then unifies under Data Cloud. Co-existence to consolidation over time.'},
+  {name:'Google Vertex AI / Gemini',   threat:'MEDIUM',     tc:AMB, persona:'CTO, Head of AI/ML, CDO',               swap:'Agentforce can run Gemini natively — turn Google\'s model strength into a Salesforce platform win', why:'Highest Ability to Execute in Gartner AIDP MQ 2025. ADK downloaded 8M+ times. Developer-native narrative resonates with high-tech engineering leaders.',                                                         angle:'Google has the best models. Salesforce has the best platform. The question is not which AI is smartest — it\'s which AI has access to all your customer data and can take autonomous action on it.',        line:'\'You can use Gemini as your Agentforce backend. Salesforce is LLM-agnostic — you get Google\'s model quality inside Salesforce\'s data and trust layer.\'',           win:'Frame as complementary not competitive. Google Cloud + Salesforce = hyperscaler infrastructure + enterprise CRM AI layer.'},
+  {name:'IBM watsonx Orchestrate',     threat:'LOW-MEDIUM', tc:GRN, persona:'CIO, CISO, Head of Compliance',         swap:'Regulated fintech/cybersecurity firms where IBM is shortlisted but not yet deployed',                why:'Gartner MQ Leader. Strongest governance/auditability story. 80+ enterprise app integrations.',                                                                                                                          angle:'IBM\'s strength is governance. Salesforce matches it — ISO 27001, SOC2 Type II, FCA-aligned Trust Layer — and adds faster time-to-value and the world\'s most deployed CRM as the data foundation.',     line:'\'IBM will take 12 months to deploy. Agentforce has pre-built agents for high-tech use cases. You don\'t need to build from scratch — you need to deploy what\'s proven.\'',win:'Speed of deployment + CRM-native data advantage. IBM requires custom integration. Salesforce is native.'},
+  {name:'Oracle Fusion AI / SAP Joule',threat:'LOW',        tc:GRN, persona:'CFO, CRO, VP Sales Operations',         swap:'Revenue Cloud integration with Oracle ERP — Salesforce as the GTM layer over ERP back-office',    why:'ISG ranks Oracle #1 overall for AI agents (7 categories). Strong in ERP-native workflows. SAP has 150+ pre-built skills.',                                                                                              angle:'Oracle and SAP own the ERP. Salesforce owns the customer. Revenue Cloud bridges Oracle data into Salesforce\'s GTM layer — the two can co-exist.',                                                        line:'\'We don\'t need to rip out your ERP. We sit on top of it — bringing your Oracle/SAP data into the layer where your customers actually live.\'',                        win:'Customer runs Oracle/SAP for finance. Salesforce lands in Sales/Service. MuleSoft integrates. Data Cloud unifies.'},
+];
+
+const ACV_BANDS = [
+  {tier:'Seed & Grow',                        tc:GRN, acv:'£150K – £500K', profile:'UK tech scale-up, Series B/C funded, first Salesforce footprint',           target:'1+ accounts — prioritised from account tiering exercise',            prob:'High if no incumbent',                                                   aov:'+£1M AOV by FY30',                                                            products:['Sales Cloud Starter → Enterprise','Data Cloud (entry)','Agentforce Service Agent'],                        expand:'Land on Sales Cloud → add Data Cloud → unlock Agentforce → expand to Marketing Cloud'},
+  {tier:'Enterprise Platform Win',            tc:SF,  acv:'£750K – £2.5M', profile:'UK tech enterprise, multi-cloud buyer, AI-ready C-suite',                  target:'1+ new logos — driven by account tiering and exec access',           prob:'Medium — requires exec access and PoV investment',                        aov:'Full platform exposure across Integration, Sales and Service Cloud TAMs',     products:['Sales Cloud Enterprise','Service Cloud Enterprise','Data Cloud','Agentforce','Revenue Cloud'],              expand:'Enterprise C360 PoV → Integration Cloud → Agentforce Orchestration → Partner Ecosystem'},
+  {tier:'Competitive Replacement / C360 Win', tc:PUR, acv:'£300K – £1.2M', profile:'Existing Salesforce customer on competitor analytics or comms platform',   target:'Priority accounts from competitive landscape audit',                 prob:'High where Salesforce already has a relationship',                        aov:'Tableau $160M TAM · Slack $127M TAM · Service Cloud $285M TAM',              products:['Tableau (vs Power BI/Looker)','Slack (vs Teams)','Data Cloud expansion','Agentforce add-on'],                expand:'Replace analytics or comms → unify on Data Cloud → expand Agentforce across replaced platform'},
+  {tier:'Mega / Transformational Deal',       tc:AMB, acv:'£2M – £8M+',    profile:'Large UK tech/SaaS enterprise, multi-year transformation, C-suite sponsored',target:'2–3 per year (UK aspirational)',                                      prob:'Low probability, highest value — requires CTO/CEO relationship and full partner alignment', aov:'Maximum platform exposure — Integration, Sales, Service, Analytics and AI combined', products:['Full C360 Platform','Data Cloud Enterprise','Agentforce 360','MuleSoft','Tableau','Slack','Industry Cloud'], expand:'Transformational PoV → Board sponsorship → Multi-year programme → Partner-delivered at scale'},
+];
+
+const PLAN_DAYS = [
+  {period:'Days 1–30',  label:'Prioritise & Qualify',   tc:SF,
+   actions:[
+     {title:'Tier account list',                    detail:'Score all UK high-tech accounts across: current SF footprint, AI readiness, C-suite access, competitive landscape, and renewal risk. Tier 1 = New Logo + Seed & Grow. Tier 2 = C360 expansion. Tier 3 = at-risk retention.'},
+     {title:'Audit incumbent partner landscape',    detail:'For every Tier 1 and Tier 2 account: who is already in? Which SI has the relationship? Are they Salesforce-aligned or competing-platform-aligned? Identify allies and potential blockers before first call.'},
+     {title:'Map C-suite relationships',            detail:'Assess executive access per account. Identify gaps — particularly CTO, CRO, CIO. No deal above £750K closes without board-level sponsorship. Gaps = risk to pipeline.'},
+     {title:'Define success criteria per tier',     detail:'What does \'winning\' look like at 30/60/90? Revenue outcome, product landed, executive relationship established, partner aligned. Align internally before customer-facing.'},
+     {title:'Build Data Cloud-first entry narrative',detail:'For every Tier 1 account, prepare a data maturity conversation — not a product pitch. Show how fragmented data = broken AI. Position Data Cloud as the strategic prerequisite before Agentforce.'},
+   ]},
+  {period:'Days 31–60', label:'Engage & Differentiate', tc:AMB,
+   actions:[
+     {title:'Run Executive Discovery sessions',     detail:'C-suite-targeted sessions (CTO/CRO/CIO) focused on their innovation and margin agenda — not Salesforce features. Use the four win themes as the conversation framework.'},
+     {title:'Deploy Industry C360 PoVs',            detail:'For Tier 1 accounts, develop an audacious, industry-specific Point of View backed by technical architecture. Demonstrate what the full Salesforce platform unlocks — reframe Salesforce as a strategic transformation partner, not a product vendor.'},
+     {title:'Activate partner co-sell motions',     detail:'For accounts where a partner is already trusted, bring them into the deal early. Agree positioning — Salesforce provides the vision and platform, partner provides delivery confidence and industry credibility.'},
+     {title:'Competitive battlecard activation',    detail:'For every account where Microsoft, ServiceNow or Google is incumbent or shortlisted, deploy the relevant competitor displacement narrative. Tailor to which competitor is in the room.'},
+     {title:'Identify quick win / proof-of-value',  detail:'In at least 2–3 accounts, identify a contained Agentforce use case (e.g. Tier 1 support deflection, renewal automation) that can demonstrate measurable ROI within 60 days. Build the ROI case now.'},
+   ]},
+  {period:'Days 61–90', label:'Commit & Advance',       tc:GRN,
+   actions:[
+     {title:'Advance pipeline to Stage 3+',         detail:'Target: at least 3× pipeline coverage on FY target. Every Tier 1 account should have an active opportunity with a qualified executive sponsor. Pipe ×3 + Health + AEP — no exceptions.'},
+     {title:'Lock partner delivery plans',          detail:'For deals above £500K, confirm which SI will deliver. Agree scope, resourcing and co-sell incentives. Post-Brexit talent gap means delivery risk is real — mitigate it now not at contract signature.'},
+     {title:'Establish Innovation Council cadence', detail:'Leverage the AI Center to widen customer use case exploration and upskilling. Target 6 new AI customer stories in FY27. Seed this by establishing AI/innovation workshops with 2–3 target accounts this quarter.'},
+     {title:'C360 Big Bet Cadence review',          detail:'Run the first internal C360 Big Bet Cadence. Review all Tier 1 accounts: do we have exec access, PoV delivered, partner aligned, competitive position clear? Escalate gaps immediately.'},
+     {title:'Build customer reference pipeline',    detail:'Identify which existing customers can become references for new logo acquisition. Tech buyer trust references above analyst reports. One credible peer reference is worth three pitch decks.'},
+   ]},
+];
+
+const TALK_TRACKS = [
+  {persona:'CRO / VP Sales',          tc:SF,
+   opener:'How are you thinking about scaling your pipeline without scaling headcount cost?',
+   steps:[
+     {label:'Open with (challenge)',content:'Most tech companies are hitting a ceiling — their best sellers are spending 40% of their time on admin, qualification, and follow-up that doesn\'t require human judgment. Meanwhile, every new SDR hire is now £5,000 more expensive than a year ago thanks to the NI increase.',bar:RED,   italic:false},
+     {label:'Pivot',                content:'What if your top sellers only touched opportunities that were already qualified, contextualised, and warmed — because an agent had done that work overnight?',                                                                                                                               bar:AMB,   italic:true},
+     {label:'Salesforce answer',    content:'Agentforce SDR agents analyse sandbox usage, documentation engagement and trial patterns to score and qualify leads before a human gets involved. Your AEs close. Agents prospect.',                                                                                                        bar:MUT,   italic:false},
+     {label:'Proof point',          content:'Salesforce\'s own SDR agent now handles 50,000 customer conversations a week. Previously, those leads went uncontacted.',                                                                                                                                                                  bar:GRN,   italic:false},
+     {label:'Closing question',     content:'If I could show you a model where your sales capacity doubles without your headcount cost increasing, what would need to be true for you to explore that this quarter?',                                                                                                                     bar:SF,    italic:true},
+   ]},
+  {persona:'CTO / Head of AI',        tc:PUR,
+   opener:'What\'s the biggest risk in your AI roadmap right now — model selection, data quality, or governance?',
+   steps:[
+     {label:'Open with (challenge)',content:'Most tech CTOs tell us the same thing: they\'ve invested in a model — Gemini, GPT-4, or an open-source alternative — but the agents they\'re building don\'t know enough about their own customers. The model is smart. The context is thin.',                                              bar:RED,   italic:false},
+     {label:'Pivot',                content:'The question isn\'t which AI is the smartest. It\'s which AI has access to 25 years of your customer interactions, your sales history, your service records — and can take autonomous action on it without a human approving every step.',                                                      bar:AMB,   italic:true},
+     {label:'Salesforce answer',    content:'Agentforce is LLM-agnostic — it can run Gemini or GPT-5 as the backend. But it layers that on top of Data Cloud, which unifies every customer signal you have. The result is an agent that\'s not just intelligent — it\'s contextually accurate.',                                         bar:MUT,   italic:false},
+     {label:'Proof point',          content:'RBC Wealth Management: data completion rates soared, notes became richer, adoption happened organically — no incentives required. Because the data was right.',                                                                                                                             bar:GRN,   italic:false},
+     {label:'Closing question',     content:'What would it mean for your AI roadmap if you could have your preferred model running on top of a unified, trusted customer data layer from day one?',                                                                                                                                     bar:PUR,   italic:true},
+   ]},
+  {persona:'CIO / Head of Technology',tc:AMB,
+   opener:'How many platforms are you running today that touch the customer journey — from lead to renewal?',
+   steps:[
+     {label:'Open with (challenge)',content:'The average tech firm runs 8–12 point solutions across sales, service, marketing, analytics and data. Each has its own API, data model, and renewal cycle. The cost of that complexity — integration, maintenance, licence sprawl — is a hidden P&L line item most CIOs can\'t fully quantify.',bar:RED,  italic:false},
+     {label:'Pivot',                content:'Tech stack consolidation isn\'t just a cost story. It\'s a capability story. Every tool you retire is a data silo you eliminate — and every data silo you eliminate makes your AI more accurate.',                                                                                             bar:AMB,  italic:true},
+     {label:'Salesforce answer',    content:'Data Cloud is the unification layer. Agentforce is the AI action layer. Sales, Service, Marketing, Analytics — one platform. \'One golden cloud per customer\' isn\'t a tagline — it\'s an architectural principle that makes AI viable.',                                                   bar:MUT,  italic:false},
+     {label:'Proof point',          content:'Integration Cloud TAM alone is $188M in UK tech — that is the size of the consolidation opportunity we see in your market. Your peers are already making this move.',                                                                                                                       bar:GRN,  italic:false},
+     {label:'Closing question',     content:'If we could map your current stack against what a consolidated Salesforce architecture would look like — and show you the cost delta — would that be a useful starting point?',                                                                                                               bar:AMB,  italic:true},
+   ]},
+  {persona:'CFO / Finance Director',  tc:GRN,
+   opener:'Are you under pressure to grow revenue without growing your cost base proportionally this year?',
+   steps:[
+     {label:'Open with (challenge)',content:'April\'s NI increase from 13.8% to 15% added real cost to every employee you have. Your tech team is expensive. Your sales team is expensive. And the IPO window has narrowed, so every pound of EBITDA matters more than it did 18 months ago.',                                            bar:RED,  italic:false},
+     {label:'Pivot',                content:'Autonomous agents don\'t pay National Insurance. They don\'t require a pension contribution. They work at 3am. The ROI calculation for Agentforce in the current UK macro context is unlike anything we\'ve been able to say before.',                                                          bar:AMB,  italic:true},
+     {label:'Salesforce answer',    content:'At £0.10 per action (Flex Credits model), an Agentforce agent handling 10,000 Tier 1 support interactions costs £1,000. The same interactions handled by a human team at £25 per resolution costs £250,000. That is a CFO story, not a CTO story.',                                          bar:MUT,  italic:false},
+     {label:'Proof point',          content:'Engine reduced average case handle time by 15%, saving over £1.6M annually. 1-800Accountant autonomously resolved 70% of admin chat engagements during peak tax season.',                                                                                                                    bar:GRN,  italic:false},
+     {label:'Closing question',     content:'Can I get 30 minutes with you and your CTO to walk through what the business case looks like for your specific headcount and support volume profile?',                                                                                                                                       bar:GRN,  italic:true},
+   ]},
+];
+
+const RULES = [
+  'Never open with a product. Open with their problem.',
+  'Every talk track ends with a question that moves the deal forward — not a feature summary.',
+  'Reference a peer in their space, not a case study from a different industry.',
+  'Governance and trust are door-openers in UK tech — especially post-FCA and DORA.',
+  'The NI cost argument is unique to 2025 onwards. Use it while it is still fresh.',
+];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function lbl(text) {
+  return `<div class="field-label">${text}</div>`;
+}
+function alpha(hex, a) {
+  // hex to rgba
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// ── RENDER: WHY NOW ───────────────────────────────────────────────────────────
+function renderWhy() {
+  document.getElementById('why-cards').innerHTML = WHY_NOW.map(w => `
+    <div class="why-card" style="--sc:${w.sc};--sc-bg:${alpha(w.sc,0.12)}">
+      <div class="why-top">
+        <div class="why-stat">${w.stat}</div>
+        <span class="why-signal">${w.signal}</span>
+      </div>
+      <div class="why-label">${w.label}</div>
+      <div class="why-detail">${w.detail}</div>
+      <div class="why-src">${w.src}</div>
+    </div>`).join('');
+}
+
+// ── RENDER: SELL FIRST ────────────────────────────────────────────────────────
+function renderSell() {
+  document.getElementById('sell-accordion').innerHTML = SELL_FIRST.map((s,i) => `
+    <div class="acc-item" id="sell-${i}" style="--ac:${s.bc};--ac-bg:${alpha(s.bc,0.1)}">
+      <div class="acc-header" onclick="toggleAcc('sell-${i}')">
+        <div class="acc-rank">${s.rank}</div>
+        <div class="acc-meta">
+          <div class="acc-name">
+            ${s.product}
+            <span class="acc-badge" style="background:${s.bc}">${s.badge}</span>
+            <span class="acc-acv">${s.acv}</span>
+          </div>
+          <div class="acc-trigger">${s.trigger}</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body" id="sell-body-${i}">
+        <div class="acc-grid">
+          <div>
+            ${lbl('Why lead with this')}
+            <div class="field-val" style="margin-top:5px">${s.why}</div>
+            ${lbl('TAM Exposure')}
+            <div class="field-val highlight" style="margin-top:4px">${s.tam}</div>
+          </div>
+          <div>
+            ${lbl('Common objection')}
+            <div class="objection-box" style="margin-top:5px">"${s.objection}"</div>
+            ${lbl('Counter')}
+            <div class="field-val" style="margin-top:5px">${s.counter}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: WIN THEMES ────────────────────────────────────────────────────────
+function renderThemes() {
+  document.getElementById('theme-cards').innerHTML = WIN_THEMES.map(t => `
+    <div class="theme-card">
+      <div class="theme-header" style="background:${alpha(t.tc,0.08)};border-bottom:1px solid ${alpha(t.tc,0.25)}">
+        <div class="theme-icon" style="color:${t.tc}">${t.icon}</div>
+        <div class="theme-label" style="color:${t.tc}">${t.theme}</div>
+        <div class="theme-headline">${t.headline}</div>
+      </div>
+      <div class="theme-body">
+        ${lbl('Salesforce angle')}
+        <div class="field-val" style="margin:5px 0 12px">${t.angle}</div>
+        ${lbl('Proof points')}
+        <div style="margin:5px 0 12px">
+          ${t.proofs.map(p=>`<div class="proof-item"><span class="proof-arrow" style="color:${t.tc}">→</span>${p}</div>`).join('')}
+        </div>
+        ${lbl('Why competitors can\'t match this')}
+        <div class="moat-text" style="margin-top:5px">${t.moat}</div>
+        <div class="csuite-box" style="background:${alpha(t.tc,0.08)};border-left-color:${t.tc}">
+          <div class="csuite-label" style="color:${t.tc}">C-Suite Message</div>
+          <div class="csuite-text">${t.csuite}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: COMPETE ───────────────────────────────────────────────────────────
+function renderCompete() {
+  document.getElementById('compete-accordion').innerHTML = COMPETE.map((c,i) => `
+    <div class="compete-item" id="comp-${i}" style="--threat:${c.tc}">
+      <div class="compete-header" onclick="toggleCompete(${i})">
+        <div style="flex:1">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="compete-name">${c.name}</span>
+            <span class="threat-badge" style="color:${c.tc};background:${alpha(c.tc,0.12)}">THREAT: ${c.threat}</span>
+          </div>
+          <div class="compete-persona">Target persona: ${c.persona}</div>
+        </div>
+        <span class="acc-chevron" id="comp-chev-${i}">▼</span>
+      </div>
+      <div class="compete-body" id="comp-body-${i}">
+        <div class="compete-grid">
+          <div>
+            ${lbl('Why they\'re a threat')}
+            <div class="field-val" style="margin-top:5px">${c.why}</div>
+            ${lbl('Swap opportunity')}
+            <div class="swap-val" style="color:${c.tc};margin-top:4px">${c.swap}</div>
+          </div>
+          <div>
+            ${lbl('Our angle')}
+            <div class="field-val" style="margin-top:5px;color:#0D0D0D">${c.angle}</div>
+            ${lbl('Displacement line')}
+            <div class="displacement-box" style="margin-top:5px">${c.line}</div>
+            ${lbl('Win condition')}
+            <div class="field-val" style="margin-top:5px">${c.win}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: ACV ───────────────────────────────────────────────────────────────
+function renderACV() {
+  document.getElementById('acv-list').innerHTML = ACV_BANDS.map(a => `
+    <div class="acv-item" style="--ac:${a.tc}">
+      <div class="acv-inner">
+        <div class="acv-top">
+          <div>
+            <div class="acv-tier">${a.tier}</div>
+            <div class="acv-profile">${a.profile}</div>
+          </div>
+          <div>
+            <div class="acv-range" style="color:${a.tc}">${a.acv}</div>
+            <div class="acv-range-lbl">ACV range</div>
+          </div>
+        </div>
+        <div class="acv-cols">
+          <div>${lbl('Target')}<div class="field-val" style="margin-top:3px">${a.target}</div></div>
+          <div>${lbl('Win probability')}<div class="field-val" style="margin-top:3px">${a.prob}</div></div>
+          <div>${lbl('AOV / TAM target')}<div class="field-val highlight" style="margin-top:3px;color:${a.tc}">${a.aov}</div></div>
+        </div>
+        <div class="product-tags">
+          ${a.products.map(p=>`<span class="product-tag" style="color:${a.tc};background:${alpha(a.tc,0.1)}">${p}</span>`).join('')}
+        </div>
+        <div class="expand-box">
+          ${lbl('Expansion path')}
+          <div class="field-val" style="margin-top:4px">${a.expand}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('pipeline-box').innerHTML = `
+    <div class="pipeline-eye">Indicative Pipeline Build Logic</div>
+    <div class="pipeline-grid">
+      ${[['Seed & Grow','@ avg £300K','= £300K+'],['New Logo(s)','@ avg £1.5M','= £1.5M+'],['C360 Replacements','@ avg £600K x4','= £2.4M'],['1 Mega Deal','@ avg £4M','= £4M']].map(([a,b,c])=>`
+        <div class="pipeline-cell">
+          <div class="pipeline-cell-name">${a}</div>
+          <div class="pipeline-cell-avg">${b}</div>
+          <div class="pipeline-cell-val">${c}</div>
+        </div>`).join('')}
+    </div>
+    <div class="pipeline-total">Indicative range builds from a single new logo + Seed &amp; Grow win to <strong style="color:#00A1E0">£8M+ ACV</strong> at full programme scale, requiring <strong style="color:${AMB}">×3 pipeline coverage across all tiers</strong></div>`;
+}
+
+// ── RENDER: PLAN ──────────────────────────────────────────────────────────────
+function renderPlan() {
+  document.getElementById('plan-grid').innerHTML = PLAN_DAYS.map(p => `
+    <div class="plan-card" style="--pc:${p.tc}">
+      <div class="plan-head">
+        <div class="plan-period" style="color:${p.tc}">${p.period}</div>
+        <div class="plan-label">${p.label}</div>
+      </div>
+      <div class="plan-body">
+        ${p.actions.map((a,i) => `
+          <div class="plan-action">
+            <div class="plan-action-title"><span class="plan-action-num">${i+1}.</span>${a.title}</div>
+            <div class="plan-action-detail">${a.detail}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: TALK TRACKS ───────────────────────────────────────────────────────
+function renderTracks() {
+  document.getElementById('track-accordion').innerHTML = TALK_TRACKS.map((t,i) => `
+    <div class="track-item" id="track-${i}" style="--tc:${t.tc}">
+      <div class="track-header" onclick="toggleTrack(${i})">
+        <div class="track-dot" style="background:${t.tc}"></div>
+        <div style="flex:1">
+          <div class="track-persona">${t.persona}</div>
+          <div class="track-opener">"${t.opener}"</div>
+        </div>
+        <span class="acc-chevron" id="track-chev-${i}">▼</span>
+      </div>
+      <div class="track-body" id="track-body-${i}">
+        <div class="track-steps">
+          ${t.steps.map(s => `
+            <div class="track-step">
+              <div class="track-bar" style="background:${s.bar}"></div>
+              <div>
+                <div class="step-label">${s.label}</div>
+                <div class="step-text${s.italic?' italic':''}">"${s.content}"</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('rules-box').innerHTML = `
+    <div class="rules-eye">Universal Rules for Every Executive Conversation</div>
+    ${RULES.map(r=>`<div class="rule-item"><span class="rule-dash">—</span>${r}</div>`).join('')}`;
+}
+
+// ── ACCORDION TOGGLES ─────────────────────────────────────────────────────────
+function toggleAcc(id) {
+  const item = document.getElementById(id);
+  const idx = id.split('-')[1];
+  const body = document.getElementById(`sell-body-${idx}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  item.querySelector('.acc-chevron').textContent = isOpen ? '▲' : '▼';
+}
+function toggleCompete(i) {
+  const item = document.getElementById(`comp-${i}`);
+  const body = document.getElementById(`comp-body-${i}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  document.getElementById(`comp-chev-${i}`).textContent = isOpen ? '▲' : '▼';
+}
+function toggleTrack(i) {
+  const item = document.getElementById(`track-${i}`);
+  const body = document.getElementById(`track-body-${i}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  document.getElementById(`track-chev-${i}`).textContent = isOpen ? '▲' : '▼';
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+const TABS = ['why','sells','themes','compete','acv','plan','talktrack'];
+function setTab(id, btn) {
+  TABS.forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== id);
+  });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderWhy();
+renderSell();
+renderThemes();
+renderCompete();
+renderACV();
+renderPlan();
+renderTracks();
+</script>
+</body>
+</html>
