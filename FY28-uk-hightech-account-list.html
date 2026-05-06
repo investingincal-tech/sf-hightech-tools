@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>UK High-Tech Target Account List</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{background:#F7F4EE;font-family:Arial,Helvetica,sans-serif;color:#111;-webkit-font-smoothing:antialiased;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#EDE9DF}
+::-webkit-scrollbar-thumb{background:#C5BFB4;border-radius:3px}
+
+/* ── MASTHEAD ── */
+.masthead{background:#00A1E0;color:#fff;padding:20px 20px 18px}
+.masthead-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px}
+.masthead h1{font-size:clamp(18px,4vw,26px);font-weight:700;letter-spacing:-0.5px;margin-bottom:3px}
+.masthead-sub{font-size:11px;color:rgba(255,255,255,0.75);margin-bottom:16px}
+.masthead-stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat-item{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 16px;min-width:120px}
+.stat-val{font-size:22px;font-weight:700;color:#fff;display:block;line-height:1.1}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,0.85);display:block;margin-top:2px}
+
+/* ── CONTROLS ── */
+.controls{background:#fff;border-bottom:1px solid #D9D3C8;padding:10px 16px;position:sticky;top:0;z-index:100;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.controls input,.controls select{padding:6px 10px;border:1px solid #D9D3C8;border-radius:6px;font-size:12px;font-family:Arial,Helvetica,sans-serif;background:#EDE9DF;outline:none;color:#111;-webkit-appearance:none}
+.controls input{min-width:160px;flex:1}
+.btn{padding:6px 12px;border-radius:6px;font-size:10px;letter-spacing:1px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;cursor:pointer;border:1px solid #D9D3C8;background:#EDE9DF;color:#6B6560}
+.btn.active{background:#00A1E0;color:#fff;border-color:#00A1E0}
+.btn.signal-btn.active{background:#B8730A20;color:#B8730A;border-color:#B8730A}
+.count-lbl{font-size:10px;color:#9B958E;margin-left:auto;white-space:nowrap}
+
+/* ── TIER SUMMARY CARDS ── */
+.tier-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px;padding:16px 16px 0}
+.tier-card{padding:12px 16px;background:#fff;border:2px solid #D9D3C8;border-radius:8px;cursor:pointer;transition:border-color 0.15s}
+.tier-card.active{border-color:var(--tc)}
+.tier-card-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.tier-card-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tc);font-weight:700}
+.tier-card-count{font-size:22px;font-weight:700;color:var(--tc)}
+.tier-card-desc{font-size:10px;color:#6B6560;line-height:1.4}
+
+/* ── MAIN CONTENT ── */
+.main{padding:12px 16px 60px}
+
+/* ── CARD GRID ── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.account-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;border-left:4px solid var(--tc);padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card-name{font-size:13px;font-weight:700;color:#0D0D0D;line-height:1.2}
+.card-meta{font-size:10px;color:#6B6560;margin-top:1px}
+.card-rev{text-align:right}
+.card-rev-val{font-size:12px;font-weight:700;color:#0D0D0D}
+.card-rev-hc{font-size:10px;color:#6B6560}
+.badges{display:flex;flex-wrap:wrap;gap:4px}
+.badge{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:0.3px;white-space:nowrap}
+.card-notes{font-size:11px;color:#6B6560;line-height:1.5}
+.card-products{font-size:10px;color:#9B958E;font-style:italic;line-height:1.4}
+
+/* ── TABLE ── */
+.table-wrap{overflow-x:auto;border-radius:8px;border:1px solid #D9D3C8}
+table{width:100%;border-collapse:collapse;min-width:900px;background:#fff}
+thead tr{background:#EDE9DF;border-bottom:2px solid #0D0D0D}
+th{padding:9px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B6560;font-weight:700;text-align:left;white-space:nowrap}
+tbody tr{border-bottom:1px solid #D9D3C8}
+tbody tr:last-child{border-bottom:none}
+tbody tr:nth-child(even){background:#FAFAF8}
+td{padding:9px 10px;font-size:11px;color:#111;vertical-align:top}
+td.name-cell{font-weight:700;white-space:nowrap}
+td.notes-cell{color:#6B6560;line-height:1.4;min-width:200px;max-width:280px}
+.tier-dot{width:22px;height:22px;border-radius:50%;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto}
+
+/* ── SECTION DIVIDER (tier view) ── */
+.tier-section{margin-bottom:24px}
+.tier-header{display:flex;align-items:center;gap:10px;padding-bottom:10px;margin-bottom:12px;border-bottom:2px solid var(--tc)}
+.tier-header-dot{width:26px;height:26px;border-radius:50%;background:var(--tc);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tier-header-title{font-size:13px;font-weight:700;color:var(--tc)}
+.tier-header-desc{font-size:10px;color:#6B6560}
+.tier-header-count{margin-left:auto;font-size:11px;color:#9B958E;white-space:nowrap}
+
+/* ── VIEW TOGGLE ── */
+.view-toggle{display:flex;gap:4px}
+
+/* ── CONSULTANT NOTE ── */
+.consultant-box{background:#00A1E0;color:#fff;border-radius:8px;padding:20px 22px;margin-top:24px}
+.consultant-eyebrow{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:14px}
+.consultant-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.consultant-item-icon{font-size:18px;margin-bottom:4px}
+.consultant-item-title{font-size:12px;font-weight:700;color:#fff;margin-bottom:3px}
+.consultant-item-body{font-size:11px;color:rgba(255,255,255,0.85);line-height:1.6}
+.sources{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,0.3);font-size:9px;color:rgba(255,255,255,0.6);line-height:1.6}
+
+/* ── EMPTY STATE ── */
+.empty{padding:40px;text-align:center;color:#9B958E;font-style:italic;font-size:12px}
+.hidden{display:none!important}
+.new-tag{font-size:8px;padding:1px 5px;border-radius:10px;background:#1A7A4A;color:#fff;font-weight:700;letter-spacing:0.5px;margin-left:4px;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-eyebrow">Salesforce UK · High-Tech Segment · Target Account Research · May 2026</div>
+  <h1>UK High-Tech Target Account List</h1>
+  <div class="masthead-sub">UK-headquartered or significant UK presence · 2,000+ employees · Cross-referenced for Salesforce GTM prioritisation</div>
+  <div class="masthead-stats">
+    <div class="stat-item"><span class="stat-val" id="total-count">–</span><span class="stat-lbl">Total accounts</span></div>
+    <div class="stat-item"><span class="stat-val" id="t1-count">–</span><span class="stat-lbl">Tier 1 priority</span></div>
+    <div class="stat-item"><span class="stat-val" id="t2-count">–</span><span class="stat-lbl">Tier 2 strong fit</span></div>
+    <div class="stat-item"><span class="stat-val" id="flag-count">–</span><span class="stat-lbl">Signal flags</span></div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <input type="text" id="search" placeholder="Search company or segment…" oninput="render()"/>
+  <select id="seg-filter" onchange="render()">
+    <option value="">All Segments</option>
+  </select>
+  <select id="tier-filter" onchange="render()">
+    <option value="0">All Tiers</option>
+    <option value="1">Tier 1 — Priority</option>
+    <option value="2">Tier 2 — Strong Fit</option>
+    <option value="3">Tier 3 — Watch List</option>
+  </select>
+  <button class="btn signal-btn" id="flag-btn" onclick="toggleFlag()">🔀 Signals only</button>
+  <button class="btn" id="new-btn" onclick="toggleNew()">🆕 New only</button>
+  <div class="view-toggle">
+    <button class="btn active" id="btn-cards" onclick="setView('cards')">Cards</button>
+    <button class="btn" id="btn-table" onclick="setView('table')">Table</button>
+    <button class="btn" id="btn-tier" onclick="setView('tier')">By Tier</button>
+  </div>
+  <span class="count-lbl" id="result-count"></span>
+</div>
+
+<!-- TIER SUMMARY -->
+<div class="tier-cards" id="tier-summary"></div>
+
+<!-- MAIN -->
+<div class="main" id="main-content"></div>
+
+<script>
+const TC={1:'#1A7A4A',2:'#B8730A',3:'#6B6560'};
+const SF_C={Y:'#1A7A4A',N:'#C0392B',Unknown:'#6B6560'};
+
+const ACCOUNTS=[
+  // ── SOFTWARE / SaaS ──────────────────────────────────────────────────────
+  {name:'Kainos Group',         seg:'Software / SaaS',             hq:'Belfast',             hc:'3,200+',   rev:'$320M',    listed:'Listed (FTSE 250)',              products:'Digital transformation, Workday integration, government digital services',                        sf:'Y',       tier:1, isNew:false, notes:'Workday SI — look for Salesforce expansion into Sales/Service. Active AI investment. C-suite accessible.',                                                                                                  flags:['👤 Leadership']},
+  {name:'Ideagen',              seg:'Software / SaaS',             hq:'Nottingham',           hc:'2,500+',   rev:'$200M',    listed:'Private (PE — Hg Capital)',      products:'Governance, risk & compliance (GRC) software for regulated industries',                         sf:'Unknown', tier:1, isNew:false, notes:'PE-backed, compliance-led buyer. FCA/DORA narrative lands well. High-priority for Shield + Agentforce compliance agents.',                                                                              flags:['🔀 M&A']},
+  {name:'IFS',                  seg:'Software / SaaS',             hq:'Staffordshire (UK HQ)',hc:'7,000+',   rev:'$1.1B',    listed:'Private (PE — EQT)',             products:'Industrial AI, ERP, EAM, FSM, SCM — IFS Cloud platform with agentic Digital Workers',           sf:'Unknown', tier:1, isNew:true,  notes:'Launched agentic Digital Workers (IFS Cloud 25R2) — autonomous AI agents across enterprise workflows. Acquired TheLoops 2025 to expand AI capabilities. PE-backed (EQT). Direct Agentforce competitor narrative + Revenue Cloud for complex enterprise deal management.',flags:['🔀 M&A','💰 Funding']},
+  {name:'Civica',               seg:'Software / SaaS',             hq:'London',               hc:'3,000+',   rev:'$480M',    listed:'Private (PE — Partners Group)', products:'Cloud software, data analytics, financial management for public sector and regulated industries',sf:'Unknown', tier:1, isNew:true,  notes:'5,000+ public sector clients. PE-backed (Partners Group). Compliance-led buyer — FCA/DORA and public sector resilience narrative. Service Cloud + Agentforce for citizen service automation. Revenue Cloud for complex public sector contracts.',                       flags:['💰 Funding']},
+  {name:'Zellis',               seg:'Software / SaaS',             hq:'Nottingham',           hc:'2,000+',   rev:'$300M est.',listed:'Private (PE — Apax Partners)', products:'HR and payroll software for large UK enterprises — HCM Cloud platform',                         sf:'Unknown', tier:1, isNew:true,  notes:'Largest UK-dedicated HR & payroll software vendor. Apax PE-backed. 1,000+ large enterprise customers including NHS, Tesco, BT. AI-native roadmap underway. Sales Cloud + Data Cloud for enterprise HR software sales motion. DORA/compliance urgency.',            flags:['💰 Funding']},
+  {name:'Endava',               seg:'Software / SaaS',             hq:'London',               hc:'11,500+',  rev:'$900M',    listed:'Listed (NYSE: DAVA)',            products:'Technology services, software engineering, digital transformation, AI solutions',                sf:'Unknown', tier:1, isNew:true,  notes:'Fast-growing tech services firm — fintech, healthcare, media, telecom verticals. Listed NYSE. Active M&A (GalaxE acquisition adds 1,650 US employees). Revenue Cloud for complex multi-geography services pricing. Agentforce for delivery automation.',              flags:['🔀 M&A','👤 Leadership']},
+  {name:'Access Group',         seg:'Software / SaaS',             hq:'Loughborough',         hc:'6,000+',   rev:'$600M',    listed:'Private (PE — Hg Capital)',      products:'HR, finance, ERP software for mid-market',                                                     sf:'Unknown', tier:2, isNew:false, notes:'Aggressive M&A acquirer (20+ acquisitions). Integration Cloud / MuleSoft is the entry. Data Cloud opportunity across fragmented estate.',                                                                    flags:['🔀 M&A']},
+  {name:'Bytes Software',       seg:'Software / SaaS',             hq:'Leatherhead',          hc:'1,200+',   rev:'$1.8B',    listed:'Listed (FTSE 250)',              products:'Microsoft, Adobe, VMware licensing and cloud services reseller',                                sf:'Unknown', tier:3, isNew:false, notes:'Primarily Microsoft-aligned reseller. Monitor for AI practice expansion.',                                                                                                                                 flags:[]},
+
+  // ── CYBERSECURITY ────────────────────────────────────────────────────────
+  {name:'Sophos',               seg:'Cybersecurity',               hq:'Oxford',               hc:'4,000+',   rev:'$600M',    listed:'Private (PE — Francisco Partners)',products:'Endpoint, network, email security, MDR, XDR, firewall',                                      sf:'Unknown', tier:2, isNew:false, notes:'Acquired Secureworks MDR (Dec 2025, $450M) — integration motion = MuleSoft + Data Cloud opportunity. FCA compliance angle strong.',                                                                        flags:['🔀 M&A','💰 Funding']},
+  {name:'Mimecast',             seg:'Cybersecurity',               hq:'London',               hc:'2,000+',   rev:'$350M',    listed:'Private (PE — Permira)',         products:'Email security, threat intelligence, cyber resilience',                                          sf:'Unknown', tier:2, isNew:false, notes:'PE-owned. Entry via Service Cloud + Shield. AI-driven threat detection narrative building.',                                                                                                                flags:[]},
+  {name:'NCC Group',            seg:'Cybersecurity',               hq:'Manchester',           hc:'2,400+',   rev:'$450M',    listed:'Listed (LSE)',                   products:'Penetration testing, managed security, DORA compliance advisory',                               sf:'Unknown', tier:2, isNew:false, notes:'Launched DORA compliance practice Oct 2025 generating £8M Q1 revenue. Service Cloud + Shield natural fit.',                                                                                                 flags:['🔀 M&A']},
+  {name:'BAE Systems Digital Intelligence',seg:'Cybersecurity',   hq:'Guildford',            hc:'4,500+',   rev:'$1.2B est.',listed:'Division of BAE Systems (FTSE 100)',products:'Cyber intelligence, AI-enabled threat detection, national security analytics, financial crime',sf:'Unknown', tier:1, isNew:true,  notes:'Standalone tech division of BAE with own P&L. Major investment in AI/ML for cyber and financial crime. FCA, MOD, HMRC client base. Agentforce compliance agents + Shield = natural fit. High-value, long-cycle but strategic.',                                   flags:['💰 Funding']},
+
+  // ── IT CONSULTING / PROFESSIONAL SERVICES ────────────────────────────────
+  {name:'Softcat',              seg:'IT Consulting / Reseller',    hq:'Marlow',               hc:'2,768',    rev:'$2.3B',    listed:'Listed (FTSE 250)',              products:'Software licensing, workplace tech, networking, security, cloud',                               sf:'Unknown', tier:1, isNew:false, notes:'Acquired Oakland (Apr 2025). AI practice building. Strong public sector relationships. Revenue Cloud + Agentforce partner motion.',                                                                          flags:['🔀 M&A']},
+  {name:'Serco Group',          seg:'IT Consulting / Professional Services',hq:'Hook, Hampshire',hc:'50,000+',rev:'$5B',     listed:'Listed (LSE)',                   products:'Government technology services, defence, justice, health',                                       sf:'Unknown', tier:3, isNew:false, notes:'Government-heavy. Long procurement cycles. Compliance-heavy. Longer-term high-value play.',                                                                                                                  flags:[]},
+  {name:'Atos UK (Eviden)',     seg:'IT Consulting / Professional Services',hq:'London',       hc:'5,000+ UK',rev:'$1B est.',listed:'Listed (Euronext parent)',        products:'Digital transformation, AI, cloud, cybersecurity',                                              sf:'Unknown', tier:3, isNew:false, notes:'Parent under financial pressure. Eviden brand creates instability — monitor for PE consolidation.',                                                                                                           flags:['👤 Leadership']},
+  {name:'QinetiQ',              seg:'IT Consulting / Defence Tech', hq:'Farnborough',          hc:'8,000+',   rev:'$2.2B',    listed:'Listed (FTSE 250)',              products:'Defence AI, autonomous systems, cyber, electronic warfare, test & evaluation',                  sf:'Unknown', tier:1, isNew:true,  notes:'UK\'s leading defence technology company. £1.5B contract extension (MOD, May 2025). AI-native defence and security mandate. Growing commercial cyber practice. Agentforce for complex programme management + Data Cloud for multi-contract intelligence. High-value deal.',flags:['💰 Funding','🔀 M&A']},
+  {name:'Babcock International',seg:'IT Consulting / Defence Tech', hq:'London',               hc:'27,000+',  rev:'$4.6B',    listed:'Listed (FTSE 250)',              products:'Defence engineering, nuclear, aviation tech, digital transformation for government',          sf:'Unknown', tier:2, isNew:true,  notes:'Major UK defence services company. Digital transformation underway. Field Service Lightning for complex asset and engineering workforce management. Long cycle but strategic. Government/defence compliance narrative.',                                              flags:[]},
+
+  // ── RESELLER / VAR ───────────────────────────────────────────────────────
+  {name:'Insight Direct UK',    seg:'Reseller / VAR',              hq:'Wimbledon',            hc:'2,000+ UK',rev:'$3B est.', listed:'Listed (Nasdaq parent)',          products:'IT products, cloud services, managed services',                                                  sf:'Unknown', tier:2, isNew:false, notes:'UK P&L. AI practice growing. Entry via partner motion.',                                                                                                                                                     flags:[]},
+  {name:'Logicalis UK',         seg:'Reseller / VAR',              hq:'Slough',               hc:'2,000+ UK',rev:'$800M est.',listed:'Private (Datatec Group)',         products:'Network infrastructure, cloud, security managed services',                                       sf:'Unknown', tier:2, isNew:false, notes:'Strong Cisco and Microsoft partner. Emerging AI practice. Security + Data Cloud entry narrative.',                                                                                                               flags:[]},
+  {name:'SCC (Specialist Computer Centres)',seg:'Reseller / VAR',  hq:'Birmingham',           hc:'3,500+',   rev:'$1.5B',    listed:'Private (Rigby Group)',          products:'IT infrastructure, managed services, cloud, digital workspace, cybersecurity',                   sf:'Unknown', tier:2, isNew:true,  notes:'UK\'s largest privately-owned IT reseller. Strong mid-market and public sector reach. Actively building AI and cloud practice. MuleSoft + Salesforce co-sell opportunity. Rigby Group PE ownership = revenue acceleration pressure.',                              flags:[]},
+
+  // ── HARDWARE / SEMICONDUCTORS ────────────────────────────────────────────
+  {name:'Renishaw',             seg:'Hardware / Semiconductors',   hq:'Wotton-under-Edge',    hc:'5,000+',   rev:'$750M',    listed:'Listed (LSE)',                   products:'Precision metrology, medical devices, manufacturing tech',                                       sf:'Unknown', tier:2, isNew:false, notes:'Engineering-led, conservative buyer. Manufacturing Cloud + Field Service better entry than Agentforce. Longer cycle.',                                                                                      flags:[]},
+  {name:'Oxford Instruments',   seg:'Hardware / Semiconductors',   hq:'Abingdon, Oxford',     hc:'2,400+',   rev:'$530M',    listed:'Listed (FTSE 250)',              products:'Scientific instruments, semiconductor tools, quantum tech',                                      sf:'Unknown', tier:3, isNew:false, notes:'Deep engineering, slow procurement. Quantum computing exposure = innovation narrative target.',                                                                                                               flags:[]},
+  {name:'Spectris',             seg:'Hardware / Semiconductors',   hq:'Egham, Surrey',         hc:'10,000+',  rev:'$1.5B',    listed:'Listed (FTSE 250)',              products:'Precision instruments, test & measurement, industrial software',                                 sf:'Unknown', tier:2, isNew:false, notes:'Multi-brand portfolio (20+ subsidiaries). MuleSoft integration across subsidiaries is the entry. Data Cloud to unify.',                                                                                     flags:['🔀 M&A']},
+
+  // ── ROBOTICS / AUTOMATION ────────────────────────────────────────────────
+  {name:'Ocado Group',          seg:'Robotics / Automation',       hq:'Hatfield',             hc:'19,000+',  rev:'$1.1B',    listed:'Listed (FTSE 100)',              products:'Automated warehousing, robotics, AI fulfilment software (Ocado Smart Platform)',               sf:'Unknown', tier:2, isNew:false, notes:'AI + robotics native. OSP technology business has B2B enterprise sales motion to global retailers. Agentforce for tech sales + Data Cloud for retailer analytics.',                                        flags:['👤 Leadership']},
+  {name:'Aveva (Schneider Electric)',seg:'Robotics / Automation',  hq:'Cambridge',            hc:'6,500+',   rev:'$1.6B',    listed:'Private (Schneider Electric)',   products:'Industrial software, MES, digital twin, AI for energy/manufacturing',                          sf:'Unknown', tier:2, isNew:false, notes:'Operates with own P&L. ServiceNow partner (2025). Co-exist with Salesforce as GTM layer over industrial data.',                                                                                           flags:['🔀 M&A']},
+  {name:'Dexory',               seg:'Robotics / Automation',       hq:'London',               hc:'200+',     rev:'Undisclosed',listed:'Private ($80M+ raised)',        products:'AI-powered autonomous robots for warehouse real-time visibility and inventory management',      sf:'Unknown', tier:3, isNew:true,  notes:'Tech Nation AI unicorn candidate 2025. High-growth — below 2,000 threshold but scaling fast. Watch for FY27 crossing. Enterprise B2B sales motion to retailers and logistics firms.',                   flags:['💰 Funding']},
+
+  // ── AGENTIC / AI ─────────────────────────────────────────────────────────
+  {name:'PolyAI',               seg:'Agentic / AI',                hq:'London',               hc:'500+',     rev:'$60M ARR est.',listed:'Private ($118M raised, Series C)',products:'Enterprise conversational AI agents — voice and digital, 50%+ call resolution rate',         sf:'Unknown', tier:1, isNew:true,  notes:'Tech Nation top UK AI unicorn candidate. 50%+ autonomous call resolution. Natural competitor/partner — Agentforce Service Cloud voice integration opportunity. B2B enterprise sales motion to Tier 1 banks, healthcare, retail. High AI readiness.',               flags:['💰 Funding']},
+  {name:'Wayve',                seg:'Agentic / AI',                hq:'London',               hc:'800+',     rev:'Undisclosed',listed:'Private ($5.2B valuation, $1.05B raised)',products:'Autonomous vehicle AI, embodied AI for self-driving',                                sf:'Unknown', tier:3, isNew:false, notes:'Fastest-growing UK AI company. Watch for FY27 crossing 2,000 threshold. Backed by Microsoft, SoftBank, NVIDIA.',                                                                                           flags:['💰 Funding']},
+  {name:'Fetch.ai',             seg:'Agentic / AI',                hq:'Cambridge',            hc:'200+',     rev:'Undisclosed',listed:'Private ($185M raised)',         products:'Open marketplace for autonomous AI agents — multi-agent systems, LLM-powered coordination',    sf:'Unknown', tier:3, isNew:true,  notes:'Below threshold but strategically relevant — building the infrastructure layer for enterprise AI agents. Agentforce interoperability opportunity. Watch for enterprise commercial expansion.',           flags:['💰 Funding']},
+  {name:'Stability AI',         seg:'Agentic / AI',                hq:'London',               hc:'200+',     rev:'Undisclosed',listed:'Private',                        products:'Generative AI — image, video, audio, text (Stable Diffusion)',                                   sf:'Unknown', tier:3, isNew:false, notes:'Below threshold. New leadership (Sean Parker, James Cameron). Monitor for commercial pivot.',                                                                                                              flags:['👤 Leadership']},
+  {name:'Faculty AI',           seg:'Agentic / AI',                hq:'London',               hc:'450+',     rev:'Undisclosed',listed:'Private',                        products:'Applied AI, government AI advisory, AI platform (Frontier)',                                       sf:'Unknown', tier:3, isNew:false, notes:'Below threshold but strategic — advises UK Government on AI policy. Watch for commercial growth.',                                                                                                       flags:[]},
+
+  // ── FINTECH TECHNOLOGY ───────────────────────────────────────────────────
+  {name:'Temenos',              seg:'Fintech Technology',           hq:'London (UK HQ)',        hc:'7,000+',   rev:'$1.1B',    listed:'Listed (SIX Swiss Exchange)',    products:'Core banking software, cloud banking platform, AI financial services SaaS',                      sf:'Unknown', tier:1, isNew:false, notes:'Pure-play banking software vendor. Sells to 700+ financial institutions globally. Revenue Cloud + Agentforce for multi-year deal management. DORA compliance tailwind.',                                flags:['👤 Leadership']},
+  {name:'FNZ Group',            seg:'Fintech Technology',           hq:'London',               hc:'6,000+',   rev:'$750M est.',listed:'Private (PE — CDPQ)',            products:'Wealth management platform — investment administration SaaS for banks and insurers',              sf:'Unknown', tier:1, isNew:false, notes:'B2B SaaS serving 650+ financial institutions, 20M investors. Rapid global expansion. Sales Cloud + Data Cloud for partnership sales.',                                                               flags:['💰 Funding','🔀 M&A']},
+  {name:'Form3',                seg:'Fintech Technology',           hq:'London',               hc:'500+',     rev:'Undisclosed',listed:'Private ($450M raised)',         products:'Cloud-native payment technology infrastructure for banks and fintechs',                           sf:'Unknown', tier:3, isNew:false, notes:'Below threshold. High-growth payments infrastructure vendor. Watch for FY27 crossing.',                                                                                                               flags:['💰 Funding']},
+
+  // ── DATA & ANALYTICS ─────────────────────────────────────────────────────
+  {name:'Experian',             seg:'Data & Analytics',            hq:'Dublin / Nottingham',  hc:'22,000+',  rev:'$7B',      listed:'Listed (LSE, FTSE 100)',         products:'Credit data, identity verification, fraud analytics, B2B data services',                         sf:'Y',       tier:2, isNew:false, notes:'Existing SF relationship likely. Vast B2B partner ecosystem. Data Cloud + Agentforce for commercial data services sales.',                                                                                 flags:[]},
+  {name:'RELX Group',           seg:'Data & Analytics',            hq:'London',               hc:'35,000+',  rev:'$10B+',    listed:'Listed (LSE, FTSE 100)',         products:'Legal, scientific, risk & analytics platforms (LexisNexis, Elsevier)',                           sf:'Unknown', tier:2, isNew:false, notes:'Multiple distinct P&Ls. MuleSoft + Data Cloud across business units is the play.',                                                                                                                   flags:[]},
+  {name:'GlobalData',           seg:'Data & Analytics',            hq:'London',               hc:'3,500+',   rev:'$350M',    listed:'Listed (LSE AIM)',               products:'Market intelligence, data analytics, B2B insight platforms',                                       sf:'Unknown', tier:2, isNew:false, notes:'Sales Cloud for enterprise sales team + Agentforce for lead qualification from content interactions.',                                                                                              flags:['🔀 M&A']},
+  {name:'Clarivate',            seg:'Data & Analytics',            hq:'London (Global HQ)',   hc:'10,000+',  rev:'$2.6B',    listed:'Listed (NYSE)',                  products:'IP intelligence, academic research analytics, patent data, life sciences analytics',              sf:'Unknown', tier:1, isNew:true,  notes:'$4.9B market cap. 2nd largest software company in UK by market cap. Massive B2B enterprise sales team selling data subscriptions globally. Sales Cloud + Revenue Cloud for subscription management. Agentforce for renewal automation. High-value opportunity.',  flags:['👤 Leadership']},
+
+  // ── TELECOMS TECHNOLOGY ───────────────────────────────────────────────────
+  {name:'Netcracker Technology',seg:'Telecoms Technology',         hq:'London (UK HQ)',        hc:'2,500+ UK',rev:'$400M est.',listed:'Private (NEC subsidiary)',        products:'OSS/BSS software for telecoms operators, network automation, AI-ops',                           sf:'Unknown', tier:2, isNew:false, notes:'Telco software B2B sales motion. Revenue Cloud + Sales Cloud for complex telco deal management.',                                                                                                      flags:[]},
+  {name:'IFS (Telecoms vertical)',seg:'Telecoms Technology',       hq:'Staffordshire',         hc:'7,000+',   rev:'$1.1B',    listed:'Private (PE — EQT)',             products:'Field service management and ERP for telecoms and utilities operators',                           sf:'Unknown', tier:2, isNew:true,  notes:'IFS FSM is widely used by telecoms operators for field engineer management. Agentforce Field Service Lightning is a direct competitor — and a compelling displacement story.',                              flags:[]},
+
+  // ── ADDITIONAL SEGMENTS ──────────────────────────────────────────────────
+  {name:'Halma',                seg:'Health & Safety Technology',  hq:'Amersham, Bucks',      hc:'10,500+',  rev:'$2.5B',    listed:'Listed (FTSE 100)',              products:'Safety, environmental, health tech — 45+ operating companies globally',                          sf:'Unknown', tier:2, isNew:false, notes:'Decentralised multi-company model. MuleSoft + Data Cloud across subsidiaries is the primary entry.',                                                                                                     flags:['🔀 M&A']},
+  {name:'Spirent Communications',seg:'Test & Measurement',        hq:'Crawley, Surrey',       hc:'1,800+',   rev:'$550M',    listed:'Listed (LSE) — Keysight acq.',  products:'Network testing, cybersecurity testing, cloud & 5G assurance',                                   sf:'Unknown', tier:3, isNew:false, notes:'Keysight acquisition pending. Post-acquisition integration = MuleSoft opportunity.',                                                                                                                  flags:['🔀 M&A','📈 PE event']},
+  {name:'Rolls-Royce (Digital)',seg:'Defence / Industrial Tech',   hq:'Derby',                hc:'5,000+ digital',rev:'Part of RR $18B revenue',listed:'Listed (FTSE 100)',products:'Nuclear AI, digital twin, predictive maintenance, aerospace AI, autonomous systems',          sf:'Unknown', tier:2, isNew:true,  notes:'Rolls-Royce has a distinct digital and AI division driving agentic transformation across nuclear, aerospace, and defence. MOD Unity contract May 2025 (£1.5B submarine). Data Cloud for maintenance intelligence + Agentforce for field service automation.',         flags:['💰 Funding']},
+  {name:'DeepMind',             seg:'Agentic / AI',                hq:'London',               hc:'2,500+',   rev:'N/A',      listed:'Google subsidiary',              products:'AI research, Gemini, AlphaFold, medical AI',                                                      sf:'Unknown', tier:3, isNew:false, notes:'Google subsidiary — parent-funded. Flag for context/partnership conversations, not direct sale.',                                                                                                         flags:[]},
+];
+
+const NOTES=[
+  {icon:'⚡',title:'PE-owned tech = fastest buying motion',body:'Ideagen (Hg), Mimecast (Permira), Civica (Partners Group), Zellis (Apax), IFS (EQT), and SCC (Rigby) are all PE-owned on this list. PE firms drive revenue acceleration and EBITDA expansion — Agentforce\'s cost reduction ROI story lands fastest here. Prioritise these for Q1 outreach.'},
+  {icon:'🔀',title:'M&A signals = MuleSoft entry',body:'Access Group, Halma, Endava, Softcat, QinetiQ, and Sophos have all made acquisitions in the last 12 months. Every acquisition creates a data integration problem that hasn\'t been solved yet. MuleSoft is the foot in the door — Data Cloud and Agentforce follow.'},
+  {icon:'🤖',title:'Agentic AI vendors are both prospects and competitors',body:'PolyAI, IFS, and Fetch.ai are all building agentic AI capabilities. PolyAI is a natural Agentforce voice integration partner — or a competitive threat in Service Cloud. IFS Digital Workers compete directly with Agentforce for industrial enterprise. Know which story you\'re telling before the first call.'},
+  {icon:'🛡️',title:'DORA + defence compliance = forced-buy events',body:'DORA obligations drive non-discretionary buying for all fintech tech vendors. Separately, BAE Systems Digital Intelligence and QinetiQ are both under MOD AI mandates. Shield + Agentforce compliance agents should be positioned before competitors do — especially for NCC Group, Ideagen, Civica, and Zellis.'},
+  {icon:'🆕',title:'New additions worth acting on immediately',body:'Clarivate ($4.9B market cap, massive B2B subscription sales team), Endava (fast-growing tech services, NYSE-listed), QinetiQ (£1.5B MOD contract), Civica (PE-backed, 5,000+ public sector clients), and BAE Systems Digital Intelligence (AI-native defence cyber division) are the five highest-priority new additions.'},
+  {icon:'👤',title:'Leadership changes = open doors',body:'Kainos, Temenos, Atos UK, Endava, and Stability AI all have leadership transitions in play. New executives reset vendor relationships in the first 100 days — this is the highest-probability window to reposition Salesforce as a strategic partner. Flag these for immediate executive outreach.'},
+];
+
+const segs=[...new Set(ACCOUNTS.map(a=>a.seg))].sort();
+const segSel=document.getElementById('seg-filter');
+segs.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;segSel.appendChild(o);});
+
+let currentView='cards',flagOnly=false,newOnly=false,activeTierFilter=0;
+
+function badge(text,color,bg){return`<span class="badge" style="color:${color};background:${bg||color+'20'}">${text}</span>`;}
+function sfBadge(sf){const c=SF_C[sf]||'#6B6560';return`<span class="badge" style="color:${c};background:${c}20">SF: ${sf}</span>`;}
+function tierDot(t){return`<div class="tier-dot" style="background:${TC[t]}">${t}</div>`;}
+
+function getFiltered(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const seg=document.getElementById('seg-filter').value;
+  const tier=parseInt(document.getElementById('tier-filter').value)||0;
+  return ACCOUNTS.filter(a=>{
+    if(seg&&a.seg!==seg)return false;
+    if(tier&&a.tier!==tier)return false;
+    if(flagOnly&&a.flags.length===0)return false;
+    if(newOnly&&!a.isNew)return false;
+    if(q&&!a.name.toLowerCase().includes(q)&&!a.seg.toLowerCase().includes(q)&&!a.hq.toLowerCase().includes(q))return false;
+    return true;
+  });
+}
+
+function renderTierSummary(){
+  const tierMeta={
+    1:{label:'Tier 1 — Priority',desc:'AI-ready, enterprise buyer, whitespace or partial SF footprint'},
+    2:{label:'Tier 2 — Strong Fit',desc:'Strong fit but incumbent CRM or platform complexity'},
+    3:{label:'Tier 3 — Watch List',desc:'Longer-term or below headcount threshold — monitor'},
+  };
+  document.getElementById('tier-summary').innerHTML=[1,2,3].map(t=>{
+    const cnt=ACCOUNTS.filter(a=>a.tier===t).length;
+    const isActive=activeTierFilter===t;
+    return`<div class="tier-card${isActive?' active':''}" style="--tc:${TC[t]}" onclick="clickTier(${t})">
+      <div class="tier-card-top"><span class="tier-card-label">${tierMeta[t].label}</span><span class="tier-card-count">${cnt}</span></div>
+      <div class="tier-card-desc">${tierMeta[t].desc}</div>
+    </div>`;
+  }).join('');
+}
+
+function clickTier(t){
+  const tf=document.getElementById('tier-filter');
+  if(activeTierFilter===t){activeTierFilter=0;tf.value='0';}
+  else{activeTierFilter=t;tf.value=String(t);}
+  render();
+}
+
+function cardHTML(a){
+  const flags=a.flags.map(f=>badge(f,'#B8730A')).join('');
+  const newTag=a.isNew?'<span class="new-tag">NEW</span>':'';
+  return`<div class="account-card" style="--tc:${TC[a.tier]}">
+    <div class="card-top">
+      <div>
+        <div class="card-name">${a.name}${newTag}</div>
+        <div class="card-meta">${a.hq} · ${a.hc}</div>
+      </div>
+      <div class="card-rev"><div class="card-rev-val">${a.rev}</div><div class="card-rev-hc">${a.listed.split('(')[0].trim()}</div></div>
+    </div>
+    <div class="badges">${badge(a.seg,'#6D3A8A')}${sfBadge(a.sf)}${flags}</div>
+    <div class="card-notes">${a.notes}</div>
+    <div class="card-products">${a.products}</div>
+  </div>`;
+}
+
+function tableHTML(accounts){
+  if(!accounts.length)return'<div class="empty">No accounts match the current filters.</div>';
+  const headers=['Company','Segment','HQ','Headcount','Revenue','Listed / Private','SF','Tier','Notes'];
+  const rows=accounts.map(a=>{
+    const flags=a.flags.map(f=>badge(f,'#B8730A','#B8730A18')).join(' ');
+    const newTag=a.isNew?'<span class="new-tag">NEW</span>':'';
+    return`<tr>
+      <td class="name-cell">${a.name}${newTag}${flags?'<br><div style="margin-top:3px;display:flex;flex-wrap:wrap;gap:3px">'+flags+'</div>':''}</td>
+      <td>${badge(a.seg,'#6D3A8A')}</td>
+      <td style="white-space:nowrap">${a.hq}</td>
+      <td style="white-space:nowrap;font-weight:600">${a.hc}</td>
+      <td style="white-space:nowrap">${a.rev}</td>
+      <td style="font-size:10px;color:#6B6560">${a.listed}</td>
+      <td>${sfBadge(a.sf)}</td>
+      <td>${tierDot(a.tier)}</td>
+      <td class="notes-cell">${a.notes}</td>
+    </tr>`;
+  }).join('');
+  return`<div class="table-wrap"><table><thead><tr>${headers.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+
+function tierHTML(accounts){
+  if(!accounts.length)return'<div class="empty">No accounts match the current filters.</div>';
+  const tierMeta={
+    1:{label:'Tier 1 — Priority',desc:'AI-ready, enterprise buyer, whitespace or partial SF footprint'},
+    2:{label:'Tier 2 — Strong Fit',desc:'Strong fit but incumbent CRM or platform complexity'},
+    3:{label:'Tier 3 — Watch List',desc:'Longer-term or below headcount threshold — monitor'},
+  };
+  return[1,2,3].map(t=>{
+    const group=accounts.filter(a=>a.tier===t);
+    if(!group.length)return'';
+    return`<div class="tier-section">
+      <div class="tier-header" style="--tc:${TC[t]}">
+        <div class="tier-header-dot">${t}</div>
+        <div><div class="tier-header-title">${tierMeta[t].label}</div><div class="tier-header-desc">${tierMeta[t].desc}</div></div>
+        <span class="tier-header-count">${group.length} accounts</span>
+      </div>
+      <div class="card-grid">${group.map(cardHTML).join('')}</div>
+    </div>`;
+  }).join('');
+}
+
+function consultantHTML(){
+  return`<div class="consultant-box">
+    <div class="consultant-eyebrow">Consultant's Note — Non-Obvious Opportunities & Priority Actions</div>
+    <div class="consultant-grid">${NOTES.map(n=>`<div>
+      <div class="consultant-item-icon">${n.icon}</div>
+      <div class="consultant-item-title">${n.title}</div>
+      <div class="consultant-item-body">${n.body}</div>
+    </div>`).join('')}</div>
+    <div class="sources">Sources: Companies House · LinkedIn headcount data · PitchBook · Beauhurst · Crunchbase · Tech Nation UK AI Sector Spotlight 2025 · FTSE listings (LSE) · Mordor Intelligence UK Cybersecurity 2026 · G2 Best Software 2026 · Disfold UK Tech Rankings 2026 · Deloitte Fast 50 2025 · Built In UK 2025 · Individual company reports and press releases (Oct 2025 – May 2026)</div>
+  </div>`;
+}
+
+function render(){
+  activeTierFilter=parseInt(document.getElementById('tier-filter').value)||0;
+  const accounts=getFiltered();
+  const main=document.getElementById('main-content');
+  let html='';
+  if(currentView==='cards')html=accounts.length?`<div class="card-grid">${accounts.map(cardHTML).join('')}</div>`:'<div class="empty">No accounts match the current filters.</div>';
+  else if(currentView==='table')html=tableHTML(accounts);
+  else html=tierHTML(accounts);
+  html+=consultantHTML();
+  main.innerHTML=html;
+  document.getElementById('result-count').textContent=accounts.length+' accounts shown';
+  renderTierSummary();
+}
+
+function initCounts(){
+  document.getElementById('total-count').textContent=ACCOUNTS.length;
+  document.getElementById('t1-count').textContent=ACCOUNTS.filter(a=>a.tier===1).length;
+  document.getElementById('t2-count').textContent=ACCOUNTS.filter(a=>a.tier===2).length;
+  document.getElementById('flag-count').textContent=ACCOUNTS.filter(a=>a.flags.length>0).length;
+}
+
+function setView(v){
+  currentView=v;
+  ['cards','table','tier'].forEach(x=>document.getElementById('btn-'+x).classList.toggle('active',x===v));
+  render();
+}
+
+function toggleFlag(){
+  flagOnly=!flagOnly;
+  document.getElementById('flag-btn').classList.toggle('active',flagOnly);
+  render();
+}
+
+function toggleNew(){
+  newOnly=!newOnly;
+  document.getElementById('new-btn').classList.toggle('active',newOnly);
+  render();
+}
+
+initCounts();
+render();
+</script>
+</body>
+</html>
