@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Agentic AI Competitor Map v3</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{background:#F7F4EE;font-family:Arial,Helvetica,sans-serif;color:#111;-webkit-font-smoothing:antialiased;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#EDE9DF}
+::-webkit-scrollbar-thumb{background:#C5BFB4;border-radius:3px}
+
+/* ── MASTHEAD ── */
+.masthead{background:#00A1E0;color:#fff;padding:22px 24px 18px}
+.masthead-eye{font-size:9px;letter-spacing:5px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px}
+.masthead h1{font-size:clamp(18px,4vw,28px);font-weight:700;letter-spacing:-0.5px;margin-bottom:4px}
+.masthead-sub{font-size:12px;color:rgba(255,255,255,0.8);margin-bottom:14px}
+.masthead-stats{display:flex;flex-wrap:wrap;gap:10px}
+.mstat{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:8px;padding:9px 14px}
+.mstat-val{font-size:18px;font-weight:700;color:#fff;display:block;line-height:1.1}
+.mstat-lbl{font-size:10px;color:rgba(255,255,255,0.8);display:block;margin-top:2px}
+
+/* ── NAV ── */
+.nav{background:#fff;border-bottom:1px solid #D9D3C8;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;padding:0 20px;min-width:max-content}
+.nav-btn{padding:11px 14px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;color:#9B958E;white-space:nowrap}
+.nav-btn.active{color:#00A1E0;border-bottom-color:#00A1E0;font-weight:700}
+
+/* ── MAIN ── */
+.main{max-width:1060px;margin:0 auto;padding:22px 20px 60px}
+
+/* ── SECTION HEADER ── */
+.sec-head{margin-bottom:18px;padding-bottom:12px;border-bottom:2px solid #D9D3C8}
+.sec-title{font-size:19px;font-weight:700;color:#0D0D0D;letter-spacing:-0.3px}
+.sec-sub{font-size:11px;color:#9B958E;margin-top:3px;font-style:italic}
+
+/* ── SOURCE LEGEND ── */
+.src-legend{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;align-items:center}
+.src-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:1px}
+.src-lbl{font-size:10px;color:#9B958E}
+
+/* ── HEATMAP TABLE ── */
+.heatmap-wrap{background:#F0EDE7;border-radius:10px;padding:18px;overflow-x:auto;border:1px solid #D9D3C8}
+.heatmap-note{font-size:10px;color:#9B958E;margin-bottom:12px}
+table.heatmap{width:100%;border-collapse:collapse;min-width:700px}
+table.heatmap thead tr{border-bottom:2px solid #D9D3C8}
+table.heatmap th{padding:8px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#6B6560;font-weight:700;text-align:center;cursor:pointer;white-space:nowrap;transition:background 0.15s;border-radius:4px}
+table.heatmap th.col-active{background:#00A1E020;color:#00A1E0}
+table.heatmap th.col-vendor{text-align:left;cursor:default}
+table.heatmap tbody tr{border-bottom:1px solid #D9D3C8;cursor:pointer;transition:opacity 0.15s}
+table.heatmap tbody tr:last-child{border-bottom:none}
+table.heatmap tbody tr.dimmed{opacity:0.25}
+table.heatmap td{padding:8px 10px;vertical-align:middle}
+.vendor-name{font-size:12px;font-weight:700;color:#0D0D0D}
+.vendor-tier{font-size:9px;color:#9B958E;margin-top:1px}
+.vendor-dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
+.score-cell{text-align:center}
+.score-pips{display:flex;gap:2px;justify-content:center;margin-bottom:3px}
+.pip{width:9px;height:9px;border-radius:2px}
+.score-src{font-size:7px;font-weight:700;letter-spacing:0.5px;text-align:center}
+.total-score{text-align:center;font-size:16px;font-weight:700}
+.heatmap-tip{font-size:9px;color:#C5BFB4;margin-top:8px}
+
+/* ── DETAIL PANEL ── */
+.detail-panel{background:#fff;border-radius:10px;padding:20px 22px;margin-top:14px;border:1px solid #D9D3C8;display:none}
+.detail-panel.open{display:block}
+.detail-header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.detail-name{font-size:19px;font-weight:700;color:#0D0D0D}
+.detail-tagline{font-size:11px;color:#9B958E;font-style:italic;margin-top:2px}
+.detail-tier-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;margin-bottom:2px}
+.detail-g2{font-size:12px;color:#FF492C;font-weight:700;margin-top:4px}
+.close-btn{background:#EDE9DF;border:none;border-radius:6px;padding:6px 14px;cursor:pointer;font-size:11px;color:#6B6560;font-family:Arial,Helvetica,sans-serif}
+.detail-grid{display:grid;grid-template-columns:3fr 2fr;gap:18px}
+.layer-item{margin-bottom:12px}
+.layer-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.layer-name{font-size:11px;font-weight:700;color:#0D0D0D}
+.layer-score-src{display:flex;gap:6px;align-items:center}
+.layer-score{font-size:12px;font-weight:700}
+.bar-bg{height:3px;background:#EDE9DF;border-radius:2px;margin-bottom:4px}
+.bar-fill{height:3px;border-radius:2px;transition:width 0.4s ease}
+.layer-notes{font-size:10px;color:#6B6560;line-height:1.5}
+.sw-section{margin-bottom:14px}
+.sw-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;font-weight:700;margin-bottom:6px}
+.sw-item{font-size:11px;color:#333;margin-bottom:4px;display:flex;gap:6px}
+.sources-box{background:#EDE9DF;border-radius:6px;padding:10px 12px;margin-top:10px}
+.sources-lbl{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;margin-bottom:3px}
+.sources-text{font-size:10px;color:#6B6560;line-height:1.5}
+
+/* ── G2 TAB ── */
+.g2-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.g2-card{background:#fff;border-radius:8px;padding:14px 16px;border:1px solid #D9D3C8;border-left:4px solid var(--vc)}
+.g2-card-name{font-size:13px;font-weight:700;color:#0D0D0D;margin-bottom:4px}
+.g2-rating{font-size:26px;font-weight:700;color:var(--vc);line-height:1}
+.g2-stars{display:flex;gap:2px;margin:4px 0}
+.g2-star{width:14px;height:4px;border-radius:2px}
+.g2-reviews{font-size:10px;color:#9B958E;margin-bottom:6px}
+.g2-note{font-size:11px;color:#6B6560;line-height:1.5}
+.g2-na{font-size:13px;color:#C5BFB4;font-style:italic}
+.g2-footnote{background:#EDE9DF;border-radius:8px;padding:12px 16px;margin-top:14px;font-size:11px;color:#6B6560;line-height:1.6}
+
+/* ── BADGES TAB ── */
+.badge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.badge-card{background:#fff;border-radius:8px;padding:14px 16px;border:1px solid #D9D3C8;border-top:4px solid var(--vc)}
+.badge-card-name{font-size:13px;font-weight:700;color:#0D0D0D;margin-bottom:2px}
+.badge-card-tag{font-size:10px;color:#9B958E;margin-bottom:10px}
+.analyst-badge{font-size:11px;padding:4px 8px;margin-bottom:4px;background:#F7F4EE;border-left:3px solid var(--vc);border-radius:0 4px 4px 0;color:#333;line-height:1.4}
+.badge-src{font-size:9px;color:#C5BFB4;margin-top:8px;border-top:1px solid #EDE9DF;padding-top:8px;line-height:1.5}
+
+/* ── ANALYST SNAPSHOT ── */
+.snapshot-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-top:20px}
+.snapshot-item{}
+.snap-src{font-size:9px;padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:1px;display:inline-block;margin-bottom:5px}
+.snap-text{font-size:11px;color:#6B6560;line-height:1.6}
+.snap-box{background:#0D0D0D;border-radius:10px;padding:18px 20px}
+.snap-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#555;margin-bottom:12px}
+
+/* ── NEW BADGE ── */
+.new-chip{font-size:8px;padding:1px 5px;border-radius:10px;background:#1A7A4A;color:#fff;font-weight:700;letter-spacing:0.5px;margin-left:5px;vertical-align:middle}
+
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-eye">Salesforce UK · High-Tech GTM · Competitive Intelligence · May 2026</div>
+  <h1>Agentic AI Competitor Map <span style="opacity:0.6;font-weight:400">v3</span></h1>
+  <div class="masthead-sub">10 vendors scored across 5 agentic AI layers · G2, Gartner, ISG, Futurum Research · IFS and PolyAI added</div>
+  <div class="masthead-stats">
+    <div class="mstat"><span class="mstat-val">10</span><span class="mstat-lbl">Vendors mapped</span></div>
+    <div class="mstat"><span class="mstat-val">5</span><span class="mstat-lbl">Agentic AI layers</span></div>
+    <div class="mstat"><span class="mstat-val">4</span><span class="mstat-lbl">Analyst sources</span></div>
+    <div class="mstat"><span class="mstat-val">2</span><span class="mstat-lbl">New additions v3</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="setTab('heatmap',this)">Layer Heatmap</button>
+    <button class="nav-btn" onclick="setTab('g2',this)">G2 Ratings</button>
+    <button class="nav-btn" onclick="setTab('badges',this)">Analyst Badges</button>
+    <button class="nav-btn" onclick="setTab('snapshot',this)">Key Findings</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- HEATMAP TAB -->
+  <div id="tab-heatmap">
+    <div class="sec-head">
+      <div class="sec-title">Coverage Heatmap — Score 1–5 per Layer</div>
+      <div class="sec-sub">Scores sourced from G2 verified reviews, Gartner MQ/Critical Capabilities, ISG Buyers Guide, and Futurum Research. Click any vendor row to drill in. Click a column header to highlight a layer.</div>
+    </div>
+
+    <div class="src-legend">
+      <span class="src-badge" style="color:#FF492C;background:#FF492C20">G2</span>
+      <span class="src-badge" style="color:#00457C;background:#00457C20">GMQ</span>
+      <span class="src-badge" style="color:#005B99;background:#005B9920">GCC</span>
+      <span class="src-badge" style="color:#6B21A8;background:#6B21A820">ISG</span>
+      <span class="src-badge" style="color:#0F766E;background:#0F766E20">FUT</span>
+      <span class="src-badge" style="color:#78350F;background:#78350F20">CMP</span>
+      <span class="src-lbl">= scoring source</span>
+    </div>
+
+    <div class="heatmap-wrap">
+      <div class="heatmap-note">Sorted by total score. Click column header to highlight layer. Click row to open detail panel.</div>
+      <table class="heatmap" id="heatmap-table"></table>
+      <div class="heatmap-tip">Tip: click any vendor row to see full layer breakdown, strengths, weaknesses and sources below</div>
+    </div>
+
+    <div class="detail-panel" id="detail-panel"></div>
+  </div>
+
+  <!-- G2 TAB -->
+  <div id="tab-g2" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">G2 Verified User Ratings — 2026</div>
+      <div class="sec-sub">Only ratings from verified G2 reviews. Vendors without sufficient G2 review data in the AI Agent Builders category are noted.</div>
+    </div>
+    <div class="g2-grid" id="g2-content"></div>
+    <div class="g2-footnote">
+      <strong>Note on G2 data:</strong> IFS, PolyAI, SAP Joule, Oracle Fusion AI, and Workday Illuminate do not have sufficient standalone G2 reviews in the AI Agent Builders category as of May 2026. Their ISG and Gartner analyst coverage is used instead. Source: G2.com verified reviews, January–May 2026.
+    </div>
+  </div>
+
+  <!-- BADGES TAB -->
+  <div id="tab-badges" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Analyst Badges & Recognition</div>
+      <div class="sec-sub">What each vendor has won from independent analysts — not vendor self-reporting.</div>
+    </div>
+    <div class="badge-grid" id="badge-content"></div>
+  </div>
+
+  <!-- SNAPSHOT TAB -->
+  <div id="tab-snapshot" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Key Analyst Findings</div>
+      <div class="sec-sub">Sourced from Gartner MQ, Gartner Critical Capabilities, ISG Buyers Guide, G2, and Futurum Research — May 2026</div>
+    </div>
+    <div class="snap-box">
+      <div class="snap-eye">What the data says — April 2026</div>
+      <div class="snapshot-grid" id="snapshot-content"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── COLOUR MAP ────────────────────────────────────────────────────────────────
+const SRC_C={G2:'#FF492C',GMQ:'#00457C',GCC:'#005B99',ISG:'#6B21A8',FUT:'#0F766E',CMP:'#78350F'};
+const ZONES=[
+  {id:'gpt',            label:'Base Models',  desc:'Model quality, fine-tuning, inference'},
+  {id:'llms',           label:'LLMs & Tools', desc:'Model platforms, prompt engineering, RAG'},
+  {id:'aiAgents',       label:'AI Agents',    desc:'Reasoning, memory, tool chaining, state'},
+  {id:'agenticSystems', label:'Systems',       desc:'Multi-agent orchestration, inter-agent comms'},
+  {id:'agenticInfra',   label:'Infra',         desc:'Observability, governance, compliance, scaling'},
+];
+const TIER_META={
+  leader:'Market Leader',
+  challenger:'Challenger',
+  specialist:'Domain Specialist',
+  emerging:'Emerging Challenger',
+};
+
+// ── VENDOR DATA ───────────────────────────────────────────────────────────────
+const VENDORS=[
+  {
+    id:'salesforce',name:'Salesforce Agentforce',short:'Agentforce 360',color:'#00A1E0',
+    tagline:'CRM-Native Agentic Enterprise',tier:'leader',isNew:false,
+    g2:{rating:4.4,reviews:846,badge:'#1 Agentic AI (G2 2026)',note:'G2 #1 Agentic AI platform 2026. 83% meet-requirements. 846 reviews — most in category.'},
+    analystBadges:['ISG Leader (2 categories)','Gartner MQ Leader (Conv. AI 2025)','G2 Best Software 2026','Salesforce #1 CRM globally (IDC)'],
+    zones:{
+      gpt:           {score:3,src:'CMP/FUT',notes:'Atlas Reasoning Engine: hybrid ReAct + deterministic scripts. Supports Claude, GPT-5, Gemini backends — no proprietary frontier model.'},
+      llms:          {score:4,src:'CMP/FUT',notes:'Multi-LLM via Agentforce Builder; Prompt Engineering + grounding via Data Cloud; Intelligent Context pipeline for unstructured data.'},
+      aiAgents:      {score:5,src:'G2/ISG', notes:'Core differentiator — 4.4★/846 G2 reviews. CRM-native reasoning, long-term memory, state management, multi-step tool chaining. 83% meet-requirements score (G2).'},
+      agenticSystems:{score:5,src:'ISG/FUT',notes:'ISG Leader. Multi-agent RAG via Data Cloud, A2A protocol, MCP support, hierarchical planning, inter-agent comms. 12,000+ enterprise deployments.'},
+      agenticInfra:  {score:5,src:'G2/ISG', notes:'Einstein Trust Layer (ISO 27001, SOC2), MuleSoft Agent Fabric for anti-sprawl, AgentExchange marketplace, Command Center observability.'},
+    },
+    strengths:['G2 #1 Agentic AI platform 2026','ISG Leader: Customer & Sales automation','12,000+ enterprise deployments','Atlas hybrid reasoning (deterministic + LLM)','MCP + A2A open interop','$6B UK investment commitment through 2030'],
+    weaknesses:['Deep ecosystem lock-in (G2 reviewers)','Unpredictable Flex Credit pricing (G2)','Hallucination risk without custom training','Non-SF systems need MuleSoft overhead'],
+    sources:'G2 (846 reviews, 4.4★) · ISG AI Agents Buyers Guide 2025 · Gartner MQ Conversational AI 2025 · Futurum 2025',
+  },
+  {
+    id:'servicenow',name:'ServiceNow',short:'AI Agent Orchestrator',color:'#62D84E',
+    tagline:'ITSM-Native Control Tower',tier:'leader',isNew:false,
+    g2:{rating:4.4,reviews:null,badge:'G2 Enterprise Leader',note:'G2 Enterprise Leader. Review count not publicly disclosed in AI Agents category.'},
+    analystBadges:['Gartner CC #1 for Building & Managing AI Agents 2025','ISG Leader (6 categories)','Gartner MQ Leader (AI Apps in ITSM)'],
+    zones:{
+      gpt:           {score:2,src:'CMP',    notes:'Now LLM purpose-built for workflow/ITSM context. Privacy-first — data stays on-platform by default. Not a frontier model play.'},
+      llms:          {score:3,src:'CMP',    notes:'Now LLM + third-party model support; AI Agent Studio for low-code configuration; workflow-context embedding.'},
+      aiAgents:      {score:4,src:'GCC/ISG',notes:'Strong ITSM/HR/CSM task planning. AI Agent Orchestrator coordinates specialized agents. Thousands of pre-built ITSM agents.'},
+      agenticSystems:{score:5,src:'GCC',    notes:'Gartner Critical Capabilities #1 for Building & Managing AI Agents 2025. AI Control Tower governs MS, Salesforce, and own agents cross-platform — strongest cross-vendor governance.'},
+      agenticInfra:  {score:5,src:'ISG/GCC',notes:'ISG Leader (6 categories). AI included free for Pro Plus & Enterprise Plus. FedRAMP, SSO, audit trails. $9B acquisitions building scale.'},
+    },
+    strengths:['Gartner CC #1 for AI agent building & management','ISG Leader in 6 categories','AI Control Tower governs cross-vendor agents','No extra AI cost for Pro/Enterprise Plus','Deep ITSM/HR/CSM pre-built workflows'],
+    weaknesses:['Narrower outside IT/HR/CSM domains','$9B acquisition spree adds integration risk','Less CRM/marketing depth vs Salesforce','Now LLM behind frontier models'],
+    sources:'Gartner Critical Capabilities AI Agents 2025 (#1) · ISG AI Agents Buyers Guide (6 categories) · G2 Enterprise Leader · Futurum 2025',
+  },
+  {
+    id:'microsoft',name:'Microsoft',short:'Copilot Studio / Azure Foundry',color:'#0078D4',
+    tagline:'M365-Native Agentic Fabric',tier:'leader',isNew:false,
+    g2:{rating:4.4,reviews:140,badge:'G2 Leader (AI Agent Builders)',note:'G2 Leader. 140 reviews vs Agentforce 846 — much smaller verified base despite M365 ubiquity.'},
+    analystBadges:['Gartner MQ Leader + Furthest Vision (AIDP 2025)','G2 Best Software 2026 (30+ placements)','Gartner MQ Leader iPaaS 2026 (8th yr)'],
+    zones:{
+      gpt:           {score:5,src:'GMQ',    notes:'GPT-5 Auto/Chat/Reasoning natively in agents (Ignite 2025). Azure OpenAI + Azure AI Foundry — most direct model access of any vendor. Gartner: furthest Completeness of Vision (AIDP MQ).'},
+      llms:          {score:5,src:'GMQ/G2', notes:'Azure AI Foundry: 1,400+ pre-built connectors, multi-model orchestration, Foundry IQ for enterprise grounding. Copilot Studio: low-code agent builder.'},
+      aiAgents:      {score:4,src:'G2/CMP', notes:'4.4★ G2. Agents treat websites and desktop apps as tools (computer use). Agent 365 control plane, multi-agent orchestration in Copilot Studio.'},
+      agenticSystems:{score:4,src:'FUT/CMP',notes:'Strong within M365 (Teams, SharePoint, Outlook via Graph). Multi-agent orchestration GA. Work IQ organizational intelligence layer. Weaker cross-system vs ServiceNow Control Tower.'},
+      agenticInfra:  {score:5,src:'GMQ',    notes:'Azure hyperscale, Entra Agent ID for governance, Foundry Control Plane audit trails. Gartner MQ Leader iPaaS 8 consecutive years.'},
+    },
+    strengths:['Gartner AIDP MQ Leader — furthest Completeness of Vision','GPT-5 native access for agents','M365 ubiquity (Teams, Outlook, SharePoint)','Azure Foundry 1,400+ connectors','G2 Best Software 2026 (30+ awards)'],
+    weaknesses:['Only 140 G2 reviews vs Agentforce 846','Weakest outside Microsoft ecosystem','Non-MS systems need custom connectors','Less opinionated for CRM workflows'],
+    sources:'Gartner MQ AI App Dev Platforms Nov 2025 (Leader, furthest vision) · G2 (140 reviews, 4.4★) · G2 Best Software 2026 · Futurum 2025',
+  },
+  {
+    id:'google',name:'Google',short:'Vertex AI / Gemini Enterprise',color:'#EA4335',
+    tagline:'Highest Ability to Execute (Gartner)',tier:'leader',isNew:false,
+    g2:{rating:4.3,reviews:633,badge:'G2 Leader (Vertex AI)',note:'4.3★ / 633 reviews. ADK downloaded 8M+ times — largest developer community of any platform.'},
+    analystBadges:['Gartner MQ — Highest Ability to Execute (AIDP 2025)','Gartner MQ Leader + Furthest Vision (Conv. AI 2025)','A2A Protocol creator (Linux Foundation)'],
+    zones:{
+      gpt:           {score:5,src:'GMQ',    notes:'Gartner AIDP: Highest Ability to Execute of all vendors. Gemini Ultra + DeepMind R&D pipeline. Emotional awareness, real-time video cited by Gartner (Conv. AI MQ).'},
+      llms:          {score:5,src:'GMQ/G2', notes:'Vertex AI Agent Builder — 4.3★/633 G2 reviews. ADK downloaded 8M+ times. Model Garden: widest multi-model selection.'},
+      aiAgents:      {score:4,src:'G2/CMP', notes:'Gemini Enterprise Skills (reusable workflows). Agent Gallery with validated SF/ServiceNow/Adobe/Workday partners.'},
+      agenticSystems:{score:4,src:'GMQ/FUT',notes:'Created and donated A2A protocol to Linux Foundation (open standard). Agent Payments Protocol (AP2). Model Armor for prompt injection protection. MCP-first.'},
+      agenticInfra:  {score:5,src:'GMQ',    notes:'GCP hyperscale. Native agent identities via IAM. OpenTelemetry observability. Google-validated security for all partner agents in Agent Gallery.'},
+    },
+    strengths:['Gartner AIDP: Highest Ability to Execute (all vendors)','Gartner Conv. AI: furthest Completeness of Vision','ADK: 8M+ downloads — largest dev community','Created A2A open protocol (Linux Foundation)','Best underlying model quality (Gemini)'],
+    weaknesses:['4.3★ G2 — lower than SF/MS on user satisfaction','Less enterprise workflow depth than SF/ServiceNow','GCP infrastructure dependency raises costs','Newer enterprise sales motion vs incumbents'],
+    sources:'Gartner MQ AI App Dev Platforms Nov 2025 (highest Ability to Execute) · Gartner MQ Conversational AI Aug 2025 (furthest vision) · G2 (633 reviews, 4.3★)',
+  },
+  {
+    id:'ibm',name:'IBM watsonx',short:'watsonx Orchestrate',color:'#1F70C1',
+    tagline:'Governance-First, Hybrid Cloud',tier:'challenger',isNew:false,
+    g2:{rating:4.3,reviews:null,badge:'G2 Leader (AI Agent Builders)',note:'G2 Leader. Praised for governance. Steep learning curve noted in reviews.'},
+    analystBadges:['Gartner MQ Leader (AIDP Nov 2025)','ISG Leader (1 category)','Fortune 500 top pick for regulated industries'],
+    zones:{
+      gpt:           {score:3,src:'GMQ',    notes:'IBM Granite 4.0 + multi-model (OpenAI, Anthropic, Gemini, Mistral, Ollama). No LLM lock-in. Gartner MQ Leader (AIDP 2025). Hybrid/on-prem deployment for regulated industries.'},
+      llms:          {score:4,src:'GMQ/G2', notes:'watsonx Studio: no-code → pro-code (Langflow/ADK). OpenTelemetry observability baked in. Prompt management + agent state tracking. Gartner Leader (AIDP).'},
+      aiAgents:      {score:4,src:'ISG/CMP',notes:'100+ pre-built domain agents (HR, procurement, sales). Builds agents in <5 min (no-code). 80+ enterprise app integrations (SF, SAP, ServiceNow, Workday, Oracle).'},
+      agenticSystems:{score:4,src:'ISG/GMQ',notes:'Multi-agent orchestration across custom, A2A, Langflow, MCP agents. Oracle Fusion AI Agent Marketplace partnership. Cross-vendor by design.'},
+      agenticInfra:  {score:4,src:'CMP',    notes:'Strongest governance/auditability per Fortune 500 buyer guides. On-prem + hybrid cloud. IBM procurement cycles are slow. Enterprise-negotiated pricing (no public list).'},
+    },
+    strengths:['Gartner MQ Leader (AIDP 2025)','Best governance & auditability for regulated industries','Multi-model routing (no lock-in)','80+ enterprise app integrations','On-prem / hybrid deployment options'],
+    weaknesses:['Slower deployment cycles than SaaS-native rivals','No transparent public pricing','Marketing story weaker than capabilities suggest','Needs better consumable packaging (Futurum)'],
+    sources:'Gartner MQ AI App Dev Platforms Nov 2025 (Leader) · ISG AI Agents Buyers Guide · Fortune 500 Buyer Guides · Futurum 2025',
+  },
+  {
+    id:'uipath',name:'UiPath',short:'Agentic Automation',color:'#FA4616',
+    tagline:'RPA + Agents — Highest G2 Score',tier:'challenger',isNew:false,
+    g2:{rating:4.6,reviews:5816,badge:'Top-rated AI Agent Builder (G2)',note:'4.6★ / 5,816 reviews — highest-rated and most reviewed agent platform on G2. Dominant in ops and process automation.'},
+    analystBadges:['ISG Leader (1 category)','G2 Top-rated: 4.6★ / 5,816 reviews','Fortune 500 Buyer Guide top pick (ops automation)'],
+    zones:{
+      gpt:           {score:1,src:'CMP',    notes:'Model-agnostic. No proprietary LLM. Plugs into any model via API. Strength is orchestration, not model quality.'},
+      llms:          {score:2,src:'CMP',    notes:'Document Understanding for unstructured data extraction. Orchestrates any LLM. Not a model platform — relies on partners.'},
+      aiAgents:      {score:4,src:'G2',     notes:'4.6★ / 5,816 G2 reviews — highest-rated agent builder by volume. Agents layered on RPA bots: computer vision, multi-step tool chaining, human-in-loop. Best for ops teams.'},
+      agenticSystems:{score:4,src:'G2/CMP', notes:'Robot Orchestrator coordinates RPA + AI agents. Process mining auto-discovers automation targets. Strong inter-agent + human escalation workflows.'},
+      agenticInfra:  {score:3,src:'CMP',    notes:'Automation Cloud. Ecosystem-agnostic integrations (SF, SAP, ServiceNow). Starting at $25/month — most accessible pricing. RPA legacy perception hurts agentic positioning.'},
+    },
+    strengths:['Highest G2 rating: 4.6★ with 5,816 reviews — most validated by users','Best for RPA → Agents migration path','Process mining finds automation targets automatically','Ecosystem-agnostic: not locked to any vendor'],
+    weaknesses:['No proprietary LLM advantage','RPA legacy perception vs pure-play agent platforms','Weaker at customer-facing/CRM scenarios','Narrower than full-stack platform plays'],
+    sources:'G2 (5,816 reviews, 4.6★ — highest of all vendors) · ISG AI Agents Buyers Guide · DataBusinessCentral Top 11 Agentic Platforms 2026',
+  },
+  {
+    id:'oracle',name:'Oracle',short:'Fusion AI Agent Studio',color:'#C74634',
+    tagline:'ISG Top-Ranked: ERP-Native AI',tier:'specialist',isNew:false,
+    g2:{rating:null,reviews:null,badge:'ISG #1 overall AI Agents 2025',note:'No sufficient G2 review data in AI Agent Builders category. ISG #1 overall is the primary independent validation.'},
+    analystBadges:['ISG #1 overall AI Agents Software Provider 2025','ISG Leader (7 categories — most of any vendor)','Oracle Fusion AI Agent Marketplace'],
+    zones:{
+      gpt:           {score:2,src:'ISG',    notes:'OCI Generative AI + Cohere. IBM Granite 4.0 available via OCI. \'AI included\' across Fusion apps — embedded, not bolt-on. ISG top overall ranking.'},
+      llms:          {score:3,src:'ISG',    notes:'OCI Generative AI Service. Cohere fine-tuned for ERP context. Oracle AI Agent Studio for Fusion-native agent building.'},
+      aiAgents:      {score:3,src:'ISG',    notes:'Fusion Cloud Sales agents: record-keeping, email drafting, insight delivery at no additional cost (\'AI included\'). Oracle AI Agent Marketplace with IBM, partner agents.'},
+      agenticSystems:{score:3,src:'ISG',    notes:'Oracle AI Agent Marketplace for cross-vendor agents. IBM watsonx Orchestrate partnership for multi-agent cross-platform work. Weaker standalone orchestration vs ServiceNow.'},
+      agenticInfra:  {score:3,src:'ISG',    notes:'OCI cloud scale. Enterprise compliance. \'AI included\' no-extra-cost positioning is competitive differentiator. ISG Leader in 7 categories.'},
+    },
+    strengths:['ISG #1 overall AI Agents Software Provider 2025','ISG Leader in 7 categories — most of any vendor','\'AI included\' no extra cost across Fusion apps','Oracle AI Agent Marketplace for partner agents','Deep ERP/Finance/Procurement data moat'],
+    weaknesses:['Weaker standalone agent orchestration','Less flexible outside Oracle ecosystem','Longer innovation cycles vs SaaS-native vendors','Limited G2 user review data'],
+    sources:'ISG AI Agents Buyers Guide 2025 (#1 overall, 7 categories) · Oracle/IBM joint announcement Oct 2025 · Futurum 2025',
+  },
+  {
+    id:'sap',name:'SAP',short:'Joule AI Copilot',color:'#0070F2',
+    tagline:'ERP-Embedded, 150+ Pre-Built Skills',tier:'specialist',isNew:false,
+    g2:{rating:null,reviews:null,badge:'Futurum Enterprise Leader',note:'No sufficient standalone G2 data. Strong in ERP-native AI. Validated in Google Gemini Enterprise Agent Gallery.'},
+    analystBadges:['Futurum 2025 ERP AI leader','150+ pre-built SAP workflow skills','Available in Google Gemini Enterprise Agent Gallery'],
+    zones:{
+      gpt:           {score:2,src:'FUT',    notes:'Joule LLM fine-tuned on SAP ERP business semantics. SAP AI Core on BTP for custom model deployment. Deep ERP context baked in.'},
+      llms:          {score:3,src:'FUT',    notes:'SAP Business Technology Platform (BTP). Custom model deployment. 150+ pre-built SAP workflow skills. Validated in Google Gemini Enterprise Agent Gallery.'},
+      aiAgents:      {score:4,src:'FUT/CMP',notes:'Joule agents for procurement, AP, HR — pre-configured for SAP workflows. Steady GA milestones throughout 2025.'},
+      agenticSystems:{score:2,src:'FUT',    notes:'SAP BTP orchestration. Connectors to SF, ServiceNow, MS. Weaker A2A/cross-platform vs pure-play vendors.'},
+      agenticInfra:  {score:3,src:'FUT',    notes:'Enterprise compliance for regulated industries. SAP-native governance. Slower deployment cycles historically.'},
+    },
+    strengths:['Deepest ERP/Finance/Procurement domain pre-config','150+ pre-built skills — fastest time-to-value for SAP shops','Validated in Google Gemini Enterprise Agent Gallery','Trusted in regulated industries'],
+    weaknesses:['Historically slow release cycles (Futurum)','Not a standalone agent platform','Weaker orchestration outside SAP ecosystem','Limited independent analyst review data'],
+    sources:'Futurum Research Q1–Q4 2025 · Google Gemini Enterprise Agent Gallery · Analyst comparisons',
+  },
+  {
+    id:'ifs',name:'IFS',short:'IFS Cloud / Digital Workers',color:'#E84025',
+    tagline:'Industrial Agentic AI — ERP + FSM',tier:'challenger',isNew:true,
+    g2:{rating:null,reviews:null,badge:'Gartner MQ Challenger (FSM 2025)',note:'No G2 data specifically for AI Agent Builders. Gartner recognised in FSM and EAM Magic Quadrants. EQT PE-backed with aggressive AI roadmap.'},
+    analystBadges:['Gartner MQ Challenger (Field Service Management 2025)','IFS Cloud 25R2 — Agentic Digital Workers GA','Acquired TheLoops 2025 (AI autonomous capabilities)'],
+    zones:{
+      gpt:           {score:2,src:'CMP',    notes:'IFS-native LLM fine-tuned on industrial ERP/FSM context. Supports third-party model connections. Not a general-purpose frontier model.'},
+      llms:          {score:3,src:'CMP',    notes:'IFS AI embedded across Cloud platform. TheLoops acquisition (2025) adds autonomous AI decision-making. Multi-model support on IFS Cloud roadmap.'},
+      aiAgents:      {score:4,src:'CMP/FUT',notes:'IFS Cloud 25R2: Agentic Digital Workers — autonomous, governed, end-to-end task execution across enterprise ERP/FSM/EAM workflows. Directly competes with Agentforce for industrial use cases.'},
+      agenticSystems:{score:3,src:'CMP',    notes:'Multi-agent coordination within IFS Cloud. Nexus Black innovation accelerator focused on scalable AI solutions. Limited cross-platform orchestration vs pure-play vendors.'},
+      agenticInfra:  {score:3,src:'CMP',    notes:'IFS Cloud scalability. EQT PE-backed — rapid investment in AI capabilities. Enterprise-grade compliance for manufacturing, defence, energy. Governance frameworks for regulated sectors.'},
+    },
+    strengths:['Agentic Digital Workers launched 2025 — autonomous enterprise task execution','Deep industrial domain: manufacturing, defence, energy, aerospace','Acquired TheLoops to expand AI automation capabilities','7,000+ employees, global enterprise customer base','EQT PE-backed — aggressive AI investment pace'],
+    weaknesses:['Not a general-purpose agentic platform — industrial-only focus','Limited cross-platform orchestration vs ServiceNow or Salesforce','Weaker CRM and customer-facing agent capabilities','No significant G2 presence in AI Agents category yet'],
+    sources:'IFS Press Release: IFS Cloud 25R2 (2025) · TheLoops acquisition announcement (2025) · Gartner MQ Field Service Management 2025 · EQT Portfolio data · Futurum 2025',
+  },
+  {
+    id:'polyai',name:'PolyAI',short:'Enterprise Voice AI Agents',color:'#7C3AED',
+    tagline:'Conversational AI — 50%+ Call Resolution',tier:'emerging',isNew:true,
+    g2:{rating:null,reviews:null,badge:'Tech Nation UK AI Unicorn Candidate 2025',note:'No G2 data — pre-IPO, Series C stage. Tech Nation recognised as top UK AI unicorn candidate. $118M raised.'},
+    analystBadges:['Tech Nation Top UK AI Unicorn Candidate 2025','AI Agent Product of the Year — ConnexAI adjacent category 2025','Series C — $118M raised, London HQ'],
+    zones:{
+      gpt:           {score:3,src:'CMP',    notes:'Proprietary conversational AI models optimised for voice. LLM-powered with domain fine-tuning for enterprise use cases. Not a general-purpose frontier model.'},
+      llms:          {score:3,src:'CMP',    notes:'Enterprise voice AI platform — multi-turn conversation, language understanding, intent detection. Integrates with existing enterprise LLM stacks.'},
+      aiAgents:      {score:4,src:'CMP',    notes:'50%+ autonomous call resolution rate — best-in-class for voice agents. Handles complex, multi-turn customer service conversations at enterprise scale. Deployed by Tier 1 banks, healthcare, retail.'},
+      agenticSystems:{score:2,src:'CMP',    notes:'Voice-channel focused. Limited multi-agent orchestration across channels. Integration with CRM/service platforms but not a multi-agent OS. Partnership with Salesforce Service Cloud is a natural route.'},
+      agenticInfra:  {score:2,src:'CMP',    notes:'Cloud-native, enterprise SLA. FCA/GDPR compliant. Growing but pre-IPO scale. Limited public governance/observability tooling vs Salesforce or ServiceNow.'},
+    },
+    strengths:['50%+ autonomous voice call resolution — industry-leading','Natural Agentforce Service Cloud integration partner','London HQ — UK-native AI company, Tech Nation unicorn candidate','Tier 1 bank, healthcare, and retail deployments','Series C growth trajectory ($118M raised)'],
+    weaknesses:['Voice-only focus — limited omnichannel agent orchestration','No general-purpose agentic platform','Pre-IPO scale — smaller enterprise footprint than incumbent vendors','Limited Gartner/ISG analyst coverage at this stage'],
+    sources:'Tech Nation UK AI Sector Spotlight 2025 · PolyAI Series C announcement · ConnexAI / PolyAI market comparisons · Futurum 2025',
+  },
+];
+
+// ── ANALYST SNAPSHOT DATA ─────────────────────────────────────────────────────
+const SNAPSHOTS=[
+  {src:'ISG', color:SRC_C.ISG, text:'Oracle ranks #1 overall in ISG AI Agents Buyers Guide 2025 — most categories (7) of any vendor. ServiceNow #2 (6 categories). Salesforce ISG Leader in Customer & Sales categories.'},
+  {src:'GCC', color:SRC_C.GCC, text:'Gartner Critical Capabilities 2025: ServiceNow ranked #1 for Building and Managing AI Agents across all evaluated scenarios.'},
+  {src:'GMQ', color:SRC_C.GMQ, text:'Gartner AIDP MQ Nov 2025: Microsoft furthest in Completeness of Vision. Google highest in Ability to Execute. IBM watsonx also a Leader — underrated by market.'},
+  {src:'G2',  color:SRC_C.G2,  text:'G2 2026: UiPath is highest-rated by volume (4.6★/5,816 reviews). Salesforce is G2 #1 Agentic AI platform. Microsoft only 140 reviews despite M365 ubiquity.'},
+  {src:'FUT', color:SRC_C.FUT, text:'Futurum 2025: Every major vendor claims \'agentic OS\' positioning. IFS is the most underestimated — Digital Workers in IFS Cloud 25R2 directly compete with Agentforce in industrial sectors.'},
+  {src:'CMP', color:SRC_C.CMP, text:'PolyAI (50%+ voice resolution) and IFS (industrial Digital Workers) represent the two most significant new competitive vectors to track in 2026 — both are UK-relevant.'},
+];
+
+// ── STATE ────────────────────────────────────────────────────────────────────
+let activeCol=null,activeVendor=null;
+
+// ── HEATMAP RENDER ────────────────────────────────────────────────────────────
+function hexToRgb(hex){
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return{r,g,b};
+}
+function scoreBg(score,hex,alpha){
+  if(score===0)return'#EDE9DF';
+  const a=[0,0.15,0.3,0.5,0.7,1][score]*alpha;
+  const {r,g,b}=hexToRgb(hex);
+  return`rgba(${r},${g},${b},${a})`;
+}
+
+function renderHeatmap(){
+  const sorted=[...VENDORS].sort((a,b)=>{
+    const sa=Object.values(a.zones).reduce((s,z)=>s+z.score,0);
+    const sb=Object.values(b.zones).reduce((s,z)=>s+z.score,0);
+    return sb-sa;
+  });
+  const tbl=document.getElementById('heatmap-table');
+  // Header
+  const headerCells=ZONES.map((z,i)=>`<th class="${activeCol===i?'col-active':''}" onclick="toggleCol(${i})" title="${z.desc}">${z.label}</th>`).join('');
+  let html=`<thead><tr>
+    <th class="col-vendor" style="text-align:left;min-width:180px">Vendor</th>
+    ${headerCells}
+    <th>Total</th>
+  </tr></thead><tbody>`;
+  sorted.forEach(v=>{
+    const total=Object.values(v.zones).reduce((s,z)=>s+z.score,0);
+    const isDimmed=activeVendor&&activeVendor!==v.id;
+    const totalColor=total>=22?'#1A7A4A':total>=18?'#B8730A':'#C0392B';
+    const scoreCells=ZONES.map((z,i)=>{
+      const zd=v.zones[z.id];
+      const bg=scoreBg(zd.score,v.color,1);
+      const isColActive=activeCol===i;
+      const srcKey=zd.src.split('/')[0];
+      return`<td class="score-cell" style="background:${isColActive?scoreBg(zd.score,v.color,1.2):''}">
+        <div class="score-pips">${[1,2,3,4,5].map(p=>`<div class="pip" style="background:${p<=zd.score?v.color:'#D9D3C8'}"></div>`).join('')}</div>
+        <div class="score-src" style="color:${SRC_C[srcKey]||'#9B958E'}">${srcKey}</div>
+      </td>`;
+    }).join('');
+    html+=`<tr class="${isDimmed?'dimmed':''}" onclick="selectVendor('${v.id}')">
+      <td>
+        <div style="display:flex;align-items:center;gap:6px">
+          <div class="vendor-dot" style="background:${v.color}"></div>
+          <div>
+            <div class="vendor-name">${v.name}${v.isNew?'<span class="new-chip">NEW</span>':''}</div>
+            <div class="vendor-tier">${TIER_META[v.tier]||v.tier}</div>
+          </div>
+        </div>
+      </td>
+      ${scoreCells}
+      <td class="total-score" style="color:${totalColor}">${total}<div style="font-size:8px;color:#C5BFB4;font-weight:400">/25</div></td>
+    </tr>`;
+  });
+  html+='</tbody>';
+  tbl.innerHTML=html;
+}
+
+function toggleCol(i){
+  activeCol=activeCol===i?null:i;
+  renderHeatmap();
+}
+
+function selectVendor(id){
+  activeVendor=activeVendor===id?null:id;
+  renderHeatmap();
+  renderDetail();
+}
+
+function renderDetail(){
+  const panel=document.getElementById('detail-panel');
+  if(!activeVendor){panel.classList.remove('open');panel.innerHTML='';return;}
+  const v=VENDORS.find(x=>x.id===activeVendor);
+  if(!v){panel.classList.remove('open');return;}
+  const total=Object.values(v.zones).reduce((s,z)=>s+z.score,0);
+  const g2html=v.g2.rating?`<div class="detail-g2">G2 ${v.g2.rating}★${v.g2.reviews?` · ${v.g2.reviews.toLocaleString()} reviews`:''}</div>`:'';
+  const layerRows=ZONES.map(z=>{
+    const zd=v.zones[z.id];
+    const srcKey=zd.src.split('/')[0];
+    return`<div class="layer-item">
+      <div class="layer-header">
+        <span class="layer-name">${z.label} <span style="color:#9B958E;font-weight:400;font-size:10px">(${z.desc})</span></span>
+        <div class="layer-score-src">
+          <span style="font-size:9px;padding:1px 5px;border-radius:10px;background:${SRC_C[srcKey]||'#9B958E'}20;color:${SRC_C[srcKey]||'#9B958E'};font-weight:700">${zd.src}</span>
+          <span class="layer-score" style="color:${v.color}">${zd.score}/5</span>
+        </div>
+      </div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${zd.score*20}%;background:${v.color}"></div></div>
+      <div class="layer-notes">${zd.notes}</div>
+    </div>`;
+  }).join('');
+  panel.innerHTML=`
+    <div class="detail-header">
+      <div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div style="width:14px;height:14px;border-radius:50%;background:${v.color}"></div>
+          <div class="detail-name">${v.name}${v.isNew?'<span class="new-chip">NEW v3</span>':''}</div>
+        </div>
+        <div class="detail-tagline">${v.tagline}</div>
+        <div style="margin-top:5px"><span style="font-size:9px;padding:2px 8px;border-radius:20px;background:${v.color}20;color:${v.color};font-weight:700">${TIER_META[v.tier]||v.tier}</span></div>
+        ${g2html}
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:28px;font-weight:700;color:${v.color}">${total}</div>
+        <div style="font-size:10px;color:#9B958E">/ 25 total</div>
+        <button class="close-btn" onclick="selectVendor('${v.id}')" style="margin-top:8px">✕ Close</button>
+      </div>
+    </div>
+    <div class="detail-grid">
+      <div>${layerRows}</div>
+      <div>
+        <div class="sw-section">
+          <div class="sw-label">Strengths</div>
+          ${v.strengths.map(s=>`<div class="sw-item"><span style="color:${v.color};font-weight:700;flex-shrink:0">+</span>${s}</div>`).join('')}
+        </div>
+        <div class="sw-section">
+          <div class="sw-label">Weaknesses</div>
+          ${v.weaknesses.map(w=>`<div class="sw-item"><span style="color:#C0392B;font-weight:700;flex-shrink:0">−</span>${w}</div>`).join('')}
+        </div>
+        <div class="sources-box">
+          <div class="sources-lbl">Analyst Sources</div>
+          <div class="sources-text">${v.sources}</div>
+        </div>
+      </div>
+    </div>`;
+  panel.classList.add('open');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ── G2 RENDER ─────────────────────────────────────────────────────────────────
+function renderG2(){
+  const g2Vendors=VENDORS.filter(v=>v.g2.rating).sort((a,b)=>b.g2.rating-a.g2.rating);
+  const naVendors=VENDORS.filter(v=>!v.g2.rating);
+  let html=g2Vendors.map(v=>`
+    <div class="g2-card" style="--vc:${v.color}">
+      <div class="g2-card-name">${v.name}${v.isNew?'<span class="new-chip">NEW</span>':''}</div>
+      <div class="g2-rating">${v.g2.rating}★</div>
+      <div class="g2-stars">${[1,2,3,4,5].map(i=>`<div class="g2-star" style="background:${i<=Math.round(v.g2.rating)?v.color:'#D9D3C8'}"></div>`).join('')}</div>
+      <div class="g2-reviews">${v.g2.reviews?`${v.g2.reviews.toLocaleString()} verified reviews`:'Review count undisclosed'} · ${v.g2.badge}</div>
+      <div class="g2-note">${v.g2.note}</div>
+    </div>`).join('');
+  html+=naVendors.map(v=>`
+    <div class="g2-card" style="--vc:${v.color};opacity:0.7">
+      <div class="g2-card-name">${v.name}${v.isNew?'<span class="new-chip">NEW</span>':''}</div>
+      <div class="g2-na">No G2 data in AI Agents category</div>
+      <div class="g2-note" style="margin-top:6px">${v.g2.note}</div>
+    </div>`).join('');
+  document.getElementById('g2-content').innerHTML=html;
+}
+
+// ── BADGES RENDER ─────────────────────────────────────────────────────────────
+function renderBadges(){
+  document.getElementById('badge-content').innerHTML=VENDORS.map(v=>`
+    <div class="badge-card" style="--vc:${v.color}">
+      <div class="badge-card-name">${v.name}${v.isNew?'<span class="new-chip">NEW</span>':''}</div>
+      <div class="badge-card-tag">${v.tagline}</div>
+      ${v.analystBadges.map(b=>`<div class="analyst-badge">${b}</div>`).join('')}
+      <div class="badge-src">${v.sources}</div>
+    </div>`).join('');
+}
+
+// ── SNAPSHOT RENDER ───────────────────────────────────────────────────────────
+function renderSnapshot(){
+  document.getElementById('snapshot-content').innerHTML=SNAPSHOTS.map(s=>`
+    <div class="snapshot-item">
+      <span class="snap-src" style="background:${s.color}25;color:${s.color}">${s.src}</span>
+      <div class="snap-text">${s.text}</div>
+    </div>`).join('');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+const TABS=['heatmap','g2','badges','snapshot'];
+function setTab(id,btn){
+  TABS.forEach(t=>document.getElementById(`tab-${t}`).classList.toggle('hidden',t!==id));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderHeatmap();
+renderG2();
+renderBadges();
+renderSnapshot();
+</script>
+</body>
+</html>
