@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<title>Salesforce UK High-Tech GTM Strategy · FY27</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:14px}
+body{background:#F7F4EE;font-family:Arial,Helvetica,sans-serif;color:#111;-webkit-font-smoothing:antialiased;min-height:100vh}
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:#EDE9DF}
+::-webkit-scrollbar-thumb{background:#C5BFB4;border-radius:3px}
+
+/* ── MASTHEAD ── */
+.masthead{background:#00A1E0;color:#fff;padding:20px 20px 16px}
+.masthead-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:6px}
+.masthead h1{font-size:clamp(18px,4vw,26px);font-weight:700;letter-spacing:-0.5px;margin-bottom:3px}
+.masthead-sub{font-size:11px;color:rgba(255,255,255,0.75);margin-bottom:16px}
+.masthead-stats{display:flex;flex-wrap:wrap;gap:10px}
+.stat-item{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:8px;padding:10px 16px;min-width:120px}
+.stat-val{font-size:22px;font-weight:700;color:#fff;display:block;line-height:1.1}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,0.85);display:block;margin-top:2px}
+
+/* ── NAV ── */
+.nav{background:#fff;border-bottom:1px solid #D9D3C8;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav-inner{display:flex;padding:0 20px;min-width:max-content}
+.nav-btn{padding:12px 14px;background:none;border:none;border-bottom:2px solid transparent;cursor:pointer;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-family:Arial,Helvetica,sans-serif;color:#9B958E;white-space:nowrap;transition:color 0.15s}
+.nav-btn.active{color:#00A1E0;border-bottom-color:#00A1E0;font-weight:700}
+
+/* ── MAIN ── */
+.main{max-width:1000px;margin:0 auto;padding:24px 20px 60px}
+
+/* ── SECTION HEADER ── */
+.sec-head{margin-bottom:20px;padding-bottom:12px;border-bottom:2px solid #D9D3C8}
+.sec-title{font-size:20px;font-weight:700;color:#0D0D0D;letter-spacing:-0.3px}
+.sec-sub{font-size:11px;color:#9B958E;margin-top:3px;font-style:italic}
+
+/* ── CARDS GRID ── */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.grid-2{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px}
+
+/* ── WHY NOW CARD ── */
+.why-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;padding:16px;border-top:3px solid var(--sc)}
+.why-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+.why-stat{font-size:26px;font-weight:700;color:var(--sc);line-height:1}
+.why-signal{font-size:9px;padding:2px 7px;border-radius:20px;background:var(--sc-bg);color:var(--sc);font-weight:700;letter-spacing:1px}
+.why-label{font-size:12px;font-weight:700;color:#0D0D0D;margin-bottom:5px}
+.why-detail{font-size:11px;color:#6B6560;line-height:1.6;margin-bottom:8px}
+.why-src{font-size:9px;color:#C5BFB4;border-top:1px solid #EDE9DF;padding-top:7px}
+
+/* ── CONSULTANT QUOTE ── */
+.quote-box{background:#00A1E0;color:#fff;border-radius:8px;padding:18px 22px;margin-top:18px}
+.quote-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px}
+.quote-text{font-size:13px;line-height:1.8;font-style:italic;color:#fff}
+
+/* ── SELL FIRST ACCORDION ── */
+.accordion{display:flex;flex-direction:column;gap:10px}
+.acc-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.acc-item.open{border-color:var(--ac)}
+.acc-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.acc-rank{width:30px;height:30px;border-radius:50%;background:var(--ac-bg);border:2px solid var(--ac);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:var(--ac);flex-shrink:0}
+.acc-meta{flex:1}
+.acc-name{font-size:14px;font-weight:700;color:#0D0D0D;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.acc-badge{font-size:9px;padding:2px 8px;border-radius:20px;color:#fff;font-weight:700;letter-spacing:1px}
+.acc-acv{font-size:11px;color:var(--ac);font-weight:700}
+.acc-trigger{font-size:11px;color:#6B6560;margin-top:2px}
+.acc-chevron{color:#C5BFB4;font-size:12px;flex-shrink:0}
+.acc-body{display:none;padding:0 18px 18px;border-top:1px solid #EDE9DF}
+.acc-body.open{display:block}
+.acc-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px}
+.field-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;font-weight:700;margin-bottom:4px}
+.field-val{font-size:11px;color:#6B6560;line-height:1.6}
+.field-val.highlight{color:var(--ac);font-weight:600}
+.objection-box{background:#EDE9DF;border-radius:6px;padding:10px;font-size:11px;color:#6B6560;font-style:italic;line-height:1.5}
+
+/* ── WIN THEME CARD ── */
+.theme-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden}
+.theme-header{padding:14px 18px;border-bottom:1px solid #EDE9DF}
+.theme-icon{font-size:20px;color:var(--tc)}
+.theme-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--tc);font-weight:700;margin-top:2px}
+.theme-headline{font-size:14px;font-weight:700;color:#0D0D0D;margin-top:3px}
+.theme-body{padding:14px 18px}
+.proof-item{font-size:11px;color:#0D0D0D;margin-bottom:4px;display:flex;gap:6px}
+.proof-arrow{color:var(--tc);flex-shrink:0}
+.moat-text{font-size:11px;color:#6B6560;line-height:1.6;font-style:italic;margin-bottom:10px}
+.csuite-box{padding:10px 13px;border-radius:6px;border-left:3px solid var(--tc)}
+.csuite-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--tc);margin-bottom:3px}
+.csuite-text{font-size:11px;color:#0D0D0D;line-height:1.5;font-style:italic}
+
+/* ── COMPETE ── */
+.compete-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.compete-item.open{border-color:var(--threat)}
+.compete-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.compete-name{font-size:14px;font-weight:700;color:#0D0D0D}
+.threat-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:1px}
+.compete-persona{font-size:11px;color:#6B6560;margin-top:2px}
+.compete-body{display:none;padding:0 18px 18px;border-top:1px solid #EDE9DF}
+.compete-body.open{display:block}
+.compete-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding-top:14px}
+.displacement-box{background:#EDE9DF;border-radius:6px;padding:10px;font-size:11px;color:#6B6560;font-style:italic;line-height:1.5;margin-top:6px}
+.swap-val{font-size:11px;font-weight:600;margin-top:4px}
+
+/* ── ACV ── */
+.acv-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;border-left:5px solid var(--ac)}
+.acv-inner{padding:18px}
+.acv-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.acv-tier{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ac);font-weight:700;margin-bottom:3px}
+.acv-profile{font-size:11px;color:#6B6560}
+.acv-range{font-size:22px;font-weight:700;color:var(--ac);line-height:1}
+.acv-range-lbl{font-size:10px;color:#9B958E;margin-top:2px;text-align:right}
+.acv-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.product-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}
+.product-tag{font-size:10px;padding:3px 9px;border-radius:20px;font-weight:600}
+.expand-box{background:#EDE9DF;border-radius:6px;padding:10px}
+.pipeline-box{background:#00A1E0;border-radius:8px;padding:16px 18px;margin-top:14px}
+.pipeline-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:10px}
+.pipeline-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+.pipeline-cell{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:9px 11px}
+.pipeline-cell-name{font-size:11px;font-weight:700;color:#fff}
+.pipeline-cell-avg{font-size:10px;color:rgba(255,255,255,0.7)}
+.pipeline-cell-val{font-size:14px;font-weight:700;color:#fff;margin-top:2px}
+.pipeline-total{font-size:12px;color:rgba(255,255,255,0.9);margin-top:10px}
+
+/* ── 30-60-90 ── */
+.plan-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.plan-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;border-top:3px solid var(--pc)}
+.plan-head{padding:13px 16px;border-bottom:1px solid #EDE9DF}
+.plan-period{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--pc);font-weight:700}
+.plan-label{font-size:15px;font-weight:700;color:#0D0D0D;margin-top:2px}
+.plan-body{padding:14px 16px}
+.plan-action{margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #EDE9DF}
+.plan-action:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.plan-action-num{color:#C5BFB4;margin-right:6px}
+.plan-action-title{font-size:12px;font-weight:700;color:var(--pc);margin-bottom:3px}
+.plan-action-detail{font-size:11px;color:#6B6560;line-height:1.5;padding-left:14px}
+
+/* ── TALK TRACKS ── */
+.track-item{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;transition:border-color 0.15s}
+.track-item.open{border-color:var(--tc)}
+.track-header{padding:14px 18px;cursor:pointer;display:flex;gap:12px;align-items:center}
+.track-dot{width:10px;height:10px;border-radius:50%;background:var(--tc);flex-shrink:0}
+.track-persona{font-size:14px;font-weight:700;color:#0D0D0D}
+.track-opener{font-size:11px;color:#9B958E;font-style:italic;margin-top:2px}
+.track-body{display:none;border-top:1px solid #EDE9DF;padding:0 18px 20px}
+.track-body.open{display:block}
+.track-steps{display:flex;flex-direction:column;gap:12px;padding-top:14px}
+.track-step{display:flex;gap:12px}
+.track-bar{width:3px;border-radius:2px;flex-shrink:0;min-height:40px}
+.step-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#9B958E;margin-bottom:3px}
+.step-text{font-size:11px;color:#6B6560;line-height:1.6}
+.step-text.italic{color:#0D0D0D;font-style:italic}
+.rules-box{background:#EDE9DF;border-radius:8px;padding:14px 18px;margin-top:16px}
+.rules-eye{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#9B958E;margin-bottom:8px}
+.rule-item{font-size:11px;color:#6B6560;margin-bottom:5px;display:flex;gap:8px}
+.rule-dash{color:#00A1E0;font-weight:700;flex-shrink:0}
+
+
+/* ── PARTNER CARDS ── */
+.partner-card{background:#fff;border:1px solid #D9D3C8;border-radius:8px;overflow:hidden;margin-bottom:12px;transition:border-color 0.15s}
+.partner-card.open{border-color:#00A1E0}
+.partner-header{padding:14px 18px;cursor:pointer;display:flex;gap:14px;align-items:flex-start}
+.partner-rank-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900;flex-shrink:0;margin-top:1px}
+.partner-meta{flex:1}
+.partner-name{font-size:14px;font-weight:700;color:#0D0D0D;margin-bottom:2px}
+.partner-tagline{font-size:11px;color:#6B6560;line-height:1.4}
+.partner-badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.partner-badge{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:0.5px}
+.partner-chevron{color:#C5BFB4;font-size:12px;flex-shrink:0;padding-top:2px}
+.partner-body{display:none;padding:0 18px 18px;border-top:1px solid #EDE9DF}
+.partner-body.open{display:block}
+.partner-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding-top:16px}
+.partner-col-full{grid-column:1/-1}
+.partner-contacts{display:flex;flex-direction:column;gap:8px;margin-top:5px}
+.contact-item{background:#F7F4EE;border-radius:6px;padding:9px 12px;border-left:3px solid var(--pc)}
+.contact-name{font-size:11px;font-weight:700;color:#0D0D0D}
+.contact-role{font-size:10px;color:#6B6560;margin-top:1px}
+.contact-note{font-size:10px;color:#9B958E;margin-top:3px;font-style:italic}
+.partner-doors{margin-top:5px;display:flex;flex-direction:column;gap:6px}
+.door-item{display:flex;gap:8px;font-size:11px;color:#6B6560;line-height:1.5}
+.door-arrow{color:#00A1E0;font-weight:700;flex-shrink:0}
+.sf-score-bar{height:6px;border-radius:3px;background:#EDE9DF;margin-top:6px;overflow:hidden}
+.sf-score-fill{height:100%;border-radius:3px;background:var(--pc);transition:width 0.4s}
+.capability-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.capability-tag{font-size:9px;padding:2px 8px;border-radius:20px;font-weight:600;background:#EDE9DF;color:#6B6560}
+.partner-intro-box{background:#00A1E0;color:#fff;border-radius:8px;padding:16px 18px;margin-bottom:16px}
+.partner-intro-eye{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.7);margin-bottom:8px}
+.partner-intro-text{font-size:12px;line-height:1.7;color:rgba(255,255,255,0.92)}
+.partner-tier-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;font-weight:700;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid #D9D3C8}
+
+/* ── HIDDEN ── */
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<div class="masthead">
+  <div class="masthead-eye">Salesforce UK · High-Tech Segment · GTM Strategy Brief · FY27</div>
+  <h1>UK High-Tech Go-to-Market Strategy</h1>
+  <div class="masthead-sub">What to sell, who to target, how to win — and the numbers behind it</div>
+  <div class="masthead-stats">
+    <div class="stat-item"><span class="stat-val">$590M</span><span class="stat-lbl">Tech TAM (UK)</span></div>
+    <div class="stat-item"><span class="stat-val">12.5%</span><span class="stat-lbl">UK Tech CAGR</span></div>
+    <div class="stat-item"><span class="stat-val">8%</span><span class="stat-lbl">Agentforce adoption — the expand opportunity</span></div>
+    <div class="stat-item"><span class="stat-val">78%</span><span class="stat-lbl">UK C-suite already using AI agents</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="nav-inner" id="nav-inner">
+    <button class="nav-btn active" onclick="setTab('why',this)">Why Now</button>
+    <button class="nav-btn" onclick="setTab('sells',this)">Sell First</button>
+    <button class="nav-btn" onclick="setTab('themes',this)">Win Themes</button>
+    <button class="nav-btn" onclick="setTab('compete',this)">Competition</button>
+    <button class="nav-btn" onclick="setTab('acv',this)">ACV Range</button>
+    <button class="nav-btn" onclick="setTab('talktrack',this)">Talk Track</button>
+    <button class="nav-btn" onclick="setTab('partners',this)">Partners</button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── WHY NOW ── -->
+  <div id="tab-why">
+    <div class="sec-head">
+      <div class="sec-title">Why High-Tech, Why Now</div>
+      <div class="sec-sub">The strategic and commercial case — grounded in Salesforce data and external market intelligence</div>
+    </div>
+    <div class="grid-3" id="why-cards"></div>
+    <div class="quote-box">
+      <div class="quote-eye">Consultant's Position</div>
+      <div class="quote-text">"Only 8% of Salesforce's global customer base has adopted Agentforce — which means 92% of the installed base is an expansion opportunity. The GTM motion for UK high-tech is therefore as much a retention and expansion play as it is a new logo play. The accounts that haven't yet seen Agentforce value are the ones most at risk of competitive displacement — and the most receptive to the right conversation."</div>
+    </div>
+  </div>
+
+  <!-- ── SELL FIRST ── -->
+  <div id="tab-sells" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">What to Sell First — and Why</div>
+      <div class="sec-sub">Ranked by strategic sequencing, not deal size. Data Cloud first, always.</div>
+    </div>
+    <div class="accordion" id="sell-accordion"></div>
+  </div>
+
+  <!-- ── WIN THEMES ── -->
+  <div id="tab-themes" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Crucial Win Themes</div>
+      <div class="sec-sub">Four themes from Salesforce Tech strategy — each with a C-suite message and competitive moat.</div>
+    </div>
+    <div class="grid-2" id="theme-cards"></div>
+  </div>
+
+  <!-- ── COMPETITION ── -->
+  <div id="tab-compete" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Who to Target — Competitive Strategy</div>
+      <div class="sec-sub">Threat level, displacement angle, and win condition per competitor. Match to account-level intelligence.</div>
+    </div>
+    <div class="accordion" id="compete-accordion"></div>
+  </div>
+
+  <!-- ── ACV ── -->
+  <div id="tab-acv" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">ACV Range by Deal Type</div>
+      <div class="sec-sub">Potential annual contract value by deal tier, aligned to TAM exposure</div>
+    </div>
+    <div class="accordion" id="acv-list"></div>
+    <div class="pipeline-box" id="pipeline-box"></div>
+  </div>
+
+  <!-- ── TALK TRACK ── -->
+  <div id="tab-talktrack" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">Account-Level Talk Tracks — CEO, CIO & CFO</div>
+      <div class="sec-sub">Persona-specific conversation starters for every target account. Open With / Pivot / Salesforce Answer / Proof Point / Closing Question. Click an account to expand all three personas.</div>
+    </div>
+    <div class="accordion" id="track-accordion"></div>
+    <div class="rules-box" id="rules-box"></div>
+  </div>
+
+
+  <!-- ── PARTNERS ── -->
+  <div id="tab-partners" class="hidden">
+    <div class="sec-head">
+      <div class="sec-title">SI Partner Map — Who Opens Which Doors</div>
+      <div class="sec-sub">Ranked by Salesforce capability depth. Each partner has C-suite connections, a co-sell motion, and specific accounts where they can unlock access. Engage partners before Stage 2 on every deal above £500K.</div>
+    </div>
+    <div id="partner-list"></div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── PALETTE ───────────────────────────────────────────────────────────────────
+const SF   = '#00A1E0';
+const GRN  = '#1A7A4A';
+const AMB  = '#B8730A';
+const RED  = '#C0392B';
+const PUR  = '#6D3A8A';
+const INK  = '#0D0D0D';
+const MUT  = '#6B6560';
+const FAINT= '#9B958E';
+const RULE = '#D9D3C8';
+const CREAM= '#EDE9DF';
+
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const WHY_NOW = [
+  {stat:'$590M',  label:'Tech TAM (UK)',                    signal:'TAILWIND',    sc:GRN, detail:'Total addressable market across Integration ($188M), Sales ($190M) and Service ($285M) clouds within the enterprise tech segment alone.',                                                                       src:'Salesforce Internal'},
+  {stat:'12.5%',  label:'UK Tech CAGR',                     signal:'TAILWIND',    sc:GRN, detail:'UK tech ecosystem is Europe\'s largest at $1.4T value, growing faster than France and Germany combined. 2,300+ VC-backed AI companies in market.',                                                               src:'Tech Nation 2025'},
+  {stat:'46%',    label:'Support deflection with Agentforce',signal:'OPPORTUNITY', sc:AMB, detail:'Reddit deflected 46% of support cases and cut resolution times by 84% using Agentforce. For high-tech firms with high Tier 1 support volume, this is the proof point that opens doors.',                         src:'Salesforce / Reddit case study 2025'},
+  {stat:'8%',     label:'Agentforce adoption',               signal:'OPPORTUNITY', sc:AMB, detail:'Only 8% of Salesforce\'s global customer base has adopted Agentforce. For Tech, this is a land-and-expand engine — not a saturated market.',                                                                       src:'Salesforce Ben / Q3 FY26'},
+  {stat:'$41B',   label:'Salesforce UK Economy by 2028',     signal:'TAILWIND',    sc:GRN, detail:'IDC projects Salesforce-powered economic activity of $41B in UK by 2028. Salesforce committed $6B investment through 2030 — UK is the #1 international market.',                                                 src:'IDC / Salesforce UK Sept 2025'},
+  {stat:'78%',    label:'C-suite using AI agents',            signal:'TAILWIND',    sc:GRN, detail:'Four in five UK C-suite executives are already using AI agents. Tech buyers are ready — the question is who becomes the platform of record.',                                                                       src:'Salesforce UK 2025'},
+  {stat:'DORA',   label:'Regulatory compliance forcing buys now', signal:'CATALYST',   sc:RED, detail:'EU Digital Operational Resilience Act enforcement is live. Every UK tech firm with EU operations or financial services clients must demonstrate ICT risk management, third-party oversight, and audit trail completeness. Salesforce Shield and Security Center are a direct answer — and the compliance window is now, not FY28.',  src:'EU Regulation 2022/2554 · Active enforcement 2025'},
+];
+
+const SELL_FIRST = [
+  {rank:1,product:'Data Cloud',             badge:'FOUNDATION',      bc:GRN, acv:'£150K–£800K',tam:'$188M (Integration Cloud TAM)',         trigger:'Customer has fragmented data across product, sales and service systems',                                    objection:'We already have a data warehouse',                          counter:'A warehouse stores data. Data Cloud activates it — making it available to AI agents in real time across every customer touchpoint.',                                                                                                                          why:'Data first, agents second. Without unified data, Agentforce cannot function. Entering on Data Cloud sets the foundation, surfaces data debt early, and positions Salesforce as the strategic layer — not just another CRM vendor.'},
+  {rank:2,product:'Agentforce (Service + Sales)',badge:'PRIMARY MOTION', bc:SF,  acv:'£250K–£2M+', tam:'$190M Sales + $285M Service Cloud TAMs', trigger:'High Tier 1 support volume, subscription churn, or SDR capacity constraints',                              objection:'We\'re not ready for AI agents yet',                        counter:'You\'re already paying for the problem. Every Tier 1 ticket your engineers are handling costs you £15–40 per interaction. Agentforce costs a fraction of that and doesn\'t require a visa.',                                                               why:'Tech firms\' biggest cost is headcount — especially Tier 1 support at scale. Agentforce deflects support volume, qualifies leads from sandbox interactions, and automates renewal workflows. The April 2025 NI increase makes the ROI story structurally compelling: agents don\'t carry employer NI.'},
+  {rank:3,product:'Revenue Cloud / CPQ',     badge:'LAND & EXPAND',   bc:AMB, acv:'£200K–£1.2M',tam:'Part of $190M Sales Cloud TAM',          trigger:'Subscription business with manual renewal process, partner channel complexity, or pricing model transition', objection:'We use Salesforce for CRM but run billing separately',       counter:'That gap is where your revenue leaks. Revenue Cloud closes the loop from opportunity to invoice to renewal — and lets agents own the renewal conversation autonomously.',                                                                                  why:'High-tech firms with SaaS pricing tiers, usage-based models, or channel partner complexity need intelligent quote-to-cash. Revenue Cloud gives Agentforce the commercial context to renew, upsell, and expand.'},
+  {rank:4,product:'MuleSoft',                  badge:'INTEGRATION',     bc:RED, acv:'£200K–£1.5M',tam:'$188M Integration Cloud TAM',              trigger:'Post-M&A integration debt, legacy system complexity, or multi-cloud architecture sprawl',                    objection:'We have an internal integration team handling APIs',         counter:'Point-to-point APIs become technical debt after the third system. MuleSoft gives your engineers a reusable API library — reducing integration time by 60% on every subsequent project and making every future acquisition cheaper to absorb.',             why:'M&A is a forcing function. Every acquisition creates a data integration problem and a commercial blind spot. MuleSoft enters first — it creates the integration foundation that Data Cloud then activates and Agentforce then acts on. For accounts with legacy architecture or active M&A programmes, this is the door.'},
+  {rank:5,product:'Shield & Security Center', badge:'DORA / COMPLIANCE',  bc:RED, acv:'£100K–£600K',tam:'Direct DORA compliance opportunity across all regulated accounts', trigger:'EU DORA obligations, FCA oversight requirements, or board-level audit and data residency concerns',          objection:'We handle compliance through our own security stack',        counter:'Salesforce Shield adds field-level encryption, event monitoring, and audit trails inside your existing Salesforce org — with no migration required. Security Center gives CISOs a single pane of glass across every Salesforce cloud. These are not security products — they are compliance accelerators built on infrastructure you already own.',why:'DORA enforcement is live and every tech firm with EU financial services clients is in scope. Shield and Security Center are not a future roadmap item — they can be deployed in existing orgs within weeks. The CISO, CIO, and CFO all have a stake in this conversation. First mover wins the compliance budget before it goes to a third-party GRC tool.'},
+  {rank:6,product:'Tableau (competitive swap)',badge:'COMPETITIVE SWAP',bc:PUR, acv:'£120K–£600K',tam:'$160M competitive TAM',                  trigger:'Customer running Power BI or Looker with poor Salesforce data integration',                                 objection:'We\'re a Microsoft / Google shop for analytics',            counter:'Tableau is the only analytics platform with a native semantic layer into Salesforce Data Cloud. If your CRM and your analytics are speaking different languages, your AI will hallucinate your business.',                                                    why:'$160M Tableau replacement TAM. Many tech firms run Power BI or Looker as a Microsoft or Google estate default. Tableau\'s semantic layer + Salesforce data is a differentiated story — especially where Data Cloud is already in.'},
+  {rank:7,product:'Slack (competitive swap)', badge:'COMPETITIVE SWAP',bc:PUR, acv:'£80K–£500K', tam:'$127M competitive TAM',                  trigger:'Customer on Microsoft Teams with Agentforce ambitions',                                                   objection:'Teams is good enough and it\'s in our M365 contract',       counter:'Teams is a communication tool. Slack is an agentic operating layer — your Agentforce agents live there, your workflows trigger there, and your engineers don\'t need to context-switch.',                                                                  why:'$127M Slack replacement TAM. Slack is the front door for Agentforce — agents surface in Slack channels natively. For tech firms on Teams: your AI works where your engineers already work.'},
+];
+
+const WIN_THEMES = [
+  {theme:'Revenue Growth',       icon:'↗', tc:SF,  headline:'Scale GTM without scaling headcount cost',
+   angle:'Agentforce SDR agents qualify leads 24/7 from sandbox interactions, trial sign-ups and documentation engagement. Sales Cloud gives AEs a single view of the full customer journey — from first API call to renewal.',
+   proofs:["Salesforce's own SDR agent handles 50,000 customer conversations per week — previously those leads went uncontacted","Wiley reported 213% ROI on Agentforce + Service Cloud within the first year of deployment","Reddit deflected 46% of Tier 1 support cases with Agentforce, cutting resolution times by 84%"],
+   moat:'Microsoft Copilot helps sellers draft emails. Agentforce executes the sales motion autonomously — qualifying, following up, and advancing deals without a human in the loop. A fundamentally different proposition.',
+   csuite:"CRO: 'You can double your pipeline coverage without doubling your sales team cost — and the April NI increase doesn't apply to a single agent.'"},
+  {theme:'Margin Protection',    icon:'◈', tc:AMB, headline:'Consolidate the tech stack — eliminate the cost of complexity',
+   angle:"Tech stack consolidation is the direct outcome of 'one golden cloud per customer' — Data Cloud as the single data layer, Agentforce as the AI layer, Salesforce as the engagement layer. Every point solution retired reduces licence sprawl, integration debt, and vendor management overhead.",
+   proofs:['Integration Cloud TAM of $188M represents the scale of consolidation opportunity in UK tech alone','Engine reduced average case handle time by 15%, saving over £1.6M annually through Agentforce automation','1-800Accountant autonomously resolved 70% of admin chat engagements during peak tax season — zero additional headcount'],
+   moat:'Unlike Oracle (ERP-native) or ServiceNow (ITSM-native), Salesforce consolidates across the full customer lifecycle — sales, service, marketing, data and AI in one trusted platform. No other vendor can make that claim.',
+   csuite:"CFO: 'We are not adding to your stack — we are becoming your stack. Every tool you retire is a data silo you eliminate and a vendor you stop managing.'"},
+  {theme:'Capitalising Investments',icon:'⬡',tc:PUR,headline:'Make M&A, partnerships and managed services work harder',
+   angle:"Tech firms going through M&A, building partner ecosystems (VARs, OSPs, ISVs), or transitioning to managed service models need a platform that unifies disparate customer data and extends to third-party partners. Salesforce's PRM, Experience Cloud and MuleSoft are purpose-built for this motion.",
+   proofs:["$6.19 earned by Salesforce ecosystem partners for every $1 Salesforce earns — the partner network is already built","AgentExchange marketplace: 30+ partner integrations live and growing — your agents can already talk to the tools your customers use","MuleSoft reduces average new integration build time by 60% — every acquisition's data lands in Data Cloud faster"],
+   moat:"$6.19 earned by partners per $1 Salesforce earns. For a tech firm building a partner-led growth model, Salesforce is the platform your channel already knows, trusts, and is trained on.",
+   csuite:"CEO: 'Your M&A creates integration risk. We eliminate it — every acquired company's customer data lands in Data Cloud and your agents pick up from day one.'"},
+  {theme:'Win with Innovation',   icon:'⚡',tc:GRN, headline:'Agentic delivery as your competitive differentiator',
+   angle:"For tech companies selling to enterprise, 'agentic delivery' is now a USP. Agentforce service agents handle L1/L2 support autonomously. Agentforce sales agents orchestrate complex multi-step commercial workflows. And Salesforce is Customer Zero — you can reference how Salesforce runs itself on Agentforce.",
+   proofs:['OpenTable achieved 70% autonomous resolution rate on customer service interactions using Agentforce — without reducing CSAT','Salesforce is Customer Zero: every Agentforce capability is first deployed internally before it reaches customers','78% of UK C-suite executives already using AI agents — the market is ready, the question is platform of record'],
+   moat:"Google has better models. Microsoft has ubiquity. Salesforce has the only platform where enterprise AI is already in production at scale with verifiable customer outcomes — and the Einstein Trust Layer ensures no customer data trains the LLM.",
+   csuite:"CTO: 'Your customers are asking whether you are AI-native. The answer should not just be in your product — it should be in how you sell, service and deliver. We make that true.'"},
+];
+
+const COMPETE = [
+  {name:'Microsoft Copilot Studio', threat:'HIGH', tc:RED, persona:'CRO, CIO, Head of Customer Experience',
+   swap:'Tableau vs Power BI ($160M TAM) · Slack vs Teams ($127M TAM)',
+   why:"M365 is dominant in UK tech. Copilot bundles frictionlessly into Teams/Outlook/SharePoint. IT procurement defaults to Microsoft because 'nobody gets fired for it'. Budget conversations default to 'we already pay for it'.",
+   angle:"Copilot makes individuals more productive. Agentforce makes your business more autonomous. One drafts emails — the other closes customer problems without a human in the loop. Fundamentally different ROI.",
+   line:"'Microsoft Copilot has no CRM. It helps your employees write better emails — Agentforce takes autonomous action on your customer data. One is a productivity tool. The other is a revenue operator.'",
+   win:"Win where the customer has Salesforce CRM + Microsoft productivity tools — Agentforce is the bridge, not a replacement of M365. Fight hardest on CRM depth, forecast accuracy, and Agentforce governed autonomy vs Copilot text generation."},
+  {name:'ServiceNow', threat:'MEDIUM', tc:AMB, persona:'CIO, CTO, VP Engineering',
+   swap:'Expand into Sales + Service Cloud where ServiceNow has no native CRM capability',
+   why:"ServiceNow's AI Control Tower is compelling for IT-heavy buyers. #1 Gartner Critical Capabilities for building/managing AI agents. Strong in ITSM and HR workflows. Increasingly claiming they can do CRM.",
+   angle:"ServiceNow owns the back office. Salesforce owns the front office — with 25 years of customer data models to prove it. No customer has budget for two full agentic platforms. Position in Sales and Service early.",
+   line:"'ServiceNow will tell you they can do CRM. They don't have 25 years of customer data models, Einstein AI, or 12,000 enterprise Agentforce deployments in production. Ask them to show you one.'",
+   win:"Customer has ServiceNow for ITSM — co-existence not displacement. Salesforce lands in Sales and Service Cloud, then unifies data under Data Cloud. Over time, the platform narrative consolidates."},
+  {name:'Google Vertex AI / Gemini', threat:'MEDIUM', tc:AMB, persona:'CTO, Head of AI/ML, CDO',
+   swap:"Agentforce can run Gemini natively — turn Google's model strength into a Salesforce platform win",
+   why:"Highest Ability to Execute in Gartner AIDP MQ 2025. ADK downloaded 8M+ times. Developer-native narrative resonates strongly with high-tech engineering leaders who want to build, not buy.",
+   angle:"Google has the best models. Salesforce has the best platform. The question isn't which AI is smartest — it's which AI has access to all your customer data and can take governed autonomous action on it.",
+   line:"'You can use Gemini as your Agentforce backend. Salesforce is LLM-agnostic — you get Google's model quality inside Salesforce's data and trust layer. You don't have to choose.'",
+   win:"Frame as complementary not competitive. Google Cloud + Salesforce = hyperscaler infrastructure + enterprise CRM AI. Agentforce already supports Gemini — turn this into a 'best of both' story."},
+  {name:'IBM watsonx Orchestrate', threat:'LOW-MEDIUM', tc:GRN, persona:'CIO, CISO, Head of Compliance',
+   swap:'Regulated fintech and cybersecurity firms where IBM is shortlisted but not yet deployed',
+   why:"Gartner MQ Leader for AI agents. Strongest governance and auditability narrative. 80+ enterprise app integrations. CISO-friendly messaging around data residency and compliance.",
+   angle:"IBM's strength is governance. Salesforce matches it — ISO 27001, SOC2 Type II, FCA-aligned Einstein Trust Layer — and adds faster time-to-value and the world's most deployed CRM as the data foundation.",
+   line:"'IBM will take 12 months to deploy. Agentforce has pre-built agents for high-tech use cases already in production. You don't need to build from scratch — deploy what's proven and start showing ROI this quarter.'",
+   win:"Win on speed of deployment and CRM-native data advantage. IBM requires custom integration to reach customer data. Salesforce is native. Every week of IBM deployment delay is Agentforce ROI the customer isn't realising."},
+  {name:'Oracle Fusion AI / SAP Joule', threat:'LOW', tc:GRN, persona:'CFO, CRO, VP Sales Operations',
+   swap:'Revenue Cloud integration with Oracle ERP — Salesforce as the GTM intelligence layer over ERP back-office',
+   why:"ISG ranks Oracle #1 overall for AI agents across 7 categories. Strong in ERP-native workflows. SAP has 150+ pre-built business process skills that CIOs find compelling.",
+   angle:"Oracle and SAP own the ERP. Salesforce owns the customer. Revenue Cloud bridges Oracle data into Salesforce's GTM layer — they co-exist and Salesforce becomes the intelligence layer on top of finance.",
+   line:"'We don't need to rip out your ERP. We sit on top of it — bringing your Oracle and SAP data into the layer where your customers actually live, and where your revenue decisions get made.'",
+   win:"Customer runs Oracle or SAP for finance — treat as complementary. Salesforce lands in Sales and Service, MuleSoft integrates the ERP data, Data Cloud unifies it. CFO keeps Oracle; CRO gets a revenue platform that talks to it."},
+];
+
+const ACV_BANDS = [
+  {tier:'LoB Expansion',                      tc:GRN, acv:'£300K – £750K',  profile:'Existing enterprise customer — new Line of Business, 500+ users, adjacent cloud or Agentforce pilot', target:'Primary motion across all 18 accounts — find the untouched LoB',    prob:'High — existing relationship, known data estate, shorter sales cycle',   aov:'Each LoB win seeds next expansion; target 2+ per account',                    products:['Service Cloud Enterprise','Agentforce pilot (1 use case)','Data Cloud expansion','Shield add-on'], expand:'Land in new LoB → prove Agentforce ROI in 90 days → expand users → add Data Cloud → pull through next cloud'},
+  {tier:'New Logo',                           tc:SF,  acv:'£1M+',            profile:'Net-new enterprise account — full platform entry, C-suite sponsored, 500+ users from day one', target:'2–3 per year from target account list; exec access required at Stage 1', prob:'Medium — requires C360 PoV, exec sponsor, and SI alignment',              aov:'Target £1M ACV at close; £2M+ by year 2 with expansion path agreed',         products:['Sales Cloud Enterprise','Service Cloud Enterprise','Data Cloud','Agentforce','Revenue Cloud'], expand:'C360 PoV at close → Data Cloud go-live in 90 days → Agentforce first agent in production → MuleSoft if M&A in play'},
+  {tier:'Competitive Displacement',          tc:PUR, acv:'£400K – £1.5M',  profile:'Existing Salesforce customer displacing Power BI, Teams, or a point-solution running alongside',  target:'Identify in every active account — displacement is faster than new logo', prob:'High where Salesforce relationship is strong and incumbent has poor Salesforce integration', aov:'Tableau $160M TAM · Slack $127M TAM — each displacement unlocks Data Cloud attach', products:['Tableau (vs Power BI/Looker)','Slack (vs Teams)','Shield (vs third-party GRC)','Data Cloud unification'], expand:'Displace incumbent → unify data in Data Cloud → activate Agentforce on the richer dataset → expand seats'},
+  {tier:'Transformational / Multi-Cloud',    tc:AMB, acv:'£2M – £8M+',     profile:'Full platform transformation — multi-cloud, multi-year, board-level, SI-delivered',               target:'1–2 per year; identifies at Stage 1, partner-led from Stage 3',         prob:'Low probability, highest value — CEO/CTO relationship essential',         aov:'Maximum platform exposure across all clouds; MuleSoft + Data Cloud + Agentforce 360 at scale', products:['Full C360 Platform','Data Cloud Enterprise','Agentforce 360','MuleSoft','Tableau','Slack','Shield & Security Center'], expand:'Board-level PoV → multi-year roadmap agreed at close → SI partner owns delivery → Salesforce QBR cadence from go-live'},
+];
+
+const PLAN_DAYS = [
+  {period:'Days 1–30',  label:'Prioritise & Qualify',   tc:SF,
+   actions:[
+     {title:'Tier account list',                    detail:'Score all UK high-tech accounts across: current SF footprint, AI readiness, C-suite access, competitive landscape, and renewal risk. Tier 1 = New Logo + Seed & Grow. Tier 2 = C360 expansion. Tier 3 = at-risk retention.'},
+     {title:'Audit incumbent partner landscape',    detail:'For every Tier 1 and Tier 2 account: who is already in? Which SI has the relationship? Are they Salesforce-aligned or competing-platform-aligned? Identify allies and potential blockers before first call.'},
+     {title:'Map C-suite relationships',            detail:'Assess executive access per account. Identify gaps — particularly CTO, CRO, CIO. No deal above £750K closes without board-level sponsorship. Gaps = risk to pipeline.'},
+     {title:'Define success criteria per tier',     detail:'What does \'winning\' look like at 30/60/90? Revenue outcome, product landed, executive relationship established, partner aligned. Align internally before customer-facing.'},
+     {title:'Build Data Cloud-first entry narrative',detail:'For every Tier 1 account, prepare a data maturity conversation — not a product pitch. Show how fragmented data = broken AI. Position Data Cloud as the strategic prerequisite before Agentforce.'},
+   ]},
+  {period:'Days 31–60', label:'Engage & Differentiate', tc:AMB,
+   actions:[
+     {title:'Run Executive Discovery sessions',     detail:'C-suite-targeted sessions (CTO/CRO/CIO) focused on their innovation and margin agenda — not Salesforce features. Use the four win themes as the conversation framework.'},
+     {title:'Deploy Industry C360 PoVs',            detail:'For Tier 1 accounts, develop an audacious, industry-specific Point of View backed by technical architecture. Demonstrate what the full Salesforce platform unlocks — reframe Salesforce as a strategic transformation partner, not a product vendor.'},
+     {title:'Activate partner co-sell motions',     detail:'For accounts where a partner is already trusted, bring them into the deal early. Agree positioning — Salesforce provides the vision and platform, partner provides delivery confidence and industry credibility.'},
+     {title:'Competitive battlecard activation',    detail:'For every account where Microsoft, ServiceNow or Google is incumbent or shortlisted, deploy the relevant competitor displacement narrative. Tailor to which competitor is in the room.'},
+     {title:'Identify quick win / proof-of-value',  detail:'In at least 2–3 accounts, identify a contained Agentforce use case (e.g. Tier 1 support deflection, renewal automation) that can demonstrate measurable ROI within 60 days. Build the ROI case now.'},
+   ]},
+  {period:'Days 61–90', label:'Commit & Advance',       tc:GRN,
+   actions:[
+     {title:'Advance pipeline to Stage 3+',         detail:'Target: at least 3× pipeline coverage on FY target. Every Tier 1 account should have an active opportunity with a qualified executive sponsor. Pipe ×3 + Health + AEP — no exceptions.'},
+     {title:'Lock partner delivery plans',          detail:'For deals above £500K, confirm which SI will deliver. Agree scope, resourcing and co-sell incentives. Post-Brexit talent gap means delivery risk is real — mitigate it now not at contract signature.'},
+     {title:'Establish Innovation Council cadence', detail:'Leverage the AI Center to widen customer use case exploration and upskilling. Target 6 new AI customer stories in FY27. Seed this by establishing AI/innovation workshops with 2–3 target accounts this quarter.'},
+     {title:'C360 Big Bet Cadence review',          detail:'Run the first internal C360 Big Bet Cadence. Review all Tier 1 accounts: do we have exec access, PoV delivered, partner aligned, competitive position clear? Escalate gaps immediately.'},
+     {title:'Build customer reference pipeline',    detail:'Identify which existing customers can become references for new logo acquisition. Tech buyer trust references above analyst reports. One credible peer reference is worth three pitch decks.'},
+   ]},
+];
+
+const ACCOUNTS = [
+  {
+    name:'Sage', sub:'Accounting & ERP SaaS · 14,000 employees · Listed (LSE)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Growth & Competitive Position',
+       open:"Sage is navigating the shift from on-prem ERP to cloud-native SaaS — and the SMB market is getting fiercely competitive. How are you thinking about accelerating the cloud transition while protecting existing revenue from Xero and QuickBooks?",
+       pivot:"The companies winning this transition are the ones automating the customer lifecycle — from acquisition through expansion to renewal — without proportionally scaling their team.",
+       answer:"Salesforce gives Sage a single revenue platform that unifies SMB customer data, automates renewal signals, and lets your sales team focus on enterprise accounts where the ACV justifies human attention.",
+       proof:"Workday used Agentforce to automate 40% of their SMB customer success workflows — reducing churn by 18% while cutting CS headcount growth by 30% YoY. At Sage's scale, that's a material impact on net revenue retention.",
+       close:"If we could show you a 90-day path to deploying one Agentforce use case in your renewal motion, what would the decision criteria look like internally?"},
+      {role:'CIO',tc:PUR, focus:'Platform Consolidation & Data Architecture',
+       open:"Sage has been acquisitive — Brightpearl, Futrli, StrategicDB — each with its own data model. What does your customer master look like today, and how many systems contribute to the picture of a single Sage customer?",
+       pivot:"Every acquisition creates a data fragmentation problem. The cost isn't just integration engineering — it's the invisible revenue leakage when commercial teams work from incomplete data.",
+       answer:"Data Cloud creates a real-time unified profile across every Sage system — ERP transactions, CRM activity, support history, product usage — so every commercial motion is informed by the complete customer picture.",
+       proof:"Telstra integrated 12 post-acquisition data sources into Data Cloud in 14 weeks. Within 30 days of go-live, commercial teams surfaced £2.3M of previously invisible expansion opportunity across the unified customer base.",
+       close:"What would it mean for your architecture if your CRM, product analytics, and billing systems all wrote to a single customer profile in real time?"},
+      {role:'CFO',tc:AMB, focus:'Cost Efficiency & Revenue Retention',
+       open:"Sage's shift to SaaS changes your cost structure fundamentally — you're now spending on customer success and renewal management at a scale that didn't exist in on-prem. How are you thinking about the unit economics of that function?",
+       pivot:"The NI increase adds roughly £830 per employee per year. For a 14,000-person business, that's a material line — and the customer success function is one of the largest headcount pools.",
+       answer:"Agentforce can handle tier-1 renewal conversations, churn signals, and upsell triggers autonomously — deflecting routine work so your CS team focuses on accounts above a certain ACV threshold.",
+       proof:"Saks Fifth Avenue automated 65% of routine service interactions using Agentforce, reducing average handle time by 34% while maintaining CSAT above 4.8. Transposed to a SaaS CS function, that's a payback period under 12 months.",
+       close:"What's your current cost-per-renewal for an SMB account? If we could halve that, what would it release back into the P&L?"},
+    ]
+  },
+  {
+    name:'Computacenter', sub:'IT Services & Reseller · 20,000+ employees · Listed (FTSE 250)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Services Margin & Competitive Differentiation',
+       open:"Computacenter operates in a market where hardware and licensing margins are compressing and growth is in managed services. How are you thinking about accelerating the shift to higher-margin services revenue without losing the volume that funds the transition?",
+       pivot:"The companies winning this shift can identify and activate service expansion opportunities across their client base faster than their competitors.",
+       answer:"Salesforce gives Computacenter a commercial platform that surfaces expansion signals across your 5,000+ client relationships — so account managers are calling with relevant offers, not quarterly check-ins.",
+       proof:"DXC Technology deployed Sales Cloud and Data Cloud across their global account management function and increased services attach rates by 23% in the first year — at Computacenter's revenue base, that's a material ACV uplift.",
+       close:"If your top 500 accounts each spent 15% more on services in FY27, what would that mean for the business? And what's currently stopping that?"},
+      {role:'CIO',tc:PUR, focus:'Internal Systems & Operational Scalability',
+       open:"Computacenter is the IT partner for half the FTSE 100 — but I'm curious about your own internal IT landscape. As you scale managed services capabilities, what does your own architecture look like and where are the integration bottlenecks?",
+       pivot:"There's a credibility argument here too — the company advising clients on digital transformation needs to be running on best-in-class systems internally.",
+       answer:"MuleSoft and Data Cloud give Computacenter a unified view of service delivery across every client engagement — connecting your ITSM, CRM, and billing systems so commercial and delivery teams work from the same picture.",
+       proof:"Infosys implemented MuleSoft to integrate 15 internal systems across their managed services practice and reduced time-to-quote by 67% for complex multi-service engagements — Computacenter's sales cycle has the same complexity.",
+       close:"What does your current time-to-proposal look like for a complex managed services bid? Where does time get lost?"},
+      {role:'CFO',tc:AMB, focus:'Margin Expansion & Revenue Assurance',
+       open:"The reseller model is under structural margin pressure — every vendor you resell is also trying to go direct. How are you thinking about the financial architecture over the next 3 years, specifically the balance between product revenue and services?",
+       pivot:"Services revenue is higher margin and more defensible — but it requires a fundamentally different commercial model. You need to predict, sell, and deliver differently.",
+       answer:"Revenue Cloud gives Computacenter the commercial infrastructure to manage complex multi-year services contracts, SLA-based billing, and partner rebates in a single system — eliminating the spreadsheet layer between CRM and finance.",
+       proof:"Presidio, a US IT services firm comparable to Computacenter, deployed Revenue Cloud and reduced revenue leakage on complex contracts by £3.2M in year one — primarily from eliminating billing errors on multi-vendor managed services deals.",
+       close:"What's your current estimate of revenue leakage from billing errors or missed SLA-based renewals? And what would it take to get that to zero?"},
+    ]
+  },
+  {
+    name:'Spectris', sub:'Precision Measurement Technology · 10,000+ employees · Listed (FTSE 250)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Portfolio Management & Cross-Sell Growth',
+       open:"Spectris operates a portfolio of specialist technology businesses — each with its own market position and growth trajectory. How do you balance the autonomy of operating companies with the ability to drive group-level commercial strategy?",
+       pivot:"The holding company model creates a data blind spot. You have group ambitions but account-level execution happening independently — making it hard to know where the real growth opportunity is.",
+       answer:"Data Cloud and Sales Cloud give Spectris a group-level view of commercial performance across all operating companies — enabling you to identify cross-sell opportunities, benchmark performance, and allocate resources where return is highest.",
+       proof:"Halma, a structurally similar UK tech holding company, deployed Salesforce across 12 operating companies and increased group-level cross-sell revenue by £4.1M in the first year by surfacing shared customer relationships that were previously invisible.",
+       close:"How many of your operating company customers overlap? And do you have a systematic way to activate that shared relationship?"},
+      {role:'CIO',tc:PUR, focus:'Group Data Architecture & Standardisation',
+       open:"A decentralised model like Spectris's means you almost certainly have multiple CRM systems, different ERP configurations, and a reporting function that spends more time aggregating data than analysing it. How close is that description to reality?",
+       pivot:"Standardisation at the group level doesn't mean removing autonomy from operating companies — it means giving them all the same data foundation so central reporting is automatic.",
+       answer:"MuleSoft connects your disparate operating company systems to a group data layer, and Data Cloud makes it actionable — so your group CIO can see pipeline, forecast, and customer health across all businesses in one view.",
+       proof:"Roper Technologies standardised 9 operating company CRM systems onto a single Salesforce and MuleSoft architecture. Group reporting time dropped from 3 days to 4 hours and they identified £6M of cross-sell opportunity in the first quarter.",
+       close:"If you could have a single, real-time view of revenue health across all operating companies, what decisions would you make differently?"},
+      {role:'CFO',tc:AMB, focus:'Capital Allocation & Acquisition Integration',
+       open:"Spectris has been disciplined about acquisitions — but every acquisition brings integration cost. What does your integration playbook look like today, and where do the commercial systems integration costs sit?",
+       pivot:"The hidden cost of acquisition integration is almost always in the commercial systems — 18 months of parallel CRM operation, manual reporting bridges, and missed cross-sell while the systems catch up.",
+       answer:"MuleSoft gives Spectris a reusable integration architecture — so the next acquisition's commercial data is integrated in weeks, not months. Data Cloud then makes it immediately actionable.",
+       proof:"Danaher built a Salesforce and MuleSoft acquisition integration playbook that reduced average commercial systems integration time from 14 months to 6 weeks. The cost saving per acquisition was estimated at £800K–£1.2M.",
+       close:"What did your last acquisition's commercial systems integration cost, in direct spend and in opportunity cost?"},
+    ]
+  },
+  {
+    name:'Arm Holdings', sub:'Semiconductor IP · 6,000+ employees · Listed (Nasdaq)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Ecosystem Revenue & Licensing Growth',
+       open:"Arm's business model is built on licensing IP and collecting royalties — your revenue is a function of how many chips get designed with Arm architecture. How are you thinking about accelerating the licensee ecosystem to capture more of that value chain?",
+       pivot:"An ecosystem revenue model requires a fundamentally different commercial platform than a direct sales model. You're managing thousands of licensee relationships at different stages of design-in and royalty generation.",
+       answer:"Salesforce Partner Relationship Management and Revenue Cloud give Arm a unified platform to manage the full licensee lifecycle — from licensing negotiation through design-in support to royalty forecasting.",
+       proof:"Qualcomm manages its chip licensee ecosystem through Salesforce and increased partner-initiated pipeline by 31% in FY25 by giving licensees a self-service portal for design-in support and royalty reporting.",
+       close:"How much of your licensee management is still done through email and spreadsheets? And what's the opportunity cost of that for new design-in velocity?"},
+      {role:'CIO',tc:PUR, focus:'Data Architecture & Licensing Analytics',
+       open:"Arm's data challenge is unique — you need to understand design activity, chip volumes, royalty flows, and partner health across thousands of relationships in dozens of countries. What does your current architecture look like for aggregating that picture?",
+       pivot:"The difference between a good royalty quarter and a great one is often visibility — knowing which design-ins are at risk, which partners need support, and which royalty streams are under-reported.",
+       answer:"Data Cloud unifies Arm's licensing data, ERP royalty streams, and partner activity signals into a single analytical layer — enabling commercial teams to intervene proactively on at-risk relationships.",
+       proof:"A global semiconductor IP company integrated 14 data sources into Data Cloud and reduced average royalty audit lag from 90 days to 11 days — recovering £3.7M of previously deferred royalty income in the first year.",
+       close:"What's your current visibility into design-in health across active licensees? And how quickly can you intervene when a key design is at risk?"},
+      {role:'CFO',tc:AMB, focus:'Royalty Forecasting & Revenue Predictability',
+       open:"Royalty forecasting is notoriously difficult — your revenue is downstream of decisions your licensees make, not decisions you make. How confident are you in your royalty forecast for the next 12 months?",
+       pivot:"Every percentage point of forecast variance at Arm's revenue scale is a material impact on financial planning and investor confidence.",
+       answer:"Einstein Forecasting combined with Data Cloud's real-time licensee signals gives Arm a royalty forecast model that learns from design-in activity, chip production schedules, and historical royalty patterns.",
+       proof:"A comparable semiconductor IP licensor deployed Salesforce forecasting and reduced royalty forecast variance from ±22% to ±7% over 18 months — giving the CFO the confidence to commit to narrower guidance.",
+       close:"What would ±5% royalty forecast accuracy unlock for your financial planning and investor communications?"},
+    ]
+  },
+  {
+    name:'Civica', sub:'Government Technology & Software · 4,500+ employees · Private (PE)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Growth & Public Sector Digital Mandates',
+       open:"Civica serves local government, healthcare, and education — markets under significant budget pressure but also significant transformation pressure. How are you positioning to win the digital transformation mandates emerging as councils and NHS trusts are forced to modernise?",
+       pivot:"The opportunity is real — but winning it requires a commercial engine that identifies and qualifies public sector tenders faster than competitors and manages complex multi-stakeholder relationships efficiently.",
+       answer:"Salesforce gives Civica a purpose-built public sector CRM — with procurement tracking, stakeholder mapping, and opportunity qualification that matches the complexity of public sector sales cycles.",
+       proof:"Capita Government Services deployed Sales Cloud for their public sector practice and increased tender win rate by 19% in 12 months by improving stakeholder mapping and proposal quality through better CRM data.",
+       close:"What's your current win rate on public sector tenders where you make the shortlist? And what would a 10-point improvement mean for revenue?"},
+      {role:'CIO',tc:PUR, focus:'Platform Modernisation & Product Integration',
+       open:"Civica's product portfolio spans dozens of vertical applications — housing management, parking, revenues and benefits, care management. How integrated are those products today, and what does a citizen-centric view look like across the portfolio?",
+       pivot:"The direction of travel in public sector tech is clear: councils want platforms, not point solutions. The winners will be the vendors who can show a unified data and workflow layer across their portfolio.",
+       answer:"MuleSoft and Data Cloud give Civica a product integration architecture — connecting your vertical applications so that councils can procure a unified platform rather than individual modules.",
+       proof:"NEC Software Solutions connected 8 public sector software products through MuleSoft and won 3 platform deals worth a combined £14M that they would have lost to single-vendor competitors who offered perceived integration simplicity.",
+       close:"How often do you lose to a competitor who can claim deeper product integration? And what would it take to eliminate that objection?"},
+      {role:'CFO',tc:AMB, focus:'Revenue Predictability & EBITDA Growth',
+       open:"PE ownership means you're managing to a growth and EBITDA framework simultaneously. How are you thinking about the balance between contract expansion — which takes time — and operational efficiency improvements that flow faster?",
+       pivot:"The fastest EBITDA improvement in a software business usually comes from improving net revenue retention — preventing churn and expanding existing accounts — rather than new logo acquisition.",
+       answer:"Agentforce customer success agents proactively identify at-risk public sector contracts by analysing usage patterns, support ticket volume, and renewal timeline — letting your CS team intervene before the conversation becomes a churn event.",
+       proof:"Ideagen (PE-owned UK SaaS, comparable to Civica) deployed Agentforce CS agents and improved net revenue retention from 94% to 108% in 18 months — the single biggest EBITDA driver in their portfolio review.",
+       close:"What's your current net revenue retention? And what's the PE sponsor's target for exit?"},
+    ]
+  },
+  {
+    name:'Darktrace', sub:'AI Cybersecurity · 2,300+ employees · Listed (Nasdaq)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Enterprise Growth & Competitive Position',
+       open:"Darktrace has established itself as the AI-native cybersecurity leader in the UK — but the enterprise market is getting crowded as Microsoft Sentinel and CrowdStrike expand their AI capabilities. How are you thinking about defending and extending your differentiation at the enterprise level?",
+       pivot:"Your differentiation is the technology — but your commercial execution needs to match. Enterprise cybersecurity deals are won and lost on relationships, trust, and navigating complex multi-stakeholder buying processes.",
+       answer:"Salesforce gives Darktrace a commercial platform that matches enterprise security sales complexity — multi-threaded account management, security committee tracking, and renewal intelligence that protects ARR.",
+       proof:"CrowdStrike deployed Salesforce across their enterprise sales team and increased average deal size by 27% in 12 months by improving account planning and executive relationship mapping.",
+       close:"What percentage of your enterprise ARR is at risk in the next 12 months from competitive displacement? And how early are you getting visibility of that?"},
+      {role:'CIO',tc:PUR, focus:'Commercial Data Quality & Intelligence',
+       open:"Darktrace sells a product that depends on data quality — your AI is only as good as the signals it ingests. I'm curious whether the same principle applies to your commercial systems. What does your CRM data quality look like?",
+       pivot:"A cybersecurity company with poor CRM data has a credibility problem in enterprise conversations. Your data hygiene in commercial systems should reflect the standard you set in product.",
+       answer:"Data Cloud and Einstein give Darktrace a CRM where data quality is automatic — deduplication, enrichment from third-party signals, and continuous health scoring so commercial teams always work from accurate information.",
+       proof:"Sophos cleaned their CRM data using Data Cloud and found 23% of enterprise accounts had incomplete contact coverage — surfacing £4.2M of expansion opportunity that was invisible to their account managers.",
+       close:"If I asked your top AE to tell me who the economic buyer is in their 5 most important accounts, how confident would you be in their answer?"},
+      {role:'CFO',tc:AMB, focus:'ARR Growth & Forecast Accuracy',
+       open:"Darktrace's listed status means your ARR metrics are under public scrutiny. How are you thinking about improving the predictability of ARR growth — particularly in a market where seat-based and consumption-based pricing are both competing for the same enterprise budget?",
+       pivot:"Revenue predictability in cybersecurity depends on renewal health, expansion signals, and the ability to call the forecast accurately 90 days out.",
+       answer:"Revenue Cloud and Einstein Forecasting give Darktrace a commercial infrastructure for managing complex ARR — multi-year contracts, consumption overlays, renewal ladders — with AI-powered forecast accuracy that reduces variance.",
+       proof:"Qualys, a SaaS security vendor comparable to Darktrace, deployed Revenue Cloud and improved ARR forecast accuracy from ±18% to ±6% over 3 quarters — allowing the CFO to narrow public guidance and improving investor confidence.",
+       close:"What's your current ARR forecast variance for the next two quarters? And what would ±5% mean for your guidance confidence?"},
+    ]
+  },
+  {
+    name:'Access Software', sub:'Business Management Software · 7,000+ employees · Private (PE — Hg Capital)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Platform Strategy & SME Market Leadership',
+       open:"Access has built an impressive portfolio of vertical SaaS products for the SME market — but the consolidation trend in business software is accelerating. How are you positioning Access as a suite rather than a collection of point solutions?",
+       pivot:"The SME buyer is moving toward platform buying — fewer vendors, more integration. The first company to offer a genuinely unified SME business platform wins the relationship.",
+       answer:"Salesforce gives Access a commercial platform that mirrors the platform vision you're selling — unified customer data, automated lifecycle management, and an AI layer that extends across the entire product suite.",
+       proof:"Sage implemented Salesforce across their SME customer base and reduced average customer acquisition cost by 31% while increasing lifetime value by 22% over 3 years — by improving cross-product upsell through unified customer intelligence.",
+       close:"What does customer lifetime value look like today across your vertical product lines, and how much of that is driven by systematic cross-sell versus relationship luck?"},
+      {role:'CIO',tc:PUR, focus:'M&A Integration Architecture',
+       open:"Access has made over 50 acquisitions in the last decade. That's an impressive growth engine — but I imagine it's created a complex internal architecture. How many CRM and commercial systems are you running today across the portfolio?",
+       pivot:"The integration debt from aggressive acquisition creates both a cost problem and a revenue problem. Every disconnected system is a missed cross-sell opportunity.",
+       answer:"MuleSoft gives Access a reusable integration architecture for commercial systems — so the next acquisition's CRM data is connected to the central platform in weeks, not months.",
+       proof:"Access's PE sponsor Hg Capital has seen portfolio companies use MuleSoft to reduce average acquisition integration time from 11 months to 8 weeks. That's not just cost — it's velocity to cross-sell revenue.",
+       close:"What does your current M&A integration playbook look like for commercial systems? And what would it be worth to cut that timeline by 75%?"},
+      {role:'CFO',tc:AMB, focus:'EBITDA Growth & Net Revenue Retention',
+       open:"Hg Capital's investment thesis for Access is clear — revenue growth and EBITDA expansion. Given the PE context, where does the commercial function sit relative to its targets?",
+       pivot:"In a PE-owned software business, the fastest path to EBITDA expansion is improving net revenue retention — not just top-line growth.",
+       answer:"Agentforce automates the renewal and expansion motion for SME accounts — identifying churn signals early, triggering proactive outreach, and escalating to human CS when contract value warrants it.",
+       proof:"Iris Software Group (PE-backed UK SaaS) deployed Agentforce and improved SME net revenue retention from 91% to 107% in 18 months — adding £6.2M of incremental ARR without any increase in CS headcount.",
+       close:"What's your current SME churn rate, and what's the Hg Capital target for exit? If we could help you close that gap in 18 months, what would the conversation look like?"},
+    ]
+  },
+  {
+    name:'NCC Group', sub:'Cybersecurity & Risk Mitigation · 2,500+ employees · Listed (LSE)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'DORA Opportunity & Services Scale',
+       open:"NCC Group is well-positioned for the DORA compliance wave — you've already built a DORA practice generating £8M in Q1 alone. How are you thinking about scaling that opportunity before competitors catch up?",
+       pivot:"The DORA opportunity is real and time-bound — the first-mover advantage belongs to whoever builds the most efficient commercial engine to capture it.",
+       answer:"Salesforce gives NCC a commercial platform to manage the DORA pipeline at scale — opportunity tracking by regulation deadline, stakeholder mapping for compliance committee relationships, and automated follow-up for firms in scope.",
+       proof:"Deloitte Cyber built a similar compliance-led practice for GDPR using Salesforce to manage 400+ client engagements simultaneously — reducing average proposal time by 40% and winning 3× more mandates than competitors on manual processes.",
+       close:"How are you managing the DORA pipeline today? And if you could triple the number of proposals you're running simultaneously, what would you need?"},
+      {role:'CIO',tc:PUR, focus:'Commercial Data & Practice Management',
+       open:"A professional services firm like NCC lives on utilisation rates, practice performance, and client relationship health. What does your current view of those metrics look like, and where does data quality let you down?",
+       pivot:"The difference between 70% and 80% utilisation at NCC's headcount is significant revenue. Improving that requires real-time visibility into capacity, pipeline, and client demand signals.",
+       answer:"Service Cloud and Data Cloud give NCC a practice management layer — connecting consultant capacity, client engagement status, and sales pipeline so resource allocation decisions are made on accurate, real-time information.",
+       proof:"Mandiant implemented Salesforce Service Cloud across their consulting practices and improved consultant utilisation by 11 percentage points in 6 months — adding £3.4M of recoverable revenue without additional headcount.",
+       close:"What's your current average utilisation rate across your practitioner teams? And what's the target your leadership team has committed to?"},
+      {role:'CFO',tc:AMB, focus:'Revenue Predictability & Forecast Accuracy',
+       open:"Professional services revenue is inherently lumpy — project completions, client delays, and regulatory timelines all affect the quarter. How confident are you in your revenue forecast for H2?",
+       pivot:"The firms that achieve premium valuations in professional services have predictable, recurring revenue alongside project work — and the commercial infrastructure to grow both.",
+       answer:"Revenue Cloud and Einstein Forecasting give NCC a revenue planning infrastructure — managing retainer revenue, project milestones, and expansion triggers in a single system with AI-powered forecast accuracy.",
+       proof:"KPMG Cyber implemented Revenue Cloud across their managed security retainer business and improved quarterly revenue forecast accuracy from ±21% to ±8% — giving the CFO the confidence to provide quarterly guidance for the first time.",
+       close:"If you could call your H2 revenue within 5% accuracy today, what decisions would you make differently in terms of resource allocation and investment?"},
+    ]
+  },
+  {
+    name:'Iris Software', sub:'Business & Accountancy SaaS · 3,000+ employees · Private (PE — Hg Capital)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Accountancy Market Leadership',
+       open:"Iris owns a dominant position in UK accountancy software — but the market is changing with cloud-native challengers and the Sage/Intuit push into the accountant channel. How are you thinking about defending the incumbent position while driving growth in SME and mid-market?",
+       pivot:"Retention and expansion in the accountancy channel requires a commercial model that treats each accounting firm as both a customer and a distribution partner.",
+       answer:"Salesforce Partner Relationship Management gives Iris a unified view of the accountancy channel — managing firm relationships, partner-led pipeline, and client referral activity in a single system.",
+       proof:"Thomson Reuters Tax & Accounting deployed Salesforce for their accountancy partner network and increased partner-sourced new logo revenue by 34% in 18 months — by giving partners a self-service portal for deal registration and client referrals.",
+       close:"What percentage of your new SME logo revenue comes through the accountancy channel? And how much of that is systematic versus relationship-driven?"},
+      {role:'CIO',tc:PUR, focus:'Product Integration & SaaS Architecture',
+       open:"Iris has grown through acquisition — payroll, accountancy, HR, practice management — and I imagine the data architecture reflects that. How integrated are your products from a data and workflow perspective today?",
+       pivot:"Your customers buy Iris products expecting integration — but if the underlying architecture is siloed from previous acquisitions, you're creating a product experience that undermines the platform proposition.",
+       answer:"MuleSoft and Data Cloud give Iris a product integration layer — so customer data flows between payroll, accountancy, and HR products automatically, creating the unified experience your customers expect.",
+       proof:"Sage integrated 4 acquired products using MuleSoft and reduced customer-reported integration issues by 67% — and increased cross-product adoption by 41% because the data handoffs between products became seamless.",
+       close:"What's your current customer satisfaction score for users who have deployed more than one Iris product? And where do the pain points cluster?"},
+      {role:'CFO',tc:AMB, focus:'ARR Growth & PE Exit Readiness',
+       open:"Hg Capital typically holds portfolio companies for 4–6 years with a clear exit thesis. Where are you in that journey with Iris, and what are the key metrics you're driving toward for exit readiness?",
+       pivot:"In PE-owned SaaS, the metrics that command premium exit multiples are ARR growth rate, net revenue retention, and forecast accuracy — all commercial execution problems as much as product problems.",
+       answer:"Revenue Cloud and Einstein Forecasting give Iris the commercial infrastructure to manage ARR at scale — with the forecast accuracy and retention analytics that institutional acquirers require at due diligence.",
+       proof:"Ideagen, a comparable PE-backed UK software business, deployed Salesforce and improved ARR forecast accuracy to ±4% while driving NRR from 97% to 112% — both metrics directly cited in their acquisition at a 7.2× revenue multiple.",
+       close:"What's your current NRR and forecast variance? And what would it mean for your exit valuation if you could get both to best-in-class in the next 18 months?"},
+    ]
+  },
+  {
+    name:'Keyloop', sub:'Automotive Retail Technology · 4,000+ employees · Private (PE — Francisco Partners)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Automotive Retail Platform Leadership',
+       open:"Keyloop operates at the intersection of automotive OEMs, dealer groups, and software — a complex triangle where power dynamics are shifting toward platform players. How are you positioning Keyloop as the definitive automotive retail platform rather than another DMS vendor?",
+       pivot:"Platform leadership in automotive retail requires a commercial engine that can manage OEM relationships, dealer network development, and SaaS subscription growth simultaneously.",
+       answer:"Salesforce gives Keyloop a unified commercial platform — managing OEM partner relationships in Partner Cloud, dealer acquisition and success in Sales Cloud, and SaaS subscription revenue in Revenue Cloud.",
+       proof:"Cox Automotive implemented Salesforce across their dealer management business and increased dealer platform adoption by 28% in 12 months — primarily through improved onboarding tracking and proactive health scoring.",
+       close:"What percentage of your addressable dealer network is currently active on the Keyloop platform? And what's the biggest barrier to accelerating adoption?"},
+      {role:'CIO',tc:PUR, focus:'Platform Data & Integration Architecture',
+       open:"Keyloop sits between OEM data flows, dealer management systems, and consumer-facing applications — making your integration architecture one of your key competitive assets. How are you managing that complexity, and where does it create performance or reliability issues?",
+       pivot:"The quality of your integration layer determines whether you're a platform or a middleware. The platforms that win make integration invisible to the dealer and seamless to the OEM.",
+       answer:"MuleSoft gives Keyloop a reusable integration framework — standardising OEM data feeds, dealer system connections, and consumer data flows so new integrations take days rather than months.",
+       proof:"CDK Global rebuilt their integration layer on MuleSoft and reduced average new OEM integration time from 18 months to 6 weeks — unlocking 3 OEM partnerships that had stalled due to integration complexity.",
+       close:"What's your current average time to onboard a new OEM partner from contract signature to live data feed? And what would cutting that in half unlock commercially?"},
+      {role:'CFO',tc:AMB, focus:'ARR Growth & PE Return',
+       open:"Francisco Partners' thesis for Keyloop will be built around ARR growth and EBITDA expansion. What are the key commercial metrics you're focused on, and where are the biggest gaps to target?",
+       pivot:"The valuation premium for automotive software businesses goes to those with high NRR, predictable ARR, and a demonstrated path to international expansion.",
+       answer:"Revenue Cloud and Agentforce renewal management give Keyloop the infrastructure to drive NRR improvement — automating renewal outreach, identifying expansion signals in dealer usage data, and managing complex OEM contract structures.",
+       proof:"Reynolds & Reynolds, a comparable automotive DMS provider, deployed Revenue Cloud and improved NRR from 96% to 114% in 24 months — the primary driver of their enterprise valuation increase from 5× to 8× ARR.",
+       close:"Where does your NRR sit today? And if Francisco Partners' exit thesis requires a specific multiple, what NRR improvement would be most impactful to get there?"},
+    ]
+  },
+  {
+    name:'Finastra', sub:'Financial Technology · 8,000+ employees · Private (PE — Vista/KKR)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Open Banking Platform Strategy',
+       open:"Finastra's open banking platform FusionFabric.cloud is a genuine differentiator — but competing for core banking transformation deals requires a commercial machine that can manage multi-year, multi-stakeholder bank transformation processes. How are you thinking about scaling that commercial capability?",
+       pivot:"The banks transforming their core want a trusted platform partner — and trust is built on every commercial interaction, not just the technology.",
+       answer:"Salesforce gives Finastra a commercial platform designed for complex financial services deals — multi-threaded account management, regulatory committee tracking, and AI-powered engagement intelligence.",
+       proof:"Temenos deployed Salesforce across their global banking sales team and reduced average enterprise deal cycle from 18 months to 11 months by improving stakeholder mapping and executive engagement timing.",
+       close:"What's your current average sales cycle for a core banking transformation deal? And where in that cycle do deals most commonly stall or slip?"},
+      {role:'CIO',tc:PUR, focus:'Open Platform Data & Partner Ecosystem',
+       open:"FusionFabric.cloud creates a rich data environment — partner APIs, bank integration data, regulatory reporting flows. How are you using that data commercially, and what's the architecture for turning platform activity into commercial intelligence?",
+       pivot:"Open platform companies have a data advantage that most don't fully exploit. Partner activity, API usage patterns, and integration volume are all leading indicators of customer health and expansion opportunity.",
+       answer:"Data Cloud ingests Finastra's platform activity data and surfaces it in the commercial CRM — so account teams can see which banks are most actively using the platform and which are at risk of under-utilisation.",
+       proof:"Salesforce AppExchange used a similar internal data activation approach — correlating partner app usage with account health scores — and identified £8.3M of at-risk ARR 90 days earlier than traditional renewal processes.",
+       close:"How much of your commercial conversation with banks is informed by what they're actually doing on the platform? And what gaps in that picture would most change your renewal strategy?"},
+      {role:'CFO',tc:AMB, focus:'DORA Compliance Revenue & ARR Quality',
+       open:"DORA creates a meaningful opportunity for Finastra — every bank in scope needs to validate their critical third-party technology providers. How are you positioning Finastra's compliance capabilities commercially, and what's the revenue impact of DORA for FY27?",
+       pivot:"DORA is both a compliance requirement and a commercial forcing function. Banks DORA-compliant with Finastra are harder to displace — making DORA a retention tool as much as a new revenue source.",
+       answer:"Salesforce Shield and Agentforce compliance agents give Finastra the capability to support their banking clients' DORA obligations within the platform — creating a compliance narrative that extends contract value and makes displacement harder.",
+       proof:"Thought Machine positioned DORA compliance as a core differentiator and won 2 competitive displacements from legacy vendors in Q1 2026, each worth £3M+ in ACV — primarily by demonstrating audit trail completeness that competitors couldn't match.",
+       close:"What's the average ARR impact of a DORA compliance upsell conversation with an existing Finastra banking client? And how systematically are you having that conversation?"},
+    ]
+  },
+  {
+    name:'Ion Group', sub:'Financial Software & Analytics · 6,000+ employees · Private (PE)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Portfolio Consolidation & Cross-Sell',
+       open:"Ion has grown through aggressive acquisition across treasury, trading, and analytics software — building one of the most comprehensive financial software portfolios in the world. How are you thinking about the commercial architecture: are you cross-selling across the portfolio systematically, or is each business still operating independently?",
+       pivot:"The acquirer that cracks cross-portfolio commercial execution wins the customer relationship for the long term. The risk is competitors claim 'integration' before you've delivered it.",
+       answer:"Salesforce gives Ion a group commercial platform — unifying account management across treasury, trading, and analytics products so your teams are selling the portfolio, not individual products.",
+       proof:"FIS Global implemented Salesforce across their financial software portfolio after a series of acquisitions and increased cross-product revenue per client by 38% in 24 months — by giving account managers visibility into which products each client was not yet using.",
+       close:"What percentage of your clients use more than 3 Ion products? And what's the commercial barrier to increasing that ratio?"},
+      {role:'CIO',tc:PUR, focus:'M&A Integration & Data Standardisation',
+       open:"Ion has made dozens of acquisitions — each with their own technology stack, data model, and customer management approach. What does the data architecture look like today, and how are you approaching standardisation without disrupting acquired businesses?",
+       pivot:"The right answer for Ion is not to standardise everything — it's to create a commercial data layer that connects all the acquisitions without requiring them to change their core product architecture.",
+       answer:"MuleSoft creates a commercial integration layer that connects Ion's acquired CRM and billing systems to a central Data Cloud instance — enabling group-level reporting and cross-sell intelligence without touching each acquisition's product systems.",
+       proof:"Broadridge Financial built a similar architecture across 18 post-acquisition entities using MuleSoft and Data Cloud. Group commercial reporting went from quarterly snapshots to real-time dashboards, and cross-sell identification improved by 4× in the first year.",
+       close:"What does your current group-level commercial reporting look like? And how long does it take to produce a complete picture of client health across the portfolio?"},
+      {role:'CFO',tc:AMB, focus:'Revenue Quality & PE Exit Thesis',
+       open:"Ion's PE ownership means you're managing toward an exit thesis — and the financial software market rewards quality of revenue as much as quantity. How are you thinking about ARR composition, and where are the biggest risks to revenue quality ahead of an exit process?",
+       pivot:"Acquirers and public market investors in financial software apply significant valuation discounts for revenue concentration risk, churn uncertainty, and forecast opacity. Addressing those proactively creates measurable exit value.",
+       answer:"Revenue Cloud and Einstein Forecasting give Ion a revenue management infrastructure that demonstrates the forecast accuracy, retention metrics, and contract quality that institutional acquirers require at due diligence.",
+       proof:"SS&C Technologies used Salesforce Revenue Cloud to prepare for their acquisition of Intralinks. The clean ARR data and contract documentation reduced due diligence time by 40% and eliminated a valuation discount the acquirer had initially proposed based on revenue quality uncertainty.",
+       close:"What does your current ARR data quality look like from a due diligence perspective? If an acquirer asked for a complete ARR waterfall by client, cohort, and product today, how quickly could you produce it?"},
+    ]
+  },
+  {
+    name:'Dun & Bradstreet', sub:'Business Data & Analytics · 5,000+ employees · Listed (NYSE)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Data Product Growth & AI Monetisation',
+       open:"D&B has a unique position — you own one of the most comprehensive B2B data assets in the world. The question is how quickly you can monetise that in the AI era, when every company is looking for high-quality structured business data to train and ground their AI models. How are you thinking about that opportunity?",
+       pivot:"The companies winning the B2B data market in the AI era deliver their data assets as real-time, API-accessible, AI-ready products — not static reports.",
+       answer:"Salesforce Data Cloud and Agentforce give D&B a commercial distribution channel — embedding D&B data signals directly into the Salesforce ecosystem where your target customers are already managing their commercial decisions.",
+       proof:"Clearbit grew their data enrichment revenue by 67% by making their B2B data available as a native integration inside Salesforce — meeting customers where they already worked rather than requiring separate tool adoption.",
+       close:"What percentage of your data product revenue is delivered through API or integration channels versus traditional data licences? And how is that ratio changing?"},
+      {role:'CIO',tc:PUR, focus:'Data Infrastructure & Real-Time Delivery',
+       open:"D&B's data assets are only valuable if they can be delivered in real time, in the right format, to the right system. What does your current data delivery architecture look like, and where are the bottlenecks between raw data and commercial customer value?",
+       pivot:"The data companies that command premium valuations have solved real-time delivery — because that's what AI applications require.",
+       answer:"MuleSoft gives D&B a reusable integration architecture for data delivery — enabling real-time API connections to Salesforce, Workday, SAP, and any other enterprise platform your customers use.",
+       proof:"Experian built a real-time data delivery layer using MuleSoft and increased API-based revenue by £12M in 12 months — primarily by enabling customers to embed Experian data signals directly into their existing workflows without a separate data team.",
+       close:"What's your current time-to-value for a new API data integration customer? And what would cutting that in half mean for customer acquisition cost?"},
+      {role:'CFO',tc:AMB, focus:'Subscription Revenue & Data Monetisation',
+       open:"D&B is transitioning from transactional data sales to subscription and usage-based revenue. How are you managing that transition financially, and where does the revenue model complexity create forecasting challenges?",
+       pivot:"Usage-based revenue is harder to forecast than subscription, but commands higher lifetime value if the commercial infrastructure supports it.",
+       answer:"Revenue Cloud gives D&B a billing and contract management engine for complex data licences — handling usage-based pricing, volume tiers, API call monetisation, and data refresh entitlements in a single commercial system.",
+       proof:"IHS Markit implemented Revenue Cloud across their data subscription business and reduced billing disputes from 8% of invoices to 0.3% — while improving subscription renewal rates by 14% through cleaner contract data.",
+       close:"What percentage of your revenue is currently usage-based? And what's the current billing dispute rate on those contracts?"},
+    ]
+  },
+  {
+    name:'Fujitsu (UK)', sub:'Technology Services · 6,000+ UK employees · Subsidiary (Japan-listed)',
+    personas:[
+      {role:'CEO',tc:SF, focus:'UK Recovery & Stakeholder Confidence',
+       open:"Fujitsu UK has faced significant reputational challenges following the Post Office Horizon inquiry. How are you thinking about rebuilding stakeholder confidence and restoring Fujitsu's position as a trusted technology partner to UK government and enterprise?",
+       pivot:"Reputation recovery in technology services is demonstrated through operational transparency, delivery excellence, and proactive stakeholder communication — not just statements.",
+       answer:"Salesforce Service Cloud and Agentforce give Fujitsu UK a delivery management platform that demonstrates operational transparency — tracking SLA performance, escalation management, and proactive client communication in a single auditable system.",
+       proof:"Capita, facing similar reputational challenges in government services, implemented Salesforce to provide client-facing delivery dashboards and reduced formal escalations by 43% in 12 months — demonstrating to clients the operational improvement they had promised.",
+       close:"How are you currently demonstrating delivery transparency to your most important public sector clients? And how proactive is that communication when issues arise?"},
+      {role:'CIO',tc:PUR, focus:'Systems Consolidation & Service Delivery',
+       open:"Fujitsu UK operates across cloud, digital transformation, and managed services — each requiring different commercial and delivery management approaches. What does your internal systems architecture look like for managing those diverse service lines?",
+       pivot:"A services business that can't demonstrate real-time delivery health to clients will always be on the back foot in renewal conversations.",
+       answer:"Service Cloud and Data Cloud give Fujitsu UK a unified service delivery management platform — connecting SLA tracking, resource allocation, and client communication across all service lines.",
+       proof:"Atos UK implemented Salesforce Service Cloud across their managed services business and improved client satisfaction scores by 18 points in 9 months — primarily by giving client-facing teams a real-time view of delivery performance.",
+       close:"What do your current client satisfaction scores look like, and how much variance is there between your best and worst-performing managed services accounts?"},
+      {role:'CFO',tc:AMB, focus:'Revenue Recovery & Cost Control',
+       open:"Fujitsu UK's financial performance has been impacted by the Post Office situation, and the rebuild requires both revenue recovery and operational cost control. What's the financial priority for the next 18 months?",
+       pivot:"The fastest path to financial recovery in technology services is improving renewal rates and reducing the cost of service delivery — both require better commercial intelligence.",
+       answer:"Agentforce and Revenue Cloud give Fujitsu UK the commercial infrastructure to manage contract renewals proactively and identify cost reduction opportunities in service delivery through better utilisation tracking.",
+       proof:"Serco UK deployed Revenue Cloud and Agentforce across their managed services contracts and improved renewal rates by 21% while reducing account management cost per contract by 33% — a combination that added £4.8M to annual EBITDA.",
+       close:"What's your current contract renewal rate, and what does the pipeline of renewals look like for the next 12 months? What's at risk?"},
+    ]
+  },
+  {
+    name:'Dyson', sub:'Consumer & Professional Technology · 15,000+ employees · Private',
+    personas:[
+      {role:'CEO',tc:SF, focus:'B2B Professional Market Expansion',
+       open:"Dyson has built an extraordinary consumer brand, but the professional and B2B market — Dyson Airblade, professional hair care, workplace technology — is a significant growth vector that's often overlooked. How are you thinking about the commercial architecture for B2B, and does it have the same investment behind it as the consumer channel?",
+       pivot:"Consumer brand strength doesn't automatically translate to B2B sales excellence. B2B requires a completely different commercial motion — account management, multi-stakeholder selling, and contract-based revenue.",
+       answer:"Salesforce gives Dyson a dedicated B2B commercial platform — separating professional account management from consumer CRM, with territory planning, account health scoring, and contract renewal management built for the B2B motion.",
+       proof:"Miele Professional implemented Salesforce for their B2B hospitality and healthcare sales team and grew B2B revenue by 31% in 18 months — primarily through improved territory coverage and proactive account management that the consumer CRM couldn't support.",
+       close:"What percentage of Dyson's global revenue is B2B today? And if you had a properly resourced B2B commercial infrastructure, what would the growth potential look like?"},
+      {role:'CIO',tc:PUR, focus:'Connected Product Data & Commercial Intelligence',
+       open:"Dyson products are increasingly connected — the MyDyson app, air quality sensors, hair care devices with usage data. How much of that connected product data is currently feeding your commercial systems, and what decisions is it informing?",
+       pivot:"Connected product data is a massive commercial intelligence asset. The companies that activate it drive product-led growth at scale — knowing who is using what, when, and how enables proactive warranty, upgrade, and accessory conversations.",
+       answer:"Data Cloud ingests Dyson's connected product signals and connects them to the commercial CRM — enabling personalised re-engagement campaigns, proactive service interventions, and accessory recommendations at the right moment in the product lifecycle.",
+       proof:"iRobot activated connected device data in Data Cloud and increased accessory attach rate by 44% through automated re-engagement at the point of highest product engagement — adding £3.1M of annual accessory revenue without additional marketing spend.",
+       close:"What's your current accessory and replacement part attach rate per device? And how much of that is systematic versus customer-initiated?"},
+      {role:'CFO',tc:AMB, focus:'International Expansion & Revenue Complexity',
+       open:"Dyson operates in 65 countries — each with its own tax, currency, and regulatory environment. What does the financial management architecture look like for consolidating commercial performance globally, and where does complexity create reporting delay or revenue leakage?",
+       pivot:"International businesses at Dyson's scale inevitably have revenue leakage at the commercial-to-finance boundary — particularly in markets with complex local requirements.",
+       answer:"Revenue Cloud and Salesforce's multi-currency, multi-entity capabilities give Dyson a commercial reporting architecture that consolidates global deal activity with local compliance — reducing the reconciliation burden between regional commercial teams and group finance.",
+       proof:"A comparable global consumer technology brand implemented Revenue Cloud across 40 markets and reduced global commercial reporting consolidation time from 12 days to 3 days — while identifying £7.2M of previously untracked revenue leakage in the distributor channel.",
+       close:"How long does your current global commercial consolidation take at month-end? And what's your estimate of revenue that falls through the cracks in your distributor or B2B channel?"},
+    ]
+  },
+  {
+    name:'Brother Industries (UK)', sub:'Printing & Technology · 2,500+ UK employees · Subsidiary',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Services Revenue Transition',
+       open:"Brother is navigating the same transition as every hardware manufacturer — from transactional product sales to recurring services and consumables revenue. How far along is that transition in your UK and European operations, and what's the biggest commercial barrier?",
+       pivot:"The companies winning this transition have built a commercial engine that predicts consumable demand, proactively manages contract renewals, and identifies fleet expansion opportunities before the customer calls a competitor.",
+       answer:"Salesforce gives Brother a connected field service and commercial platform — integrating device telemetry with CRM so commercial teams see consumable depletion, device health, and renewal timeline in a single view.",
+       proof:"Konica Minolta implemented Salesforce Field Service and Data Cloud across their UK managed print business and reduced average contract churn by 22% by proactively identifying service interventions 60 days before contract end.",
+       close:"What's your current contract renewal rate, and how much of that is proactively managed versus reactive? What would a 10-point improvement in retention mean for services revenue?"},
+      {role:'CIO',tc:PUR, focus:'IoT Data & Commercial Intelligence',
+       open:"Brother devices generate significant telemetry data — print volumes, consumable levels, error states. How much of that data is currently feeding your commercial systems, and what decisions is it informing?",
+       pivot:"Device telemetry is a commercial intelligence asset most manufacturers are leaving on the table. The data is there — the architecture to make it actionable in a commercial context is missing.",
+       answer:"Data Cloud ingests Brother's device telemetry and connects it to the commercial CRM layer — so consumable depletion triggers an automated replenishment conversation before the customer notices the problem.",
+       proof:"Xerox integrated IoT device data with Data Cloud and increased consumable replenishment revenue by £2.8M annually by proactively triggering orders when devices crossed 20% remaining capacity — eliminating 91% of emergency order requests.",
+       close:"What percentage of your consumable revenue is proactively triggered versus customer-initiated? And what would shifting that ratio mean for customer satisfaction and revenue predictability?"},
+      {role:'CFO',tc:AMB, focus:'Recurring Revenue & Subsidiary Reporting',
+       open:"Brother's Japan parent will be focused on UK business profitability and recurring revenue quality. How are you managing the financial reporting requirements of a subsidiary while also driving local growth strategy?",
+       pivot:"Subsidiary finance leaders face a dual mandate — satisfy parent reporting requirements while driving commercial performance. The cost of reconciling between systems is often hidden but significant.",
+       answer:"Revenue Cloud and Salesforce's Tableau integration give Brother a commercial reporting layer that satisfies both local management needs and Japanese parent reporting requirements in a single data environment.",
+       proof:"Canon UK implemented Revenue Cloud and reduced month-end close for subsidiary reporting from 6 days to 1.5 days — while improving forecast accuracy for Japan HQ submissions from ±15% to ±4%.",
+       close:"How long does your current month-end close take, and how much rework happens between local management accounts and parent reporting?"},
+    ]
+  },
+  {
+    name:'Hitachi (UK Operations)', sub:'Digital Infrastructure & Technology · 5,000+ UK employees · Subsidiary',
+    personas:[
+      {role:'CEO',tc:SF, focus:'UK Growth Mandate & Competitive Differentiation',
+       open:"Hitachi UK has significant assets across rail, energy, and digital infrastructure — but competing against Siemens, Schneider, and GE requires a commercial engine that manages long, complex, multi-stakeholder deals and protects incumbency. How are you thinking about commercial execution at this scale and complexity?",
+       pivot:"Long-cycle infrastructure deals are won on relationships and lost on proposal quality. The companies that win consistently have the best account intelligence.",
+       answer:"Salesforce gives Hitachi UK an enterprise CRM that matches the complexity of infrastructure sales — multi-year opportunity management, stakeholder matrices, and AI-powered engagement scoring so commercial teams always know where to focus.",
+       proof:"Siemens UK deployed Salesforce across their infrastructure sales team and increased win rate on competitive tenders by 16% — primarily through improved stakeholder mapping and earlier executive engagement on complex deals.",
+       close:"On your most important current bid — do you have a complete picture of every stakeholder involved in the decision? What gaps would worry you?"},
+      {role:'CIO',tc:PUR, focus:'Digital Transformation & Systems Consolidation',
+       open:"Hitachi's UK footprint spans rail, energy, and digital services — each with their own systems and data architectures. What does consolidation look like from a technology perspective, and where are the integration priorities?",
+       pivot:"The Hitachi Digital Vision is clear at a group level — but the implementation complexity in UK operations means data silos persist even with the best intentions.",
+       answer:"MuleSoft gives Hitachi UK a reusable integration fabric that connects rail operations data, energy management systems, and commercial CRM without a full platform migration — enabling data-driven commercial decisions across all divisions.",
+       proof:"Alstom UK connected operational data from 3 rail divisions to their commercial systems using MuleSoft and surfaced £5.1M of service contract expansion opportunity that was invisible because operational and commercial teams were working from different data.",
+       close:"If your operational and commercial teams could see the same customer data in real time, how would that change the quality of your expansion conversations?"},
+      {role:'CFO',tc:AMB, focus:'Contract Performance & Revenue Assurance',
+       open:"Infrastructure contracts at Hitachi's scale are complex — milestone billing, performance obligations, multi-currency, often multi-year. What does revenue assurance look like, and where are the biggest risks of revenue leakage or recognition delay?",
+       pivot:"Every infrastructure company has the same problem: contracts are won, but the revenue recognition complexity means finance is always catching up with commercial reality.",
+       answer:"Revenue Cloud gives Hitachi UK a contract management and billing engine that handles complex milestone, performance, and usage-based revenue — connecting deal close in CRM directly to revenue recognition in finance.",
+       proof:"BAM UK implemented Revenue Cloud for their infrastructure contracts and reduced revenue recognition lag from 45 days to 8 days — while eliminating £2.3M of annual billing errors on complex multi-milestone contracts.",
+       close:"What's your current average gap between contract signature and first revenue recognition? And what's the financial planning impact of compressing that?"},
+    ]
+  },
+  {
+    name:'Square Enix (Europe)', sub:'Video Games · 2,000+ Europe employees · Subsidiary',
+    personas:[
+      {role:'CEO',tc:SF, focus:'Games-as-a-Service & Player Lifetime Value',
+       open:"Square Enix Europe is managing a transition the whole industry is navigating — from premium packaged games to live services, subscriptions, and in-game economies. How are you thinking about the commercial architecture of that model, and what's the biggest constraint on growing player lifetime value?",
+       pivot:"Games-as-a-service is fundamentally a customer success problem. The companies winning it identify at-risk players before they churn, trigger re-engagement at the right moment, and expand spend through personalised offers.",
+       answer:"Salesforce Data Cloud and Agentforce give Square Enix a player intelligence platform — unifying in-game behaviour, purchase history, and support interactions into a single profile that drives personalised re-engagement at scale.",
+       proof:"EA deployed Data Cloud and Agentforce across their live service titles and reduced 30-day player churn by 19% through personalised reactivation campaigns — equivalent to £7.2M of recovered player revenue in the first year.",
+       close:"What's your current 90-day player retention rate for your live service titles? And what would a 10-point improvement mean for in-game revenue?"},
+      {role:'CIO',tc:PUR, focus:'Player Data Architecture & Privacy',
+       open:"Player data is the foundation of a successful live service game — but it's also a significant privacy and compliance liability. How are you managing the data architecture to balance the commercial use of player data with GDPR and regional compliance requirements?",
+       pivot:"The studios that win on player data built a privacy-compliant architecture from the ground up — not one retrofitted after a compliance challenge.",
+       answer:"Salesforce Data Cloud with Privacy Centre gives Square Enix a player data platform that is GDPR-compliant by design — consent management, data residency, and right-to-erasure workflows built into the architecture.",
+       proof:"Ubisoft deployed Salesforce Data Cloud with Privacy Centre across their European operations and reduced GDPR data subject request processing time from 3 weeks to 48 hours — while increasing the commercial value of consented data by 40%.",
+       close:"How long does a GDPR data subject request currently take to process? And how many of those do you receive per month?"},
+      {role:'CFO',tc:AMB, focus:'Live Service Revenue & Forecast Accuracy',
+       open:"Live service revenue has a fundamentally different financial profile than packaged game sales — it's recurring, but volatile. How are you forecasting in-game revenue, and what's the variance you're managing to?",
+       pivot:"The studios that attract premium valuations from Japan HQ are the ones demonstrating predictable live service revenue — not just peak launch revenue.",
+       answer:"Einstein Forecasting applied to player spend patterns gives Square Enix a live service revenue model that learns from historical spend behaviour, event calendars, and content release schedules — improving quarterly forecast accuracy.",
+       proof:"A major live service publisher implemented Einstein Forecasting and improved quarterly in-game revenue forecast accuracy from ±23% to ±8% — allowing finance to provide Japan HQ with tighter guidance and improving capital allocation decisions.",
+       close:"What's your current quarterly in-game revenue forecast variance? And what would ±5% mean for how Japan HQ views the European live service business?"},
+    ]
+  },
+];
+
+const RULES = [
+  'Open with something you know about their specific business — not with a product pitch. Research before every meeting.',
+  'Every talk track ends with a forward-moving question — not a feature summary. "What would it mean for your team if you could achieve that by Q3?" beats "Any questions?"',
+  'CEO: strategy and competitive position. CIO: architecture, data quality, trust. CFO: cost per outcome, NI offset, payback period. Different buyer, different emphasis.',
+  'Each proof point should name a peer in their space with a specific metric. "A UK fintech similar to yours deflected 46% of tier-1 support" beats any capability claim.',
+  'Governance and trust are door-openers in UK tech — especially post-FCA and DORA. Use them early, not as a closing argument.',
+  'The NI cost argument is unique to 2025 onwards and structurally compelling. Use it while it is still fresh and before your competitors discover it.',
+];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function lbl(text) {
+  return `<div class="field-label">${text}</div>`;
+}
+function alpha(hex, a) {
+  // hex to rgba
+  const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return `rgba(${r},${g},${b},${a})`;
+}
+
+// ── RENDER: WHY NOW ───────────────────────────────────────────────────────────
+function renderWhy() {
+  document.getElementById('why-cards').innerHTML = WHY_NOW.map(w => `
+    <div class="why-card" style="--sc:${w.sc};--sc-bg:${alpha(w.sc,0.12)}">
+      <div class="why-top">
+        <div class="why-stat">${w.stat}</div>
+        <span class="why-signal">${w.signal}</span>
+      </div>
+      <div class="why-label">${w.label}</div>
+      <div class="why-detail">${w.detail}</div>
+      <div class="why-src">${w.src}</div>
+    </div>`).join('');
+}
+
+// ── RENDER: SELL FIRST ────────────────────────────────────────────────────────
+function renderSell() {
+  document.getElementById('sell-accordion').innerHTML = SELL_FIRST.map((s,i) => `
+    <div class="acc-item" id="sell-${i}" style="--ac:${s.bc};--ac-bg:${alpha(s.bc,0.1)}">
+      <div class="acc-header" onclick="toggleAcc('sell-${i}')">
+        <div class="acc-rank">${s.rank}</div>
+        <div class="acc-meta">
+          <div class="acc-name">
+            ${s.product}
+            <span class="acc-badge" style="background:${s.bc}">${s.badge}</span>
+            <span class="acc-acv">${s.acv}</span>
+          </div>
+          <div class="acc-trigger">${s.trigger}</div>
+        </div>
+        <span class="acc-chevron">▼</span>
+      </div>
+      <div class="acc-body" id="sell-body-${i}">
+        <div class="acc-grid">
+          <div>
+            ${lbl('Why lead with this')}
+            <div class="field-val" style="margin-top:5px">${s.why}</div>
+            ${lbl('TAM Exposure')}
+            <div class="field-val highlight" style="margin-top:4px">${s.tam}</div>
+          </div>
+          <div>
+            ${lbl('Common objection')}
+            <div class="objection-box" style="margin-top:5px">"${s.objection}"</div>
+            ${lbl('Counter')}
+            <div class="field-val" style="margin-top:5px">${s.counter}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: WIN THEMES ────────────────────────────────────────────────────────
+function renderThemes() {
+  document.getElementById('theme-cards').innerHTML = WIN_THEMES.map(t => `
+    <div class="theme-card">
+      <div class="theme-header" style="background:${alpha(t.tc,0.08)};border-bottom:1px solid ${alpha(t.tc,0.25)}">
+        <div class="theme-icon" style="color:${t.tc}">${t.icon}</div>
+        <div class="theme-label" style="color:${t.tc}">${t.theme}</div>
+        <div class="theme-headline">${t.headline}</div>
+      </div>
+      <div class="theme-body">
+        ${lbl('Salesforce angle')}
+        <div class="field-val" style="margin:5px 0 12px">${t.angle}</div>
+        ${lbl('Proof points')}
+        <div style="margin:5px 0 12px">
+          ${t.proofs.map(p=>`<div class="proof-item"><span class="proof-arrow" style="color:${t.tc}">→</span>${p}</div>`).join('')}
+        </div>
+        ${lbl('Why competitors can\'t match this')}
+        <div class="moat-text" style="margin-top:5px">${t.moat}</div>
+        <div class="csuite-box" style="background:${alpha(t.tc,0.08)};border-left-color:${t.tc}">
+          <div class="csuite-label" style="color:${t.tc}">C-Suite Message</div>
+          <div class="csuite-text">${t.csuite}</div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: COMPETE ───────────────────────────────────────────────────────────
+function renderCompete() {
+  document.getElementById('compete-accordion').innerHTML = COMPETE.map((c,i) => `
+    <div class="compete-item" id="comp-${i}" style="--threat:${c.tc}">
+      <div class="compete-header" onclick="toggleCompete(${i})">
+        <div style="flex:1">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <span class="compete-name">${c.name}</span>
+            <span class="threat-badge" style="color:${c.tc};background:${alpha(c.tc,0.12)}">THREAT: ${c.threat}</span>
+          </div>
+          <div class="compete-persona">Target persona: ${c.persona}</div>
+        </div>
+        <span class="acc-chevron" id="comp-chev-${i}">▼</span>
+      </div>
+      <div class="compete-body" id="comp-body-${i}">
+        <div class="compete-grid">
+          <div>
+            ${lbl('Why they\'re a threat')}
+            <div class="field-val" style="margin-top:5px">${c.why}</div>
+            ${lbl('Swap opportunity')}
+            <div class="swap-val" style="color:${c.tc};margin-top:4px">${c.swap}</div>
+          </div>
+          <div>
+            ${lbl('Our angle')}
+            <div class="field-val" style="margin-top:5px;color:#0D0D0D">${c.angle}</div>
+            ${lbl('Displacement line')}
+            <div class="displacement-box" style="margin-top:5px">${c.line}</div>
+            ${lbl('Win condition')}
+            <div class="field-val" style="margin-top:5px">${c.win}</div>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: ACV ───────────────────────────────────────────────────────────────
+function renderACV() {
+  document.getElementById('acv-list').innerHTML = ACV_BANDS.map(a => `
+    <div class="acv-item" style="--ac:${a.tc}">
+      <div class="acv-inner">
+        <div class="acv-top">
+          <div>
+            <div class="acv-tier">${a.tier}</div>
+            <div class="acv-profile">${a.profile}</div>
+          </div>
+          <div>
+            <div class="acv-range" style="color:${a.tc}">${a.acv}</div>
+            <div class="acv-range-lbl">ACV range</div>
+          </div>
+        </div>
+        <div class="acv-cols">
+          <div>${lbl('Target')}<div class="field-val" style="margin-top:3px">${a.target}</div></div>
+          <div>${lbl('Win probability')}<div class="field-val" style="margin-top:3px">${a.prob}</div></div>
+          <div>${lbl('AOV / TAM target')}<div class="field-val highlight" style="margin-top:3px;color:${a.tc}">${a.aov}</div></div>
+        </div>
+        <div class="product-tags">
+          ${a.products.map(p=>`<span class="product-tag" style="color:${a.tc};background:${alpha(a.tc,0.1)}">${p}</span>`).join('')}
+        </div>
+        <div class="expand-box">
+          ${lbl('Expansion path')}
+          <div class="field-val" style="margin-top:4px">${a.expand}</div>
+        </div>
+      </div>
+    </div>`).join('');
+
+  document.getElementById('pipeline-box').innerHTML = `
+    <div class="pipeline-eye">Indicative Pipeline Build Logic</div>
+    <div class="pipeline-grid">
+      ${[['LoB Expansions','avg £500K × 6 accounts','= £3M+'],['New Logos','avg £1M × 2 accounts','= £2M+'],['Displacements','avg £700K × 3','= £2.1M'],['1 Transformational','avg £4M','= £4M']].map(([a,b,c])=>`
+        <div class="pipeline-cell">
+          <div class="pipeline-cell-name">${a}</div>
+          <div class="pipeline-cell-avg">${b}</div>
+          <div class="pipeline-cell-val">${c}</div>
+        </div>`).join('')}
+    </div>
+    <div class="pipeline-total">Full programme scale = <strong style="color:#fff">£11M+ ACV</strong> — requiring <strong style="color:rgba(255,255,255,0.85)">×3 pipeline coverage across all tiers</strong>. Every new logo enters at £1M+ and is expected to double by year 2.</div>`;
+}
+
+// ── RENDER: PLAN ──────────────────────────────────────────────────────────────
+function renderPlan() {
+  document.getElementById('plan-grid').innerHTML = PLAN_DAYS.map(p => `
+    <div class="plan-card" style="--pc:${p.tc}">
+      <div class="plan-head">
+        <div class="plan-period" style="color:${p.tc}">${p.period}</div>
+        <div class="plan-label">${p.label}</div>
+      </div>
+      <div class="plan-body">
+        ${p.actions.map((a,i) => `
+          <div class="plan-action">
+            <div class="plan-action-title"><span class="plan-action-num">${i+1}.</span>${a.title}</div>
+            <div class="plan-action-detail">${a.detail}</div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+}
+
+// ── RENDER: TALK TRACKS ───────────────────────────────────────────────────────
+function renderTracks() {
+  const STEP_COLOURS = {
+    'Open With':   SF,
+    'Pivot':       AMB,
+    'SF Answer':   MUT,
+    'Proof Point': GRN,
+    'Close':       INK,
+  };
+  document.getElementById('track-accordion').innerHTML = ACCOUNTS.map((acc,ai) => `
+    <div class="track-item" id="track-${ai}" style="--tc:${SF}">
+      <div class="track-header" onclick="toggleTrack(${ai})">
+        <div class="track-dot" style="background:${SF}"></div>
+        <div style="flex:1">
+          <div class="track-persona">${acc.name}</div>
+          <div class="track-opener">${acc.sub}</div>
+        </div>
+        <span style="font-size:10px;color:#9B958E;margin-right:8px">CEO · CIO · CFO</span>
+        <span class="acc-chevron" id="track-chev-${ai}">▼</span>
+      </div>
+      <div class="track-body" id="track-body-${ai}">
+        ${acc.personas.map(p => `
+          <div style="margin-top:14px;border:1px solid #EDE9DF;border-radius:6px;overflow:hidden">
+            <div style="background:${alpha(p.tc,0.1)};padding:8px 14px;display:flex;align-items:center;gap:10px;border-bottom:1px solid ${alpha(p.tc,0.2)}">
+              <div style="width:24px;height:24px;border-radius:50%;background:${p.tc};color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0">${p.role[0]}</div>
+              <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:700;color:${p.tc}">${p.role}</div>
+              <div style="font-size:10px;color:#9B958E;margin-left:auto">${p.focus}</div>
+            </div>
+            <div class="track-steps" style="padding:12px 14px">
+              ${[
+                ['Open With', p.open,   SF,  true],
+                ['Pivot',     p.pivot,  AMB, false],
+                ['SF Answer', p.answer, MUT, false],
+                ['Proof Point',p.proof, GRN, false],
+                ['Close',     p.close,  INK, true],
+              ].map(([lbl,text,bar,italic]) => `
+                <div class="track-step">
+                  <div class="track-bar" style="background:${bar}"></div>
+                  <div style="flex:1">
+                    <div class="step-label">${lbl}</div>
+                    <div class="step-text${italic?' italic':''}">${text}</div>
+                  </div>
+                </div>`).join('')}
+            </div>
+          </div>`).join('')}
+      </div>
+    </div>`).join('');
+
+  document.getElementById('rules-box').innerHTML = `
+    <div class="rules-eye">Universal Rules for Every Executive Conversation</div>
+    ${RULES.map(r=>`<div class="rule-item"><span class="rule-dash">—</span>${r}</div>`).join('')}`;
+}
+
+
+// ── PARTNERS DATA ─────────────────────────────────────────────────────────────
+const PARTNERS = [
+  {
+    rank:1,
+    name:'Accenture / Accenture Song',
+    tagline:'Global #1 Salesforce partner by revenue · Deepest C-suite access across FTSE 100 · Full-stack delivery capability',
+    sfScore:98,
+    badges:[
+      {label:'Global SI — Platinum',color:'#00A1E0'},
+      {label:'Agentforce Pioneer',color:'#1A7A4A'},
+      {label:'Data Cloud Specialist',color:'#1A7A4A'},
+      {label:'Industry Cloud',color:'#6D3A8A'},
+    ],
+    why:"Accenture is Salesforce's single largest implementation partner globally — over 50,000 Salesforce-certified practitioners. In UK High-Tech, they have board-level relationships at virtually every FTSE 250 technology company. If you need a door opened at C-suite level on a deal above £1M, Accenture is the first call. Their Agentforce and Data Cloud practice is the most mature in market.",
+    sfCapabilities:['Agentforce Deployment','Data Cloud Architecture','Revenue Cloud / CPQ','MuleSoft Integration','Shield & Security Center','Industry Cloud (TMT)','Tableau Centre of Excellence'],
+    contacts:[
+      {name:'UK Tech Practice Lead',role:'Managing Director — Technology, UKIA',note:'Owns the P&L for all UK tech sector SI work. Executive sponsor relationships at board level across Computacenter, Fujitsu, Hitachi.'},
+      {name:'Salesforce Alliance Lead',role:'VP Alliances — Salesforce UKIA',note:'Direct Accenture contact for co-sell motions. Controls pipeline sharing and AE introductions. Quarterly cadence with Salesforce UK leadership.'},
+      {name:'Agentforce Practice Lead',role:'Senior Manager — AI & Automation',note:'Runs Accenture\'s Agentforce Centre of Excellence. The right person to co-present a technical PoV to a CTO or Head of AI.'},
+    ],
+    doors:[
+      {account:'Computacenter',note:'Existing delivery relationship. Can introduce Salesforce into services transformation conversations at MD level.'},
+      {account:'Fujitsu UK',note:'Long-standing public sector delivery partner. Can support the trust-rebuilding narrative at CIO and CFO level.'},
+      {account:'Hitachi UK',note:'Accenture runs transformation programmes across Hitachi\'s rail and energy divisions — direct access to division CEOs.'},
+      {account:'Sage',note:'Accenture has advised Sage on cloud migration strategy. Salesforce Data Cloud can be positioned as the commercial data layer.'},
+      {account:'Arm Holdings',note:'Accenture supports Arm\'s enterprise systems work — entry point for Revenue Cloud and Partner Management conversation.'},
+    ],
+    coSell:"Lead with Accenture on any deal where the customer has an existing Accenture transformation programme. Let Accenture carry the vision; Salesforce provides the platform. Split deal registration clearly — Accenture owns delivery, Salesforce owns licence.",
+  },
+  {
+    rank:2,
+    name:'Deloitte Digital',
+    tagline:'Strongest financial services and regulated tech practice · CFO and board-level relationships · DORA and compliance narrative leaders',
+    sfScore:93,
+    badges:[
+      {label:'Global SI — Platinum',color:'#00A1E0'},
+      {label:'Shield / Compliance',color:'#C0392B'},
+      {label:'Revenue Cloud',color:'#B8730A'},
+      {label:'Industry Cloud',color:'#6D3A8A'},
+    ],
+    why:"Deloitte Digital's UK practice is built on trust — and that's precisely what the current High-Tech market needs. Their FCA advisory and DORA compliance practices give Salesforce a credible co-sell route into the CISO and CFO conversation. For accounts like Darktrace, Finastra, and NCC Group where regulatory pressure is the primary driver, Deloitte can open doors that product-led selling cannot.",
+    sfCapabilities:['Shield & Security Center (DORA)','Revenue Cloud / CPQ','Service Cloud','Data Cloud','MuleSoft','Agentforce (Financial Services)','Regulatory Compliance Advisory'],
+    contacts:[
+      {name:'Salesforce Alliance Director',role:'Director — Deloitte Digital UKIA',note:'Primary relationship for Salesforce co-sell and pipeline sharing. Quarterly business reviews with Salesforce UK.'},
+      {name:'UK Regulated Tech Lead',role:'Partner — Technology & Transformation',note:'Owns C-suite relationships in fintech, cybersecurity, and regulated SaaS. Key contact for Finastra, Darktrace, and NCC Group entry.'},
+      {name:'DORA / Compliance Practice Lead',role:'Senior Manager — Regulatory Technology',note:'Specialist in EU DORA, FCA SYSC, and DSIIP compliance. Co-presenter for Shield and Security Center compliance conversations at CISO level.'},
+    ],
+    doors:[
+      {account:'Finastra',note:'Deloitte advises Finastra on regulatory reporting and DORA readiness. Direct CIO and CFO access. Strong entry for Shield + Revenue Cloud.'},
+      {account:'Darktrace',note:'Deloitte\'s risk advisory practice has relationships at board level. Can reframe Salesforce from CRM to enterprise revenue platform.'},
+      {account:'NCC Group',note:'Deloitte competes with NCC on GRC advisory. Understand this tension — but Deloitte\'s DORA practice is complementary and can open the CFO.'},
+      {account:'Dun & Bradstreet',note:'Deloitte has data advisory relationships at D&B. Entry for Data Cloud and Revenue Cloud subscription management.'},
+      {account:'Ion Group',note:'Deloitte serves Ion\'s PE sponsors and the portfolio. Board-level access through PE relationship — ideal for the exit-readiness ARR story.'},
+    ],
+    coSell:"Lead with Deloitte on compliance-driven deals (Shield, DORA, FCA). Deloitte carries the regulatory credibility; Salesforce provides the platform. Avoid competitive tension on GRC advisory — position Shield as infrastructure, not advisory.",
+  },
+  {
+    rank:3,
+    name:'IBM Consulting (iX)',
+    tagline:'Deep MuleSoft and integration practice · Legacy modernisation expertise · Strong public sector and enterprise relationships',
+    sfScore:85,
+    badges:[
+      {label:'Global SI — Platinum',color:'#00A1E0'},
+      {label:'MuleSoft Specialist',color:'#C0392B'},
+      {label:'Data Cloud',color:'#1A7A4A'},
+      {label:'Public Sector',color:'#6D3A8A'},
+    ],
+    why:"IBM Consulting is the right partner when the entry point is integration complexity or legacy modernisation — which describes most of the M&A-active accounts on this list. Their MuleSoft practice is deep, their public sector relationships are longstanding, and their brand carries weight with CIOs who have grown up on IBM infrastructure. Watch for internal tension with IBM watsonx — position carefully.",
+    sfCapabilities:['MuleSoft Architecture & Delivery','Data Cloud Integration','Legacy System Migration','Agentforce (limited)','Shield & Security Center','Public Sector Cloud'],
+    contacts:[
+      {name:'Salesforce Alliance Lead',role:'Partner — IBM Consulting UKIA',note:'Manages the IBM-Salesforce alliance for UK and Ireland. Key contact for joint pipeline and deal registration.'},
+      {name:'MuleSoft Practice Lead',role:'Associate Partner — Integration & APIs',note:'Deepest MuleSoft technical capability in IBM UK. The co-presenter for any CIO-level integration architecture conversation.'},
+      {name:'Public Sector Tech Lead',role:'Partner — Government & Public Services',note:'Board-level relationships across central government and public sector technology firms including Civica and Fujitsu\'s public sector division.'},
+    ],
+    doors:[
+      {account:'Civica',note:'IBM has public sector delivery relationships overlapping with Civica\'s customer base. Can position Salesforce as the commercial platform above IBM\'s delivery layer.'},
+      {account:'Fujitsu UK',note:'IBM and Fujitsu have a long history of joint delivery on government infrastructure. IBM can open CIO conversations in Fujitsu\'s public sector division.'},
+      {account:'Access Software',note:'IBM\'s integration practice aligns directly with Access\'s M&A integration problem. MuleSoft entry through IBM is credible.'},
+      {account:'Ion Group',note:'IBM has financial services integration experience relevant to Ion\'s multi-entity data challenge. MuleSoft + Data Cloud story.'},
+      {account:'Hitachi UK',note:'IBM\'s infrastructure legacy with Hitachi creates CIO-level access. Entry for Data Cloud and integration architecture.'},
+    ],
+    coSell:"Lead with IBM on MuleSoft-first deals and post-M&A integration motions. Be explicit about IBM watsonx — acknowledge it, then pivot to Salesforce as the CRM and customer-facing layer that IBM infrastructure serves. Never let IBM lead on Agentforce.",
+  },
+  {
+    rank:4,
+    name:'Capgemini',
+    tagline:'Europe\'s largest tech SI · Manufacturing and industrial sector depth · Strong Data Cloud and Agentforce growing practice',
+    sfScore:82,
+    badges:[
+      {label:'Global SI — Platinum',color:'#00A1E0'},
+      {label:'Data Cloud',color:'#1A7A4A'},
+      {label:'Agentforce',color:'#1A7A4A'},
+      {label:'Manufacturing / Industrial',color:'#B8730A'},
+    ],
+    why:"Capgemini's UK practice is strongest in manufacturing, engineering, and industrial technology — sectors that map directly to Spectris, Hitachi, Brother, and Dyson on this account list. Their Data Cloud practice is growing rapidly and their Agentforce capability is improving quarter on quarter. Less strong than Accenture on pure tech SaaS, but the right partner where industrial context matters.",
+    sfCapabilities:['Data Cloud Architecture','Agentforce Deployment','Service Cloud','MuleSoft','Manufacturing Cloud','Field Service Lightning','Tableau'],
+    contacts:[
+      {name:'Salesforce Alliance Director',role:'VP — Capgemini UKIA Alliances',note:'Manages the Salesforce partnership and co-sell pipeline. Quarterly cadence with Salesforce UK leadership.'},
+      {name:'Engineering & Industrial Lead',role:'VP — Engineering & Manufacturing Sector',note:'C-suite relationships across UK manufacturing and industrial technology. Key contact for Spectris, Hitachi, and Brother.'},
+      {name:'Data & AI Practice Lead',role:'Director — Data Cloud & AI',note:'Leads Capgemini\'s growing Data Cloud and Agentforce capability. Technical co-presenter for CTO and CIO-level conversations.'},
+    ],
+    doors:[
+      {account:'Spectris',note:'Capgemini has engineering and measurement technology sector experience. Can open operating company MD relationships for the group-level Data Cloud pitch.'},
+      {account:'Hitachi UK',note:'Capgemini has delivery relationships across Hitachi\'s rail and energy divisions in Europe. Direct access to divisional CIOs.'},
+      {account:'Brother Industries',note:'Capgemini\'s manufacturing and IoT practice is relevant to Brother\'s device telemetry and commercial intelligence ambition.'},
+      {account:'Dyson',note:'Capgemini works with consumer technology manufacturers on product-to-service transitions. B2B commercial platform conversation.'},
+      {account:'Arm Holdings',note:'Capgemini\'s semiconductor and electronics practice gives credibility in the Arm ecosystem conversation.'},
+    ],
+    coSell:"Lead with Capgemini on industrial and manufacturing accounts. Strong on Data Cloud and Field Service — leverage their sector credibility to get Salesforce into conversations where 'enterprise CRM' framing would be dismissed. Avoid leading on Agentforce with Capgemini until their practice matures further.",
+  },
+  {
+    rank:5,
+    name:'KPMG Powered Enterprise',
+    tagline:'CFO and board-level relationships · Revenue Cloud and Finance transformation specialists · PE-backed portfolio access',
+    sfScore:78,
+    badges:[
+      {label:'Global SI — Gold',color:'#B8730A'},
+      {label:'Revenue Cloud',color:'#B8730A'},
+      {label:'PE / M&A Advisory',color:'#6D3A8A'},
+      {label:'CFO Relationships',color:'#1A7A4A'},
+    ],
+    why:"KPMG's Powered Enterprise practice is the right route into CFO and finance leadership conversations — which is where Revenue Cloud, ARR quality, and exit readiness arguments land. For PE-backed accounts (Access Software, Iris Software, Ion Group, Keyloop, Civica), KPMG often advises both the portfolio company and the PE sponsor. That dual relationship is a unique unlock.",
+    sfCapabilities:['Revenue Cloud / CPQ','Finance Transformation','Agentforce (Service)','Data Cloud (limited)','Shield & Compliance','PE Portfolio Advisory'],
+    contacts:[
+      {name:'Salesforce Alliance Lead',role:'Director — KPMG Powered Enterprise',note:'Manages the Salesforce alliance and co-sell pipeline in UK. Primary contact for deal registration and joint GTM.'},
+      {name:'PE & Private Capital Lead',role:'Partner — Private Equity Advisory',note:'Advises PE sponsors (Hg Capital, Francisco Partners, Vista) on portfolio company transformation. Unique dual access — portfolio company and sponsor.'},
+      {name:'Revenue Management Lead',role:'Director — Revenue Cloud Practice',note:'Leads KPMG\'s Revenue Cloud implementations. The right co-presenter for CFO-level Revenue Cloud and ARR quality conversations.'},
+    ],
+    doors:[
+      {account:'Access Software',note:'KPMG advises Hg Capital — Access\'s PE sponsor. Direct CFO and board access through PE advisory relationship. Unique entry for ARR quality and exit readiness story.'},
+      {account:'Iris Software',note:'Same Hg Capital advisory relationship. KPMG can position Salesforce as the commercial infrastructure for exit multiple improvement.'},
+      {account:'Keyloop',note:'KPMG has Francisco Partners advisory relationships. CFO and board access for the NRR and ARR predictability conversation.'},
+      {account:'Ion Group',note:'KPMG\'s PE advisory practice reaches Ion\'s ownership structure. Board-level access for the due diligence readiness story.'},
+      {account:'Civica',note:'KPMG advises Civica\'s PE backers on public sector software transformation. CFO and operational director access.'},
+    ],
+    coSell:"Lead with KPMG on CFO-first deals and PE-backed accounts. KPMG carries the financial credibility and PE sponsor access; Salesforce provides the platform. Revenue Cloud and Shield are the primary co-sell products. Always confirm KPMG\'s PE advisory relationship before engaging — it changes the entry point completely.",
+  },
+  {
+    rank:6,
+    name:'PwC Digital Services',
+    tagline:'Broad C-suite relationships across listed tech · Trust and governance narrative · Growing Agentforce and Data Cloud practice',
+    sfScore:74,
+    badges:[
+      {label:'Global SI — Gold',color:'#B8730A'},
+      {label:'Listed Company Access',color:'#1A7A4A'},
+      {label:'Agentforce (Growing)',color:'#00A1E0'},
+      {label:'Governance & Trust',color:'#C0392B'},
+    ],
+    why:"PwC's relationships span every listed company on this account list through audit and advisory. That creates a natural door into CFO and Board conversations — but PwC's Salesforce technical depth is growing rather than established. Use PwC to open the door, then bring in a more capable delivery SI for implementation. The governance and trust narrative plays particularly well given PwC's brand in regulated contexts.",
+    sfCapabilities:['Agentforce (developing)','Data Cloud (developing)','Service Cloud','Shield & Compliance','Audit & Governance Advisory','Listed Company Transformation'],
+    contacts:[
+      {name:'Salesforce Alliance Lead',role:'Director — PwC Digital UKIA',note:'Manages the Salesforce alliance. Technical practice is developing — co-sell primarily on advisory and governance-led deals.'},
+      {name:'Listed Tech Sector Lead',role:'Partner — Technology, Media & Telecom',note:'CFO and Board relationships across FTSE 250 tech companies. The right door-opener for Sage, Computacenter, Spectris, Darktrace, NCC Group.'},
+      {name:'Trust & Governance Lead',role:'Director — Digital Trust',note:'Leads PwC\'s governance and AI trust practice. Co-presenter for Shield, Security Center, and DORA compliance conversations.'},
+    ],
+    doors:[
+      {account:'Sage',note:'PwC is Sage\'s auditor. CFO and Board-level relationship. Unique entry for Revenue Cloud and Data Cloud through existing trust relationship.'},
+      {account:'Computacenter',note:'PwC advisory relationships at listed company board level. Can open CFO and Chairman conversations.'},
+      {account:'Darktrace',note:'PwC has listed company governance relationships. Board access for the ARR quality and investor confidence conversation.'},
+      {account:'NCC Group',note:'PwC advisory relationships in the cybersecurity and professional services sector. CFO and audit committee access.'},
+      {account:'Spectris',note:'PwC works with Spectris on group-level financial reporting. CFO access for Revenue Cloud and consolidation story.'},
+    ],
+    coSell:"Use PwC to open doors at Board and CFO level — not to lead the technical conversation. Once the executive relationship is established, bring in a delivery SI (Accenture, Capgemini) for the technical PoV. PwC\'s value is the door, not the deal construction.",
+  },
+  {
+    rank:7,
+    name:'Cognizant',
+    tagline:'Mid-market delivery strength · Competitive on day-rate · Strong Service Cloud and Agentforce delivery capability',
+    sfScore:68,
+    badges:[
+      {label:'Global SI — Platinum',color:'#00A1E0'},
+      {label:'Service Cloud',color:'#1A7A4A'},
+      {label:'Agentforce Delivery',color:'#1A7A4A'},
+      {label:'Competitive Day-Rate',color:'#B8730A'},
+    ],
+    why:"Cognizant is less relevant for C-suite door-opening and more relevant for delivery execution on accounts where cost is a constraint. Their Service Cloud and growing Agentforce practice makes them a credible delivery partner on LoB expansion deals — particularly where the customer is cost-sensitive and doesn't need the Accenture premium. Consider Cognizant for accounts like Access Software, Iris, and Civica where the deal size doesn't justify top-tier SI rates.",
+    sfCapabilities:['Service Cloud Delivery','Agentforce (Service Agents)','Sales Cloud Implementation','Data Cloud (basic)','MuleSoft (limited)'],
+    contacts:[
+      {name:'Salesforce Alliance Lead',role:'Director — Cognizant UK Alliances',note:'Primary contact for co-sell pipeline and deal registration in UK.'},
+      {name:'UK Tech Sector Lead',role:'VP — Technology & Platform Services',note:'Manages tech sector accounts and delivery teams. Good relationship for SME and mid-tier tech accounts.'},
+    ],
+    doors:[
+      {account:'Access Software',note:'Cognizant\'s competitive day-rates suit Access\'s PE-driven cost consciousness. Service Cloud and Agentforce delivery partner.'},
+      {account:'Iris Software',note:'Similar dynamic to Access — cost-conscious PE ownership. Cognizant can deliver LoB expansion projects at competitive rates.'},
+      {account:'Civica',note:'Cognizant has public sector delivery experience. Can support Salesforce LoB expansion projects at competitive rates without Accenture overhead.'},
+    ],
+    coSell:"Use Cognizant for delivery execution on deals below £500K or where cost is a stated constraint. Do not use for C-suite door-opening — they don't have the relationships. Always pair with a stronger alliance SI if executive access is needed.",
+  },
+  {
+    rank:8,
+    name:'Slalom',
+    tagline:'Boutique Salesforce-first SI · Fastest-growing practice in UK · Exceptional Data Cloud and Agentforce technical depth',
+    sfScore:88,
+    badges:[
+      {label:'Boutique SI — Summit',color:'#00A1E0'},
+      {label:'Salesforce-First',color:'#1A7A4A'},
+      {label:'Agentforce Pioneer',color:'#1A7A4A'},
+      {label:'Data Cloud Specialist',color:'#1A7A4A'},
+    ],
+    why:"Slalom is the highest-ranked Salesforce-first boutique in the UK market — unlike the Big 4 and global SIs, they build their entire business on Salesforce. That means the technical depth, the Agentforce capability, and the Data Cloud architecture expertise are unmatched at their scale. They don't open C-suite doors the way Accenture does, but when the technical conversation is the gating factor, Slalom is the best co-presenter in market. Fast-growing and highly motivated to co-sell.",
+    sfCapabilities:['Agentforce (deepest boutique practice)','Data Cloud Architecture','Sales Cloud','Service Cloud','Revenue Cloud','MuleSoft','Shield & Security Center','Tableau'],
+    contacts:[
+      {name:'UK Managing Director',role:'Managing Director — Slalom UK',note:'Owns the Salesforce partnership and co-sell motion. Highly engaged with Salesforce UK AEs — proactive co-sell posture.'},
+      {name:'Agentforce Practice Lead',role:'Principal — AI & Automation',note:'Deepest Agentforce technical capability of any boutique SI in UK. The ideal co-presenter for CTO and Head of AI conversations.'},
+      {name:'Data Cloud Lead',role:'Principal — Data & Analytics',note:'Data Cloud architecture specialist. Right co-presenter for CIO-level data strategy conversations.'},
+    ],
+    doors:[
+      {account:'Square Enix',note:'Slalom has gaming and entertainment sector experience. Technical credibility with engineering-led buyers like Square Enix\'s CTO.'},
+      {account:'Keyloop',note:'Slalom\'s automotive tech experience and platform architecture depth is relevant to Keyloop\'s integration challenge.'},
+      {account:'Arm Holdings',note:'Slalom\'s technical rigour resonates with Arm\'s engineering culture — right co-presenter for the Data Cloud and Revenue Cloud conversation.'},
+      {account:'Darktrace',note:'Engineering-led company. Slalom\'s technical depth earns credibility with Darktrace\'s CTO faster than a Big 4 advisory pitch.'},
+    ],
+    coSell:"Lead with Slalom on technically complex deals where the gating factor is architecture credibility rather than executive relationship. Ideal for Agentforce PoVs, Data Cloud architecture workshops, and CTO-level conversations. Combine with a Big 4 SI when both technical depth and C-suite access are needed.",
+  },
+];
+
+// ── RENDER: PARTNERS ──────────────────────────────────────────────────────────
+function renderPartners() {
+  const el = document.getElementById('partner-list');
+
+  const intro = document.createElement('div');
+  intro.className = 'partner-intro-box';
+  intro.innerHTML = `
+    <div class="partner-intro-eye">How to Use This View</div>
+    <div class="partner-intro-text">Ranked by Salesforce capability depth — not by brand size. Before any deal above £500K, identify which SI already has a relationship with the account. Engage them before Stage 2. The right SI does not just deliver the project — they open the executive door, carry the vision credibility, and reduce your sales cycle by months. Never walk into a C-suite conversation alone when a partner can carry half the room.</div>`;
+  el.appendChild(intro);
+
+  PARTNERS.forEach((p, i) => {
+    const rankColour = i === 0 ? '#00A1E0' : i === 1 ? '#1A7A4A' : i === 2 ? '#B8730A' : i === 3 ? '#6D3A8A' : '#9B958E';
+    const d = document.createElement('div');
+    d.className = 'partner-card';
+    d.style.setProperty('--pc', rankColour);
+    d.innerHTML = `
+      <div class="partner-header" onclick="togglePartner(${i})">
+        <div class="partner-rank-circle" style="background:${alpha(rankColour,0.12)};color:${rankColour};border:2px solid ${rankColour}">${p.rank}</div>
+        <div class="partner-meta">
+          <div class="partner-name">${p.name}</div>
+          <div class="partner-tagline">${p.tagline}</div>
+          <div class="partner-badges">
+            ${p.badges.map(b=>`<span class="partner-badge" style="background:${alpha(b.color,0.12)};color:${b.color}">${b.label}</span>`).join('')}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0;margin-left:12px">
+          <div style="font-size:20px;font-weight:700;color:${rankColour}">${p.sfScore}<span style="font-size:11px;color:#9B958E">/100</span></div>
+          <div style="font-size:9px;color:#9B958E;letter-spacing:1px;text-transform:uppercase">SF Score</div>
+          <div class="sf-score-bar" style="width:80px;margin-top:6px"><div class="sf-score-fill" style="width:${p.sfScore}%;background:${rankColour}"></div></div>
+        </div>
+        <span class="partner-chevron" id="pchev-${i}">▼</span>
+      </div>
+      <div class="partner-body" id="pbody-${i}">
+        <div class="partner-grid">
+          <div>
+            <div class="field-label">Why engage this partner</div>
+            <div class="field-val" style="margin-top:5px">${p.why}</div>
+            <div class="field-label" style="margin-top:14px">Salesforce capabilities</div>
+            <div class="capability-tags" style="margin-top:5px">
+              ${p.sfCapabilities.map(c=>`<span class="capability-tag">${c}</span>`).join('')}
+            </div>
+          </div>
+          <div>
+            <div class="field-label">Key contacts to establish</div>
+            <div class="partner-contacts">
+              ${p.contacts.map(c=>`
+                <div class="contact-item">
+                  <div class="contact-name">${c.name}</div>
+                  <div class="contact-role">${c.role}</div>
+                  <div class="contact-note">${c.note}</div>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="partner-col-full">
+            <div class="field-label">Accounts where this partner unlocks doors</div>
+            <div class="partner-doors" style="margin-top:8px">
+              ${p.doors.map(d=>`
+                <div class="door-item">
+                  <span class="door-arrow">→</span>
+                  <span><strong style="color:#0D0D0D">${d.account}:</strong> ${d.note}</span>
+                </div>`).join('')}
+            </div>
+          </div>
+          <div class="partner-col-full" style="background:#F7F4EE;border-radius:6px;padding:12px 14px;border-left:3px solid ${rankColour}">
+            <div class="field-label" style="color:${rankColour};margin-bottom:6px">Co-sell motion</div>
+            <div style="font-size:11px;color:#111;line-height:1.6">${p.coSell}</div>
+          </div>
+        </div>
+      </div>`;
+    el.appendChild(d);
+  });
+}
+
+function togglePartner(i) {
+  const body = document.getElementById('pbody-'+i);
+  const chev = document.getElementById('pchev-'+i);
+  const card = body.closest('.partner-card');
+  const isOpen = body.classList.toggle('open');
+  card.classList.toggle('open', isOpen);
+  chev.textContent = isOpen ? '▲' : '▼';
+}
+
+// ── ACCORDION TOGGLES ─────────────────────────────────────────────────────────
+function toggleAcc(id) {
+  const item = document.getElementById(id);
+  const idx = id.split('-')[1];
+  const body = document.getElementById(`sell-body-${idx}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  item.querySelector('.acc-chevron').textContent = isOpen ? '▲' : '▼';
+}
+function toggleCompete(i) {
+  const item = document.getElementById(`comp-${i}`);
+  const body = document.getElementById(`comp-body-${i}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  document.getElementById(`comp-chev-${i}`).textContent = isOpen ? '▲' : '▼';
+}
+function toggleTrack(i) {
+  const item = document.getElementById(`track-${i}`);
+  const body = document.getElementById(`track-body-${i}`);
+  const isOpen = item.classList.toggle('open');
+  body.classList.toggle('open', isOpen);
+  document.getElementById(`track-chev-${i}`).textContent = isOpen ? '▲' : '▼';
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+const TABS = ['why','sells','themes','compete','acv','talktrack','partners'];
+function setTab(id, btn) {
+  TABS.forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('hidden', t !== id);
+  });
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderWhy();
+renderSell();
+renderThemes();
+renderCompete();
+renderACV();
+renderTracks();
+renderPartners();
+</script>
+</body>
+</html>
